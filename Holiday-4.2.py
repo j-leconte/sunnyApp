@@ -22,7 +22,7 @@ from operator import itemgetter
 # Catch generation
 
 # import GUI and database
-Ui_MainWindow, QtBaseClass = uic.loadUiType("Sunny.ui")
+Ui_MainWindow, QtBaseClass = uic.loadUiType("Interface.ui")
 conn = sqlite3.connect('sunrise_dex.sqlite')
 c = conn.cursor()
 # create main class
