@@ -10,9 +10,7 @@ from operator import itemgetter
 
 # Notes of random things to implement:
 # Disobey and identified to add later
-# handle XP
-# tag deleted attacks in the database ?
-# Add dmg fixes/dmg pourcentage + vitesse/poids/niveau/ohko
+# Add dmg vitesse/poids/niveau/ohko
 # Weather
 
 # To see later, maybe in other tabs
@@ -25,6 +23,9 @@ from operator import itemgetter
 Ui_MainWindow, QtBaseClass = uic.loadUiType("Interface.ui")
 conn = sqlite3.connect('sunrise_dex.sqlite')
 c = conn.cursor()
+conn2 = sqlite3.connect('buildsunny.sqlite')
+c2 = conn2.cursor()
+
 # create main class
 class MainWindow(QMainWindow):
 
@@ -41,26 +42,37 @@ class MainWindow(QMainWindow):
         self.ui.applycustom_5.clicked.connect(self.SplitCustom5)
         self.ui.applycustom_6.clicked.connect(self.SplitCustom6)
 
-        # get all pokemon names
+        # get pokemon or attacks
         self.ui.pokedex.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:807])
         self.ui.pokedex_2.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:807])
         self.ui.pokedex_3.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:807])
         self.ui.pokedex_4.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:807])
         self.ui.pokedex_5.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:807])
         self.ui.pokedex_6.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:807])
+        self.ui.pokecapture.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:807])
+
         self.ui.checkattaque.clicked.connect(self.generatePokemon) # fill attack box & fill pokemon stats
         self.ui.checkattaque_2.clicked.connect(self.generatePokemon2) # fill attack box & fill pokemon stats
         self.ui.checkattaque_3.clicked.connect(self.generatePokemon3)
         self.ui.checkattaque_4.clicked.connect(self.generatePokemon4)
         self.ui.checkattaque_5.clicked.connect(self.generatePokemon5)
         self.ui.checkattaque_6.clicked.connect(self.generatePokemon6)
+
         self.ui.applygenerator.clicked.connect(self.generateattack) # apply button 2 to generate attack
         self.ui.applygenerator_2.clicked.connect(self.generateattack2) # apply button 2 to generate attack
         self.ui.applygenerator_3.clicked.connect(self.generateattack3)
         self.ui.applygenerator_4.clicked.connect(self.generateattack4)
         self.ui.applygenerator_5.clicked.connect(self.generateattack5)
         self.ui.applygenerator_6.clicked.connect(self.generateattack6)
+
         self.ui.fightbutton.clicked.connect(self.fightInit) # generate the fight
+
+        #Second page : outils
+        self.ui.genbutton.clicked.connect(self.pokegen)
+        self.ui.continentok.clicked.connect(self.checkregion)
+        self.ui.regionok.clicked.connect(self.checkzone)
+        self.ui.zoneok.clicked.connect(self.checkmethode)
+        self.ui.capturebutton.clicked.connect(self.pokecatch)
 
     def normalise_string_attaques(self,s):
         # pour l'index des attaques mal orthographiée. opérations de simplifications devant être appliquées à l'index et aux attaques raw à march
@@ -1644,8 +1656,15 @@ class MainWindow(QMainWindow):
                 else:
                     crit='no'
                     textcrit=''
+                if attck1["catchiante"]=="pp":
+                    attck1["puiss"]=random.choice([40,60,80])
                 if attck1["puiss"]=='-':
-                    dmg='exception'
+                    if attck1["dmgfixe"]!="":
+                        dmg=attck1["dmgfixe"]
+                    elif attck1["dmgpercent"]!="":
+                        dmg=int(pkmon2["pvcurrent"])*(int(attck1["dmgpercent"])/100)
+                    else:
+                        dmg='exception'
                 elif attck1["classe"]=="spécial" and crit=='yes':
                     if self.translateModifStat(pkmon1["modifatts"])<0:
                         pkmon1Atts=pkmon1["atts"]
@@ -1684,7 +1703,7 @@ class MainWindow(QMainWindow):
                         newpv1=pkmon2["pvtotal"]
                     self.ui.outputrp.append('{[color=#669900][b]+'+str(round(heal))+'[/b][/color]} PVs [color=#777777][size=10]« '+pkmon2["namse"]+' se sent mieux. »[/size][/color]\n[i]PVs de [b]'+pkmon2["name"]+'[/b][/i]: '+self.pvToColor(newpv1,pkmon2["pvtotal"])+str(newpv1)+'[/color]/'+str(pkmon2["pvtotal"]))
                     pkmon2["pvcurrent"]=newpv1
-                
+
                 elif attck1["name"]=="Malédiction":
                     if attck1["target"]==pkmon1["fightID"]:
                         if pkmon1["modifdef"]==6:
@@ -1715,7 +1734,7 @@ class MainWindow(QMainWindow):
                         self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est maudit !}[/i]")
                         self.ui.outputmodo.append(pkmon2["name"]+" : Malédiction")
 
-                elif attck1["effet_txt"]!=None:
+                elif attck1["effet_txt"]!=None and attck1["effet_txt"]!="":
                     self.ui.outputrp.append("Attaque avec des effets particuliers à gérer à la main.")
 
             elif dmg=='exception':
@@ -1737,7 +1756,7 @@ class MainWindow(QMainWindow):
                     randomuptxt=random.choice(['Bien joué '+pkmon1["name"]+' !','Encore un effort '+pkmon1["name"]+' !', 'Beau boulot '+pkmon1["name"]+' !','Pauvre '+pkmon2["name"]+' !',pkmon2["name"]+' est blessé !'])
                 else:
                     randomuptxt=''
-                
+
                 if attck1["catchiante"]=="multihit:2" or attck1["catchiante"]=="multihit:2-5":
                     if attck1["catchiante"]=="multihit:2":
                         nbhit=2
@@ -2013,6 +2032,7 @@ class MainWindow(QMainWindow):
             allpkmon.append(pkmn2)
             allattack.append(attck2)
             allstatut.append(statut2)
+            advteam=[pkmn2]
 
             # pokemon trainer 2
             if self.ui.poke_3.toPlainText()!="" and self.ui.attaque_3.toPlainText()!="":
@@ -2055,6 +2075,8 @@ class MainWindow(QMainWindow):
                 allpkmon.append(pkmn4)
                 allattack.append(attck4)
                 allstatut.append(statut4)
+                advteam.append(pkmn4)
+
 
             # pokemon trainer 3
             if self.ui.poke_5.toPlainText()!="" and self.ui.attaque_5.toPlainText()!="":
@@ -2097,6 +2119,8 @@ class MainWindow(QMainWindow):
                 allpkmon.append(pkmn6)
                 allattack.append(attck6)
                 allstatut.append(statut6)
+                advteam.append(pkmn6)
+
 
             if self.ui.init.isChecked():
                 if self.ui.fightwild.isChecked():
@@ -2109,7 +2133,14 @@ class MainWindow(QMainWindow):
                         self.ui.outputrp.append("FRIDAY correctement initialisée.")
                     if self.ui.saturday.isChecked():
                         self.ui.outputrp.append("SATURDAY corretement initialisée.")
-                    self.ui.outputrp.append("\nPrésence détectée. Estimation en cours.[/color][/i][/listL]\n[center][img]http://sunrise-db.yo.fr/Sprites/"+str(idpkmon2[0])+".png[/img]\nUn [b]"+self.ui.poke_2.toPlainText()+"[/b] sauvage vous attaque !\n[size=10](Estimation de niveau : [u]"+self.ui.pokelvl_2.toPlainText()+"[/u])[/size][/center]\n\n<hr>")
+                    self.ui.outputrp.append("\nPrésence détectée. Estimation en cours.[/color][/i][/listL]")
+                    if len(advteam)==1:
+                        self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img]\nUn [b]"+advteam[0]["name"]+"[/b] sauvage vous attaque !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+"[/u])[/i][/size][/center]")
+                    elif len(advteam)==2:
+                        self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[1]["id"])+".png[/img]\nUn [b]"+advteam[0]["name"]+"[/b] et un [b]"+advteam[1]["name"]+"[/b] sauvages vous attaquent !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+" et "+str(advteam[1]["lvl"])+"[/u])[/i][/size][/center]")
+                    elif len(advteam)==3:
+                        self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[1]["id"])+".png[/img][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[2]["id"])+".png[/img]\nUn [b]"+advteam[0]["name"]+"[/b], un [b]"+advteam[1]["name"]+"[/b] et un [b]"+advteam[2]["name"]+"[/b] sauvages vous attaquent !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+", "+str(advteam[1]["lvl"])+" et "+str(advteam[2]["lvl"])+"[/u])[/i][/size][/center]")
+                    self.ui.outputrp.append("\n[hr]")
 
                 if self.ui.fighttrainer.isChecked():
                     self.ui.outputrp.append("[listL][i][color=#999999]Connexion au réseau en cours... ... ...\nSIS correctement relié au SNT - port "+str(random.randint(1000,9999))+".\nSimulation téléchargée...")
@@ -2121,7 +2152,14 @@ class MainWindow(QMainWindow):
                         self.ui.outputrp.append("FRIDAY correctement initialisée.")
                     if self.ui.saturday.isChecked():
                         self.ui.outputrp.append("SATURDAY corretement initialisée.")
-                    self.ui.outputrp.append("\nCombat inter-dresseur détecté. Calcul en cours.[/color][/i][/listL]\n[center][img]http://sunrise-db.yo.fr/Sprites/0.png[/img]\n[b]???[/b] veut se battre !\n[size=10]« J'vais t'casser en deux minable. Ta maman te reconnaîtra qu'à la couleur de ton p'tit cartable ! »[/size]\n\n[b]???[/b] Envoie au combat :\n[img]http://sunrise-db.yo.fr/Sprites/"+str(idpkmon2[0])+".png[/img]\n[b]"+self.ui.poke_2.toPlainText()+"[/b]\n[size=10](Estimation de niveau : [u]"+self.ui.pokelvl_2.toPlainText()+"[/u])[/size][/center]\n\n<hr>")
+                    self.ui.outputrp.append("\nCombat inter-dresseur détecté. Calcul en cours.[/color][/i][/listL][center][img]http://sunrise-db.yo.fr/Sprites/0.png[/img]\n[b]???[/b] veut se battre !\n[size=10]« J'vais t'casser en deux minable. Ta maman te reconnaîtra qu'à la couleur de ton p'tit cartable ! »[/size]\n")
+                    if len(advteam)==1:
+                        self.ui.outputrp.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img]\n[b]???[/b] envoie au combat un [b]"+advteam[0]["name"]+"[/b] !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+"[/u])[/i][/size][/center]")
+                    elif len(advteam)==2:
+                        self.ui.outputrp.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[1]["id"])+".png[/img]\n[b]???[/b] envoie au combat un [b]"+advteam[0]["name"]+"[/b] et un [b]"+advteam[1]["name"]+"[/b] !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+" et "+str(advteam[1]["lvl"])+"[/u])[/i][/size][/center]")
+                    elif len(advteam)==3:
+                        self.ui.outputrp.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[1]["id"])+".png[/img][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[2]["id"])+".png[/img]\n[b]???[/b] Envoie au combat un [b]"+advteam[0]["name"]+"[/b], un [b]"+advteam[1]["name"]+"[/b] et un [b]"+advteam[2]["name"]+"[/b] !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+", "+str(advteam[1]["lvl"])+" et "+str(advteam[2]["lvl"])+"[/u])[/i][/size][/center]")
+                    self.ui.outputrp.append("\n[hr]")
 
             randomlist=[i for i in range(6)]
             random.shuffle(randomlist)
@@ -2140,8 +2178,7 @@ class MainWindow(QMainWindow):
             if all(x in listid for x in listtarget):
                 for index in range(0,len(sortedpkmon)):
                     if sortedpkmon[index]["ko"]==False:
-                        if sortedattack[index]["catchiante"] not in ["Delete","attaque z","pp","objet tenu"]:
-                            self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"][img]http://sunrise-db.yo.fr/Sprites/"+str(sortedpkmon[index]["id"])+".png[/img]")
+                        if sortedattack[index]["catchiante"] not in ["Delete","attaque z","objet tenu"]:
                             if sortedattack[index]["target"]=="1":
                                 indexadv = [indexedpkmon[x]["index"] for x in ["1"]]
                             elif sortedattack[index]["target"]=="2":
@@ -2176,6 +2213,7 @@ class MainWindow(QMainWindow):
                                 elif sortedpkmon[index]["fightID"] in ["A","B","C"]:
                                     list1=["A","B","C"]
                                 indexteam=[indexedpkmon[x]["index"] for x in [x for x in list1 if x in settarget]]
+                                self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"][img]http://sunrise-db.yo.fr/Sprites/"+str(sortedpkmon[index]["id"])+".png[/img]")
                                 self.ui.outputrp.append("[b]"+sortedpkmon[index]["name"]+"[/b] utilise [u]"+sortedattack[index]["name"]+"[/u] !")
                                 for team in indexteam:
                                     if sortedstatut[team]["sleep"]:
@@ -2198,28 +2236,63 @@ class MainWindow(QMainWindow):
 
                             elif sortedattack[index]["target"]=="/":
                                 indexadv = None
+                                self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"][img]http://sunrise-db.yo.fr/Sprites/"+str(sortedpkmon[index]["id"])+".png[/img]")
                                 self.ui.outputrp.append("[b]"+sortedpkmon[index]["name"]+"[/b] utilise [u]"+sortedattack[index]["name"]+"[/u] !")
                                 self.ui.outputrp.append("Attaque avec des effets particuliers à gérer à la main")
                             if indexadv != None:
                                 i=0
+                                self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"][img]http://sunrise-db.yo.fr/Sprites/"+str(sortedpkmon[index]["id"])+".png[/img]")
                                 for adv in indexadv:
-                                    i=i+1
-                                    turn1=self.fight(sortedpkmon[index],sortedstatut[index],sortedattack[index],sortedpkmon[adv],sortedstatut[adv],i,len(indexadv))
-                                    sortedpkmon[index]=turn1["pkmon1"]
-                                    sortedstatut[index]=turn1["statut1"]
-                                    sortedpkmon[adv]=turn1["pkmon2"]
-                                    sortedstatut[adv]=turn1["statut2"]
-                                    if turn1["vampireturn"]!=None:
-                                        if turn1["vampireturn"][0] in listid:
-                                            newpv3=sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvcurrent"]+turn1["vampireturn"][1]
-                                            if newpv3 > sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvtotal"]:
-                                                newpv3 = sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvtotal"]
-                                            sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvcurrent"]=newpv3
-                                            self.ui.outputrp.append('[i]PVs de [b]'+sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["name"]+'[/b][/i]: '+self.pvToColor(newpv3,sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvtotal"])+str(newpv3)+'[/color]/'+str(sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvtotal"]))
-                                        else:
-                                            msgBox1 = QMessageBox()
-                                            msgBox1.setText('Attention, erreur de cible pour vampigraine: aucun Pokémon soigné.')
-                                            msgBox1.exec_()
+                                    if sortedpkmon[adv]["ko"]==False:
+                                        i=i+1
+                                        turn1=self.fight(sortedpkmon[index],sortedstatut[index],sortedattack[index],sortedpkmon[adv],sortedstatut[adv],i,len(indexadv))
+                                        sortedpkmon[index]=turn1["pkmon1"]
+                                        sortedstatut[index]=turn1["statut1"]
+                                        sortedpkmon[adv]=turn1["pkmon2"]
+                                        sortedstatut[adv]=turn1["statut2"]
+                                        if turn1["vampireturn"]!=None:
+                                            if turn1["vampireturn"][0] in listid:
+                                                newpv3=sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvcurrent"]+turn1["vampireturn"][1]
+                                                if newpv3 > sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvtotal"]:
+                                                    newpv3 = sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvtotal"]
+                                                sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvcurrent"]=newpv3
+                                                self.ui.outputrp.append('[i]PVs de [b]'+sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["name"]+'[/b][/i]: '+self.pvToColor(newpv3,sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvtotal"])+str(newpv3)+'[/color]/'+str(sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvtotal"]))
+                                            else:
+                                                msgBox1 = QMessageBox()
+                                                msgBox1.setText('Attention, erreur de cible pour vampigraine: aucun Pokémon soigné.')
+                                                msgBox1.exec_()
+                                        if turn1["pkmon2"]["ko"] and turn1["pkmon2"]["fightID"] in ["A","B","C"]:
+                                                for j in range(0,len(sortedpkmon)):
+                                                    if sortedpkmon[j]["fightID"] in ["1","2","3"]:
+                                                        difflvl=turn1["pkmon2"]["lvl"]-sortedpkmon[j]["lvl"]
+                                                        if difflvl>10:
+                                                            difflvl=10
+                                                        xp=50+(difflvl*5)
+                                                        self.ui.outputrp.append(sortedpkmon[j]["name"]+" gagne "+str(xp)+" points d'XP !")
+                                        elif turn1["pkmon2"]["ko"] and turn1["pkmon2"]["fightID"] in ["1","2","3"]:
+                                                for j in range(0,len(sortedpkmon)):
+                                                    if sortedpkmon[j]["fightID"] in ["A","B","C"]:
+                                                        difflvl=turn1["pkmon2"]["lvl"]-sortedpkmon[j]["lvl"]
+                                                        if difflvl>10:
+                                                            difflvl=10
+                                                        xp=50+(difflvl*5)
+                                                        self.ui.outputrp.append(sortedpkmon[j]["name"]+" gagne "+str(xp)+" points d'XP !")
+                                        if turn1["pkmon1"]["ko"] and turn1["pkmon1"]["fightID"] in ["A","B","C"]:
+                                                for j in range(0,len(sortedpkmon)):
+                                                    if sortedpkmon[j]["fightID"] in ["1","2","3"]:
+                                                        difflvl=turn1["pkmon1"]["lvl"]-sortedpkmon[j]["lvl"]
+                                                        if difflvl>10:
+                                                            difflvl=10
+                                                        xp=50+(difflvl*5)
+                                                        self.ui.outputrp.append(sortedpkmon[j]["name"]+" gagne "+str(xp)+" points d'XP !")
+                                        elif turn1["pkmon1"]["ko"] and turn1["pkmon1"]["fightID"] in ["1","2","3"]:
+                                                for j in range(0,len(sortedpkmon)):
+                                                    if sortedpkmon[j]["fightID"] in ["A","B","C"]:
+                                                        difflvl=turn1["pkmon1"]["lvl"]-sortedpkmon[j]["lvl"]
+                                                        if difflvl>10:
+                                                            difflvl=10
+                                                        xp=50+(difflvl*5)
+                                                        self.ui.outputrp.append(sortedpkmon[j]["name"]+" gagne "+str(xp)+" points d'XP !")
                             self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
                         else:
                             msgBox1 = QMessageBox()
@@ -2234,6 +2307,162 @@ class MainWindow(QMainWindow):
                 msgBox1 = QMessageBox()
                 msgBox1.setText('Un pokemon sans informations est ciblé !')
                 msgBox1.exec_()
+
+    def pokegen(self):
+        if self.ui.methode.currentText()!="":
+            self.ui.outputgen.clear()
+            continent=self.ui.continent.currentText()
+            region=self.ui.region.currentText()
+            zone=self.ui.zone.currentText()
+            methode=self.ui.methode.currentText()
+            lvl=self.ui.advlvl.value()
+            nb=self.ui.nbgen.value()
+            c2.execute('SELECT Zone_id FROM SunnyData_zones WHERE Continent=? AND Region=? AND Zone=?',(continent,region,zone))
+            zoneid=c2.fetchone()[0]
+            c2.execute('SELECT Rarity FROM SunnyData_pokemon WHERE Zone=? AND Place=?',(zoneid,methode))
+            listrarity=c2.fetchall()
+            listrarity2=self.unique(listrarity)
+            listrarity3=list()
+            for x in listrarity2:
+                listrarity3.append(x[0])
+            advnames=list()
+            advlvls=list()
+            for adv in list(range(0,nb)):
+                selectrarity=""
+                while selectrarity not in listrarity3:
+                    rarity=random.randint(1,100)
+                    #Courant (100 - 68), peu fréquent (67 - 43), assez rare (42 - 26), rare (25 - 13), très rare (12 - 5), extemement rare (4-1)
+                    if rarity<=4:
+                        selectrarity="Extrêmement rare"
+                    elif rarity<=12:
+                        selectrarity="Très rare"
+                    elif rarity<=25:
+                        selectrarity="Rare"
+                    elif rarity<=42:
+                        selectrarity="Assez rare"
+                    elif rarity<=67:
+                        selectrarity="Peu fréquent"
+                    else:
+                        selectrarity="Courant" 
+                c2.execute('SELECT * FROM SunnyData_pokemon WHERE Zone=? AND Place=? AND Rarity=?',(zoneid,methode,selectrarity))
+                pokelist=c2.fetchall()
+                pknb=random.randint(0,len(pokelist)-1)
+                minlvl=int(pokelist[pknb][4].split("-")[0])
+                maxlvl=int(pokelist[pknb][4].split("-")[1])
+
+                advnames.append(pokelist[pknb][1])
+                if lvl < minlvl:
+                    advlvls.append(minlvl)
+                elif lvl > maxlvl:
+                    advlvls.append(maxlvl)
+                else:
+                    advlvls.append(random.randint(lvl,lvl+2))
+                    if advlvls[adv]<minlvl:
+                        advlvls[adv]=minlvl
+                    if advlvls[adv]>maxlvl:
+                        advlvls[adv]=maxlvl
+
+                self.ui.outputgen.append(str(advnames[adv])+" niveau "+str(advlvls[adv]))
+
+        else:
+             msgBox1 = QMessageBox()
+             msgBox1.setText('Informations manquantes')
+             msgBox1.exec_()
+
+    def unique(self,seq):
+        seen = set()
+        seen_add = seen.add
+        return [x for x in seq if not (x in seen or seen_add(x))]
+
+    def checkregion(self):
+        self.ui.region.clear()
+        c2.execute('SELECT Region FROM SunnyData_zones WHERE Continent=?',(self.ui.continent.currentText(),))
+        reg = c2.fetchall()
+        reg2=self.unique(reg)
+        for r in reg2:
+            self.ui.region.addItem(r[0])
+
+    def checkzone(self):
+        self.ui.zone.clear()
+        if self.ui.region.currentText()!="":
+            c2.execute('SELECT Zone FROM SunnyData_zones WHERE Region=? AND Pokemon="Oui"',(self.ui.region.currentText(),))
+            zone = c2.fetchall()
+            zone2=self.unique(zone)
+            for z in zone2:
+                self.ui.zone.addItem(z[0])
+
+    def checkmethode(self):
+        self.ui.methode.clear()
+        if self.ui.zone.currentText()!="":
+            c2.execute('SELECT Zone_id FROM SunnyData_zones WHERE Continent=? AND Region=? AND Zone=?',(self.ui.continent.currentText(),self.ui.region.currentText(),self.ui.zone.currentText()))
+            zoneid=c2.fetchone()[0]
+            c2.execute('SELECT Place FROM SunnyData_pokemon WHERE Zone=?',(zoneid,))
+            meth = c2.fetchall()
+            meth2=self.unique(meth)
+            for m in meth2:
+                self.ui.methode.addItem(m[0])
+
+    def pokecatch(self):
+        # Modified catch rate a = (((3*hpmax - 2*hpcurrent) * rate * ball)/(3*hpmax)) * statut
+        # Shake probability b = 65536 / (255/a)^0.1875
+        # To perform a shake check, a random number between 0 and 65535 (inclusive) is generated and compared to b. If the number is greater than or equal to b, the check "fails". 
+        # Four shake checks are performed. The Pokémon is caught if all four shake checks succeed. Otherwise, the Poké Ball will shake as many times as there were successful shake checks before the Pokémon breaks free.
+        # If a is 255 or greater, the capture will always succeed and no shake checks will be performed. 
+        if self.ui.pvcapture.toPlainText()!="" or self.ui.pvmaxcapture.toPlainText()!="":
+            self.ui.outputcapture.clear()
+            c.execute('SELECT * FROM pokemons WHERE nom=?',(self.ui.pokecapture.currentText(),))
+            pokedata=c.fetchall()[0]
+            pokeid=int(pokedata[0])
+            pokename=pokedata[1]
+            taux_capture=int(pokedata[10])
+            pv=int(self.ui.pvcapture.toPlainText())
+            pvmax=int(self.ui.pvmaxcapture.toPlainText())
+            lvl=int(self.ui.lvlcapture.toPlainText())
+            ball=self.ui.ballcapture.currentText()
+
+            if self.ui.capturestatut1.isChecked():
+                st1bonus=1.5
+            else:
+                st1bonus=1
+            if self.ui.capturestatut2.isChecked():
+                st2bonus=2.5
+            else:
+                st2bonus=1
+            if ball=="Poké Ball":
+                ballbonus=1
+            elif ball=="Super Ball":
+                ballbonus=1.5
+            elif ball=="Hyper Ball":
+                ballbonus=2
+
+            a=((((3*pvmax) - (2*pv)) * taux_capture * ballbonus)/(3*pvmax)) * (st1bonus*st2bonus)
+            b = 65536 / ((255/a)**0.1875)
+            self.ui.outputcapture.append("[center][img]http://sunrise-db.yo.fr/Sunrise_Champions/Secretchamp.png[/img]\n[spoiler=??? utilise une "+ball+" !]")
+            j=0
+            for i in [0,1,2,3]:
+                j=j+1
+                checkvalue = random.randint(0,65536)
+                if checkvalue < b:
+                    if j<4:
+                        self.ui.outputcapture.append("[spoiler=...]")
+                    else:
+                        self.ui.outputcapture.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nFélicitations ! "+pokename+" est capturé !\nIl est niveau "+str(lvl)+" et prêt à se battre ![/spoiler][/spoiler][/spoiler][/spoiler][/center]")
+                else:
+                    if j==1:
+                        self.ui.outputcapture.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nOh, non ! "+pokename+" s'est libéré ![/spoiler][/center]")
+                    if j==2:
+                        self.ui.outputcapture.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nRaaah ! Ça y était presque ![/spoiler][/spoiler][/center]")
+                    if j==3:
+                        self.ui.outputcapture.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nAaaaah ! Presque ![/spoiler][/spoiler][/spoiler][/center]")
+                    if j==4:
+                        self.ui.outputcapture.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nMince ! Ça y était presque ![/spoiler][/spoiler][/spoiler][/spoiler][/center]")
+                    break
+                
+        else:
+             msgBox1 = QMessageBox()
+             msgBox1.setText('Informations manquantes')
+             msgBox1.exec_()
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
