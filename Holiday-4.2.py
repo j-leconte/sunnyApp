@@ -12,12 +12,11 @@ from operator import itemgetter
 # Disobey and identified to add later
 # Add dmg vitesse/poids/niveau/ohko
 # Weather
+# When a pokemon is ded, enemy team should attack the other pokemons :(
 
 # To see later, maybe in other tabs
 # Little basic calc tool
 # D100
-# Wild pkmon generation
-# Catch generation
 
 # import GUI and database
 Ui_MainWindow, QtBaseClass = uic.loadUiType("Interface.ui")
@@ -1622,7 +1621,7 @@ class MainWindow(QMainWindow):
             self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" se blesse dans la confusion !}[/i]")
             self.ui.outputrp.append('{[color=#ff0000][b]-'+str(round(dmg))+'[/b][/color]} PVs [color=#777777][size=10]« Nooooon ! »[/size][/color]\n[i]PVs de [b]'+pkmon1["name"]+'[/b][/i]: '+self.pvToColor(newpv2,pkmon1["pvtotal"])+str(newpv2)+'[/color]/'+str(pkmon1["pvtotal"]))
             if pkmon1["ko"]:
-                self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" est K.O !}[/i]")
+                self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
             pkmon1["pvcurrent"]=newpv2
 
         else:
@@ -1729,7 +1728,8 @@ class MainWindow(QMainWindow):
                         pkmon1["pvcurrent"]=newpv3
                         self.ui.outputrp.append('{[color=#ff0000][b]'+str(round(selfdmg))+'[/b][/color]} PVs [color=#777777][size=10]« '+pkmon1["name"]+' sacrifie ses PVs ! »[/size][/color]\n[i]PVs de [b]'+pkmon1["name"]+'[/b][/i]: '+self.pvToColor(newpv3,pkmon1["pvtotal"])+str(newpv3)+'[/color]/'+str(pkmon1["pvtotal"]))
                         if pkmon1["ko"]:
-                            self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" est K.O !}[/i]")
+                            self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
+
                         statut2["maledi"]=True
                         self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est maudit !}[/i]")
                         self.ui.outputmodo.append(pkmon2["name"]+" : Malédiction")
@@ -1785,13 +1785,15 @@ class MainWindow(QMainWindow):
                     self.ui.outputrp.insertPlainText(' PVs [color=#777777][size=10]« '+texttype+randomuptxt+' »[/size][/color]\n[i]PVs de [b]'+pkmon2["name"]+'[/b][/i]: '+self.pvToColor(newpv2,pkmon2["pvtotal"])+str(newpv2)+'[/color]/'+str(pkmon2["pvtotal"]))
                     pkmon2["pvcurrent"]=newpv2
                     if pkmon2["ko"]:
-                        self.ui.outputrp.append('[i]{'+str(pkmon2["name"])+" est K.O !}[/i]")
+                        self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon2["id"])+".png[/img]\n[i]{"+str(pkmon2["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
+
 
                 else:
                     self.ui.outputrp.append('{[color=#ff0000][b]-'+str(round(dmg))+'[/b][/color]} PVs [color=#777777][size=10]« '+textcrit+texttype+randomuptxt+' »[/size][/color]\n[i]PVs de [b]'+pkmon2["name"]+'[/b][/i]: '+self.pvToColor(newpv2,pkmon2["pvtotal"])+str(newpv2)+'[/color]/'+str(pkmon2["pvtotal"]))
                     pkmon2["pvcurrent"]=newpv2
                     if pkmon2["ko"]:
-                        self.ui.outputrp.append('[i]{'+str(pkmon2["name"])+" est K.O !}[/i]")
+                        self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon2["id"])+".png[/img]\n[i]{"+str(pkmon2["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
+
                     elif statut2["freeze"] and attck1["type"]=="feu":
                         statut2["freeze"]=False
                         self.ui.outputrp.append("[i]{"+pkmon2["name"]+" n'est plus gelé !}[/i]")
@@ -1807,7 +1809,7 @@ class MainWindow(QMainWindow):
                     if attck1["percenthpdrain"]<0:
                         self.ui.outputrp.append('\n{[color=#ff0000][b]'+str(round(selfdmg))+'[/b][/color]} PVs [color=#777777][size=10]« '+pkmon1["name"]+' se blesse en frappant ! »[/size][/color]\n[i]PVs de [b]'+pkmon1["name"]+'[/b][/i]: '+self.pvToColor(newpv3,pkmon1["pvtotal"])+str(newpv3)+'[/color]/'+str(pkmon1["pvtotal"]))
                         if pkmon1["ko"]:
-                            self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" est K.O !}[/i]")
+                            self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
                     else:
                         self.ui.outputrp.append('\n{[color=#669900][b]+'+str(round(selfdmg))+'[/b][/color]} PVs [color=#777777][size=10]« '+pkmon1["name"]+' se sent mieux. »[/size][/color]\n[i]PVs de [b]'+pkmon1["name"]+'[/b][/i]: '+self.pvToColor(newpv3,pkmon1["pvtotal"])+str(newpv3)+'[/color]/'+str(pkmon1["pvtotal"]))
                     pkmon1["pvcurrent"]=newpv3
@@ -1929,7 +1931,7 @@ class MainWindow(QMainWindow):
                 self.ui.outputrp.append("\n[i]{"+pkmon1["name"]+" souffre de sa brûlure !}[/i]\n{[color=#ff0000][b]-"+str(burndmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+pkmon1["name"]+"[/b][/i]:"+self.pvToColor(newpv3,pkmon1["pvtotal"])+str(newpv3)+"[/color]/"+str(pkmon1["pvtotal"]))
                 pkmon1["pvcurrent"]=newpv3
                 if pkmon1["ko"]:
-                    self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" est K.O !}[/i]")
+                    self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
 
             if statut1["piege"] and advnb==totaladvnb:
                 piegedmg=round(pkmon1["pvtotal"]/8)
@@ -1940,7 +1942,7 @@ class MainWindow(QMainWindow):
                 self.ui.outputrp.append("\n[i]{"+pkmon1["name"]+" est blessé par un piège !}[/i]\n{[color=#ff0000][b]-"+str(piegedmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+pkmon1["name"]+"[/b][/i]:"+self.pvToColor(newpv3,pkmon1["pvtotal"])+str(newpv3)+"[/color]/"+str(pkmon1["pvtotal"]))
                 pkmon1["pvcurrent"]=newpv3
                 if pkmon1["ko"]:
-                    self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" est K.O !}[/i]")
+                    self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
 
             if statut1["poison"] and advnb==totaladvnb:
                 poisondmg=round(pkmon1["pvtotal"]/8)
@@ -1962,7 +1964,7 @@ class MainWindow(QMainWindow):
                 self.ui.outputrp.append("\n[i]{"+pkmon1["name"]+" est blessé par la malédiction !}[/i]\n{[color=#ff0000][b]-"+str(maledimdg)+"[/b][/color]} PVs\n[i]PVs de [b]"+pkmon1["name"]+"[/b][/i]:"+self.pvToColor(newpv3,pkmon1["pvtotal"])+str(newpv3)+"[/color]/"+str(pkmon1["pvtotal"]))
                 pkmon1["pvcurrent"]=newpv3
                 if pkmon1["ko"]:
-                    self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" est K.O !}[/i]")
+                    self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
 
             if statut1["vampi"]!="" and advnb==totaladvnb:
                 vampidmg=round(pkmon1["pvtotal"]/8)
@@ -1974,7 +1976,7 @@ class MainWindow(QMainWindow):
                 pkmon1["pvcurrent"]=newpv3
                 vampireturn=[statut1["vampi"],vampidmg]
                 if pkmon1["ko"]:
-                    self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" est K.O !}[/i]")
+                    self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
             else:
                 vampireturn=None
 
@@ -2268,7 +2270,7 @@ class MainWindow(QMainWindow):
                                                         if difflvl>10:
                                                             difflvl=10
                                                         xp=50+(difflvl*5)
-                                                        self.ui.outputrp.append(sortedpkmon[j]["name"]+" gagne "+str(xp)+" points d'XP !")
+                                                        self.ui.outputrp.append("[center][b]"+sortedpkmon[j]["name"]+"[/b] gagne [u]"+str(xp)+"[/u] points d'XP ![/center]")
                                         elif turn1["pkmon2"]["ko"] and turn1["pkmon2"]["fightID"] in ["1","2","3"]:
                                                 for j in range(0,len(sortedpkmon)):
                                                     if sortedpkmon[j]["fightID"] in ["A","B","C"]:
@@ -2276,7 +2278,7 @@ class MainWindow(QMainWindow):
                                                         if difflvl>10:
                                                             difflvl=10
                                                         xp=50+(difflvl*5)
-                                                        self.ui.outputrp.append(sortedpkmon[j]["name"]+" gagne "+str(xp)+" points d'XP !")
+                                                        self.ui.outputrp.append("[center][b]"+sortedpkmon[j]["name"]+"[/b] gagne [u]"+str(xp)+"[/u] points d'XP ![/center]")
                                         if turn1["pkmon1"]["ko"] and turn1["pkmon1"]["fightID"] in ["A","B","C"]:
                                                 for j in range(0,len(sortedpkmon)):
                                                     if sortedpkmon[j]["fightID"] in ["1","2","3"]:
@@ -2284,7 +2286,7 @@ class MainWindow(QMainWindow):
                                                         if difflvl>10:
                                                             difflvl=10
                                                         xp=50+(difflvl*5)
-                                                        self.ui.outputrp.append(sortedpkmon[j]["name"]+" gagne "+str(xp)+" points d'XP !")
+                                                        self.ui.outputrp.append("[center][b]"+sortedpkmon[j]["name"]+"[/b] gagne [u]"+str(xp)+"[/u] points d'XP ![/center]")
                                         elif turn1["pkmon1"]["ko"] and turn1["pkmon1"]["fightID"] in ["1","2","3"]:
                                                 for j in range(0,len(sortedpkmon)):
                                                     if sortedpkmon[j]["fightID"] in ["A","B","C"]:
@@ -2292,7 +2294,7 @@ class MainWindow(QMainWindow):
                                                         if difflvl>10:
                                                             difflvl=10
                                                         xp=50+(difflvl*5)
-                                                        self.ui.outputrp.append(sortedpkmon[j]["name"]+" gagne "+str(xp)+" points d'XP !")
+                                                        self.ui.outputrp.append("[center][b]"+sortedpkmon[j]["name"]+"[/b] gagne [u]"+str(xp)+"[/u] points d'XP ![/center]")
                             self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
                         else:
                             msgBox1 = QMessageBox()
@@ -2303,6 +2305,8 @@ class MainWindow(QMainWindow):
                     tmpind=next((index for (index, d) in enumerate(allpkmon) if d["fightID"] == p["fightID"]), None)
                     vitesseinit = allpkmon[tmpind]["vit"]
                     self.ui.outputmodo.append("Code "+p["fightID"]+" : "+p["name"]+" - "+p["realname"]+" - "+str(p["lvl"])+" - "+str(p["pvcurrent"])+"/"+str(p["pvtotal"])+" - "+str(p["att"])+"x"+str(p["def"])+"x"+str(p["atts"])+"x"+str(p["defs"])+"x"+str(vitesseinit)+" - Attaque")
+                self.ui.outputrp.append("[hr][color=#999999]Et maintenant, [b]Dresseur[/b], quelle est la prochaine étape ?[/color]")
+
             else:
                 msgBox1 = QMessageBox()
                 msgBox1.setText('Un pokemon sans informations est ciblé !')
