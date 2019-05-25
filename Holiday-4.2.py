@@ -2175,6 +2175,8 @@ class MainWindow(QMainWindow):
             indexedpkmon = self.build_dict(sortedpkmon,key="fightID")
 
             listid = [x["fightID"] for x in sortedpkmon]
+            listidteam1 = [x for x in listid if x in ['1','2','3']]
+            listidteamA = [x for x in listid if x in ['A','B','C']]
             listtarget = [x["target"] for x in sortedattack]
             listid.extend(["Adversaires","Tous","Aléatoire","Team","/"])
             if all(x in listid for x in listtarget):
@@ -2195,9 +2197,9 @@ class MainWindow(QMainWindow):
                                 indexadv = [indexedpkmon[x]["index"] for x in ["C"]]
                             elif sortedattack[index]["target"]=="Adversaires":
                                 if sortedpkmon[index]["fightID"] in ["1","2","3"]:
-                                    indexadv = [indexedpkmon[x]["index"] for x in ["A","B","C"]]
+                                    indexadv = [indexedpkmon[x]["index"] for x in listidteamA]
                                 elif sortedpkmon[index]["fightID"] in ["A","B","C"]:
-                                    indexadv = [indexedpkmon[x]["index"] for x in ["1","2","3"]]
+                                    indexadv = [indexedpkmon[x]["index"] for x in listidteam1]
                             elif sortedattack[index]["target"]=="Tous":
                                 indexadv=list(range(0,len(sortedpkmon)))
                                 indexadv.remove(index)
