@@ -1700,7 +1700,7 @@ class MainWindow(QMainWindow):
                     newpv1=pkmon2["pvcurrent"]+round(heal)
                     if newpv1>pkmon2["pvtotal"]:
                         newpv1=pkmon2["pvtotal"]
-                    self.ui.outputrp.append('{[color=#669900][b]+'+str(round(heal))+'[/b][/color]} PVs [color=#777777][size=10]« '+pkmon2["namse"]+' se sent mieux. »[/size][/color]\n[i]PVs de [b]'+pkmon2["name"]+'[/b][/i]: '+self.pvToColor(newpv1,pkmon2["pvtotal"])+str(newpv1)+'[/color]/'+str(pkmon2["pvtotal"]))
+                    self.ui.outputrp.append('{[color=#669900][b]+'+str(round(heal))+'[/b][/color]} PVs [color=#777777][size=10]« '+pkmon2["name"]+' se sent mieux. »[/size][/color]\n[i]PVs de [b]'+pkmon2["name"]+'[/b][/i]: '+self.pvToColor(newpv1,pkmon2["pvtotal"])+str(newpv1)+'[/color]/'+str(pkmon2["pvtotal"]))
                     pkmon2["pvcurrent"]=newpv1
 
                 elif attck1["name"]=="Malédiction":
