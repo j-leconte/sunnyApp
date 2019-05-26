@@ -1989,7 +1989,7 @@ class MainWindow(QMainWindow):
 
     def fightInit(self):
         self.ui.outputrp.setText('')
-        self.ui.outputmodo.setText('')
+        self.ui.outputmodo.setText("[modo][spoiler=Infos modération][code]")
         self.ui.outputattack.setText('')
         if self.ui.attaqueprio.toPlainText()=='' or self.ui.attaqueprio_2.toPlainText()=='' or self.ui.vit.toPlainText()=='' or self.ui.vit_2.toPlainText()=='':
             msgBox1 = QMessageBox()
@@ -2308,6 +2308,7 @@ class MainWindow(QMainWindow):
                     vitesseinit = allpkmon[tmpind]["vit"]
                     self.ui.outputmodo.append("Code "+p["fightID"]+" : "+p["name"]+" - "+p["realname"]+" - "+str(p["lvl"])+" - "+str(p["pvcurrent"])+"/"+str(p["pvtotal"])+" - "+str(p["att"])+"x"+str(p["def"])+"x"+str(p["atts"])+"x"+str(p["defs"])+"x"+str(vitesseinit)+" - Attaque")
                 self.ui.outputrp.append("[hr][color=#999999]Et maintenant, [b]Dresseur[/b], quelle est la prochaine étape ?[/color]")
+                self.ui.outputmodo.append('[/code][/spoiler][/modo]')
 
             else:
                 msgBox1 = QMessageBox()
