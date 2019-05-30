@@ -12,7 +12,6 @@ from operator import itemgetter
 # Disobey and identified to add later
 # Add dmg vitesse/poids/niveau/ohko
 # Weather
-# When a pokemon is ded, enemy team should attack the other pokemons :(
 
 # To see later, maybe in other tabs
 # Little basic calc tool
@@ -1686,8 +1685,10 @@ class MainWindow(QMainWindow):
             if statut1["freeze"]:
               statut1["freeze"]=False
               self.ui.outputrp.append("[i]{"+pkmon1["name"]+" n'est plus gelé !}[/i]")
-            if advnb==1:
-             self.ui.outputrp.append("[b]"+pkmon1["name"]+"[/b] utilise [u]"+attck1["name"]+"[/u] !")
+            if advnb==1 and totaladvnb==1:
+                self.ui.outputrp.append("[b]"+pkmon1["name"]+"[/b] utilise [u]"+attck1["name"]+"[/u] sur [b]"+pkmon2["name"]+"[/b] !")
+            elif advnb==1:
+                self.ui.outputrp.append("[b]"+pkmon1["name"]+"[/b] utilise [u]"+attck1["name"]+"[/u] !")
 
             if dmg=='fail':
                 if totaladvnb > 1:
@@ -2182,33 +2183,76 @@ class MainWindow(QMainWindow):
             if all(x in listid for x in listtarget):
                 for index in range(0,len(sortedpkmon)):
                     if sortedpkmon[index]["ko"]==False:
-                        if sortedattack[index]["catchiante"] not in ["Delete","attaque z","objet tenu"]:
+                        if sortedattack[index]["catchiante"] not in ["Delete","attaque z"]:
                             if sortedattack[index]["target"]=="1":
                                 indexadv = [indexedpkmon[x]["index"] for x in ["1"]]
+                                if sortedpkmon[indexadv[0]]["ko"] and ("2" in listidteam1):
+                                    indexadv = [indexedpkmon[x]["index"] for x in ["2"]]
+                                if sortedpkmon[indexadv[0]]["ko"] and ("3" in listidteam1):
+                                    indexadv = [indexedpkmon[x]["index"] for x in ["3"]]
+                                if sortedpkmon[indexadv[0]]["ko"]:
+                                    indexadv = None
                             elif sortedattack[index]["target"]=="2":
                                 indexadv = [indexedpkmon[x]["index"] for x in ["2"]]
+                                if sortedpkmon[indexadv[0]]["ko"] and ("1" in listidteam1):
+                                    indexadv = [indexedpkmon[x]["index"] for x in ["1"]]
+                                if sortedpkmon[indexadv[0]]["ko"] and ("3" in listidteam1):
+                                    indexadv = [indexedpkmon[x]["index"] for x in ["3"]]
+                                if sortedpkmon[indexadv[0]]["ko"]:
+                                    indexadv = None
                             elif sortedattack[index]["target"]=="3":
                                 indexadv = [indexedpkmon[x]["index"] for x in ["3"]]
+                                if sortedpkmon[indexadv[0]]["ko"] and ("1" in listidteam1):
+                                    indexadv = [indexedpkmon[x]["index"] for x in ["1"]]
+                                if sortedpkmon[indexadv[0]]["ko"] and ("2" in listidteam1):
+                                    indexadv = [indexedpkmon[x]["index"] for x in ["2"]]
+                                if sortedpkmon[indexadv[0]]["ko"]:
+                                    indexadv = None
                             elif sortedattack[index]["target"]=="A":
                                 indexadv = [indexedpkmon[x]["index"] for x in ["A"]]
+                                if sortedpkmon[indexadv[0]]["ko"] and ("B" in listidteamA):
+                                    indexadv = [indexedpkmon[x]["index"] for x in ["B"]]
+                                if sortedpkmon[indexadv[0]]["ko"] and ("C" in listidteamA):
+                                    indexadv = [indexedpkmon[x]["index"] for x in ["C"]]
+                                if sortedpkmon[indexadv[0]]["ko"]:
+                                    indexadv = None
                             elif sortedattack[index]["target"]=="B":
                                 indexadv = [indexedpkmon[x]["index"] for x in ["B"]]
+                                if sortedpkmon[indexadv[0]]["ko"] and ("A" in listidteamA):
+                                    indexadv = [indexedpkmon[x]["index"] for x in ["A"]]
+                                if sortedpkmon[indexadv[0]]["ko"] and ("C" in listidteamA):
+                                    indexadv = [indexedpkmon[x]["index"] for x in ["C"]]
+                                if sortedpkmon[indexadv[0]]["ko"]:
+                                    indexadv = None
                             elif sortedattack[index]["target"]=="C":
                                 indexadv = [indexedpkmon[x]["index"] for x in ["C"]]
+                                if sortedpkmon[indexadv[0]]["ko"] and ("A" in listidteamA):
+                                    indexadv = [indexedpkmon[x]["index"] for x in ["A"]]
+                                if sortedpkmon[indexadv[0]]["ko"] and ("B" in listidteamA):
+                                    indexadv = [indexedpkmon[x]["index"] for x in ["B"]]
+                                if sortedpkmon[indexadv[0]]["ko"]:
+                                    indexadv = None
                             elif sortedattack[index]["target"]=="Adversaires":
                                 if sortedpkmon[index]["fightID"] in ["1","2","3"]:
                                     indexadv = [indexedpkmon[x]["index"] for x in listidteamA]
                                 elif sortedpkmon[index]["fightID"] in ["A","B","C"]:
                                     indexadv = [indexedpkmon[x]["index"] for x in listidteam1]
+                                for i in indexadv:
+                                    if sortedpkmon[i]["ko"]:
+                                        indexadv.remove(i)
                             elif sortedattack[index]["target"]=="Tous":
                                 indexadv=list(range(0,len(sortedpkmon)))
                                 indexadv.remove(index)
                             elif sortedattack[index]["target"]=="Aléatoire":
                                 if sortedpkmon[index]["fightID"] in ["1","2","3"]:
-                                    alladv = [indexedpkmon[x]["index"] for x in ["A","B","C"]]
+                                    alladv = [indexedpkmon[x]["index"] for x in listidteamA]
                                 elif sortedpkmon[index]["fightID"] in ["A","B","C"]:
-                                    alladv = [indexedpkmon[x]["index"] for x in ["1","2","3"]]
-                                indexadv=random.choice(alladv)
+                                    alladv = [indexedpkmon[x]["index"] for x in listidteam1]
+                                for i in alladv:
+                                    if sortedpkmon[i]["ko"]:
+                                        alladv.remove(i)
+                                if alladv!=[]:
+                                    indexadv=random.choice(alladv)
                             elif sortedattack[index]["target"]=="Team":
                                 indexadv = None
                                 settarget = set(listid)
@@ -2243,6 +2287,8 @@ class MainWindow(QMainWindow):
                                 self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"][img]http://sunrise-db.yo.fr/Sprites/"+str(sortedpkmon[index]["id"])+".png[/img]")
                                 self.ui.outputrp.append("[b]"+sortedpkmon[index]["name"]+"[/b] utilise [u]"+sortedattack[index]["name"]+"[/u] !")
                                 self.ui.outputrp.append("Attaque avec des effets particuliers à gérer à la main")
+                            if indexadv==[]:
+                                indexadv=None
                             if indexadv != None:
                                 i=0
                                 self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"][img]http://sunrise-db.yo.fr/Sprites/"+str(sortedpkmon[index]["id"])+".png[/img]")
@@ -2297,7 +2343,7 @@ class MainWindow(QMainWindow):
                                                             difflvl=10
                                                         xp=50+(difflvl*5)
                                                         self.ui.outputrp.append("[center][b]"+sortedpkmon[j]["name"]+"[/b] gagne [u]"+str(xp)+"[/u] points d'XP ![/center]")
-                            self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
+                                self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
                         else:
                             msgBox1 = QMessageBox()
                             msgBox1.setText("L'attaque choisie pour "+sortedpkmon[index]["name"]+" a été supprimée sur Sunrise.")
