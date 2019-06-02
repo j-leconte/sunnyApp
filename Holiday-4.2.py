@@ -1967,24 +1967,25 @@ class MainWindow(QMainWindow):
                 if pkmon1["ko"]:
                     self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
 
-            if statut1["vampi"]!="" and advnb==totaladvnb:
-                vampidmg=round(pkmon1["pvtotal"]/8)
-                newpv3=pkmon1["pvcurrent"]-vampidmg
-                if newpv3<=0:
-                    newpv3=0
-                    pkmon1["ko"]=True
-                self.ui.outputrp.append("\n[i]{"+pkmon1["name"]+" est affecté par vampigraine !}[/i]\n{[color=#ff0000][b]-"+str(vampidmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+pkmon1["name"]+"[/b][/i]:"+self.pvToColor(newpv3,pkmon1["pvtotal"])+str(newpv3)+"[/color]/"+str(pkmon1["pvtotal"]))
-                pkmon1["pvcurrent"]=newpv3
-                vampireturn=[statut1["vampi"],vampidmg]
-                if pkmon1["ko"]:
-                    self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
-            else:
-                vampireturn=None
-
             if random.randint(1,100) <= attck1["fearchance"]:
                 statut2["fear"]=True
             if attck1["effet_txt"]!="" and advnb==1:
                 self.ui.outputattack.append(attck1["name"]+":\n"+attck1["effet_txt"])
+
+        if statut1["vampi"]!="" and advnb==totaladvnb:
+            vampidmg=round(pkmon1["pvtotal"]/8)
+            newpv3=pkmon1["pvcurrent"]-vampidmg
+            if newpv3<=0:
+                newpv3=0
+                pkmon1["ko"]=True
+            self.ui.outputrp.append("\n[i]{"+pkmon1["name"]+" est affecté par vampigraine !}[/i]\n{[color=#ff0000][b]-"+str(vampidmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+pkmon1["name"]+"[/b][/i]:"+self.pvToColor(newpv3,pkmon1["pvtotal"])+str(newpv3)+"[/color]/"+str(pkmon1["pvtotal"]))
+            pkmon1["pvcurrent"]=newpv3
+            vampireturn=[statut1["vampi"],vampidmg]
+            if pkmon1["ko"]:
+                self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
+        else:
+            vampireturn=None
+
         toReturn = {"pkmon1": pkmon1, "statut1": statut1,"pkmon2": pkmon2,"statut2": statut2,"vampireturn": vampireturn}
         return toReturn
 
