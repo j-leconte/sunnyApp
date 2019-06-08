@@ -2130,13 +2130,13 @@ class MainWindow(QMainWindow):
                 if self.ui.fightwild.isChecked():
                     self.ui.outputrp.append("[listL][i][color=#999999]Connexion au réseau en cours... ... ...\nSIS correctement relié au SNT - port "+str(random.randint(1000,9999))+".\nSimulation téléchargée...")
                     if self.ui.monday.isChecked():
-                        self.ui.outputrp.append("MONDAY correctement initialisée.")
+                        self.ui.outputrp.append("MONDAY 3.02 correctement initialisée.")
                     if self.ui.wednesday.isChecked():
-                        self.ui.outputrp.append("WEDNESDAY correctement initialisée.")
+                        self.ui.outputrp.append("WEDNESDAY 2.78 correctement initialisée.")
                     if self.ui.friday.isChecked():
-                        self.ui.outputrp.append("FRIDAY correctement initialisée.")
+                        self.ui.outputrp.append("FRIDAY 1.97 correctement initialisée.")
                     if self.ui.saturday.isChecked():
-                        self.ui.outputrp.append("SATURDAY corretement initialisée.")
+                        self.ui.outputrp.append("SATURDAY 2.45 corretement initialisée.")
                     self.ui.outputrp.append("\nPrésence détectée. Estimation en cours.[/color][/i][/listL]")
                     if len(advteam)==1:
                         self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img]\nUn [b]"+advteam[0]["name"]+"[/b] sauvage vous attaque !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+"[/u])[/i][/size][/center]")
@@ -2149,13 +2149,13 @@ class MainWindow(QMainWindow):
                 if self.ui.fighttrainer.isChecked():
                     self.ui.outputrp.append("[listL][i][color=#999999]Connexion au réseau en cours... ... ...\nSIS correctement relié au SNT - port "+str(random.randint(1000,9999))+".\nSimulation téléchargée...")
                     if self.ui.monday.isChecked():
-                        self.ui.outputrp.append("MONDAY correctement initialisée.")
+                        self.ui.outputrp.append("MONDAY 3.02 correctement initialisée.")
                     if self.ui.wednesday.isChecked():
-                        self.ui.outputrp.append("WEDNESDAY correctement initialisée.")
+                        self.ui.outputrp.append("WEDNESDAY 2.78 correctement initialisée.")
                     if self.ui.friday.isChecked():
-                        self.ui.outputrp.append("FRIDAY correctement initialisée.")
+                        self.ui.outputrp.append("FRIDAY 1.97 correctement initialisée.")
                     if self.ui.saturday.isChecked():
-                        self.ui.outputrp.append("SATURDAY corretement initialisée.")
+                        self.ui.outputrp.append("SATURDAY 2.45 corretement initialisée.")
                     self.ui.outputrp.append("\nCombat inter-dresseur détecté. Calcul en cours.[/color][/i][/listL][center][img]http://sunrise-db.yo.fr/Sprites/0.png[/img]\n[b]???[/b] veut se battre !\n[size=10]« J'vais t'casser en deux minable. Ta maman te reconnaîtra qu'à la couleur de ton p'tit cartable ! »[/size]\n")
                     if len(advteam)==1:
                         self.ui.outputrp.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img]\n[b]???[/b] envoie au combat un [b]"+advteam[0]["name"]+"[/b] !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+"[/u])[/i][/size][/center]")
@@ -2354,7 +2354,8 @@ class MainWindow(QMainWindow):
                     tmpind=next((index for (index, d) in enumerate(allpkmon) if d["fightID"] == p["fightID"]), None)
                     vitesseinit = allpkmon[tmpind]["vit"]
                     self.ui.outputmodo.append("Code "+p["fightID"]+" : "+p["name"]+" - "+p["realname"]+" - "+str(p["lvl"])+" - "+str(p["pvcurrent"])+"/"+str(p["pvtotal"])+" - "+str(p["att"])+"x"+str(p["def"])+"x"+str(p["atts"])+"x"+str(p["defs"])+"x"+str(vitesseinit)+" - Attaque")
-                self.ui.outputrp.append("[hr][color=#999999]Et maintenant, [b]Dresseur[/b], quelle est la prochaine étape ?[/color]")
+                self.ui.outputrp.append("[hr]")
+                self.ui.outputrp.append("[color=#999999][i]Et maintenant, [b]Dresseur[/b], quelle est la prochaine étape ?[/i][/color]")
                 self.ui.outputmodo.append('[/code][/spoiler][/modo]')
 
             else:
