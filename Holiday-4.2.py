@@ -2318,7 +2318,13 @@ class MainWindow(QMainWindow):
                                                         difflvl=turn1["pkmon2"]["lvl"]-sortedpkmon[j]["lvl"]
                                                         if difflvl>10:
                                                             difflvl=10
+                                                        if difflvl<-10:
+                                                            difflvl=-10
                                                         xp=50+(difflvl*5)
+                                                        if sortedpkmon[j]["lvl"]<20 and difflvl>=-5:
+                                                            xp=50
+                                                        elif sortedpkmon[j]["lvl"]<20 and difflvl<-5:
+                                                            xp=0
                                                         self.ui.outputrp.append("[center][b]"+sortedpkmon[j]["name"]+"[/b] gagne [u]"+str(xp)+"[/u] points d'XP ![/center]")
                                         elif turn1["pkmon2"]["ko"] and turn1["pkmon2"]["fightID"] in ["1","2","3"]:
                                                 for j in range(0,len(sortedpkmon)):
@@ -2326,7 +2332,13 @@ class MainWindow(QMainWindow):
                                                         difflvl=turn1["pkmon2"]["lvl"]-sortedpkmon[j]["lvl"]
                                                         if difflvl>10:
                                                             difflvl=10
+                                                        if difflvl<-10:
+                                                            difflvl=-10
                                                         xp=50+(difflvl*5)
+                                                        if sortedpkmon[j]["lvl"]<20 and difflvl>=-5:
+                                                            xp=50
+                                                        elif sortedpkmon[j]["lvl"]<20 and difflvl<-5:
+                                                            xp=0
                                                         self.ui.outputrp.append("[center][b]"+sortedpkmon[j]["name"]+"[/b] gagne [u]"+str(xp)+"[/u] points d'XP ![/center]")
                                         if turn1["pkmon1"]["ko"] and turn1["pkmon1"]["fightID"] in ["A","B","C"]:
                                                 for j in range(0,len(sortedpkmon)):
@@ -2334,7 +2346,13 @@ class MainWindow(QMainWindow):
                                                         difflvl=turn1["pkmon1"]["lvl"]-sortedpkmon[j]["lvl"]
                                                         if difflvl>10:
                                                             difflvl=10
+                                                        if difflvl<-10:
+                                                            difflvl=-10
                                                         xp=50+(difflvl*5)
+                                                        if sortedpkmon[j]["lvl"]<20 and difflvl>=-5:
+                                                            xp=50
+                                                        elif sortedpkmon[j]["lvl"]<20 and difflvl<-5:
+                                                            xp=0
                                                         self.ui.outputrp.append("[center][b]"+sortedpkmon[j]["name"]+"[/b] gagne [u]"+str(xp)+"[/u] points d'XP ![/center]")
                                         elif turn1["pkmon1"]["ko"] and turn1["pkmon1"]["fightID"] in ["1","2","3"]:
                                                 for j in range(0,len(sortedpkmon)):
@@ -2342,7 +2360,13 @@ class MainWindow(QMainWindow):
                                                         difflvl=turn1["pkmon1"]["lvl"]-sortedpkmon[j]["lvl"]
                                                         if difflvl>10:
                                                             difflvl=10
+                                                        if difflvl<-10:
+                                                            difflvl=-10
                                                         xp=50+(difflvl*5)
+                                                        if sortedpkmon[j]["lvl"]<20 and difflvl>=-5:
+                                                            xp=50
+                                                        elif sortedpkmon[j]["lvl"]<20 and difflvl<-5:
+                                                            xp=0
                                                         self.ui.outputrp.append("[center][b]"+sortedpkmon[j]["name"]+"[/b] gagne [u]"+str(xp)+"[/u] points d'XP ![/center]")
                                 self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
                         else:
