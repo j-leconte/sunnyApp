@@ -64,6 +64,7 @@ class MainWindow(QMainWindow):
         self.ui.applygenerator_6.clicked.connect(self.generateattack6)
 
         self.ui.fightbutton.clicked.connect(self.fightInit) # generate the fight
+        self.ui.clearall.clicked.connect(self.clearFun) # clear first page
 
         #Second page : outils
         self.ui.genbutton.clicked.connect(self.pokegen)
@@ -981,12 +982,19 @@ class MainWindow(QMainWindow):
         else:
             updatepv=pokestat[4]+(2*self.ui.spinlvl.value())
             stats=[pokestat[5],pokestat[6],pokestat[7],pokestat[8],pokestat[9]]
-            upstats=[x+self.ui.spinlvl.value() for x in stats]
-            maxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
-            stats[maxindex]=0
-            secmaxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
-            upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl.value()
-            upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl.value()
+            upstats1=[x+self.ui.spinlvl.value() for x in stats]
+            distrib=2*self.ui.spinlvl.value()
+            toall=int(distrib/5)
+            toadd=distrib % 5
+            upstats=[x+toall for x in upstats1]
+            randomstatup=random.randint(0,4)
+            upstats[randomstatup]=upstats[randomstatup]+toadd
+            #maxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
+            #stats[maxindex]=0
+            #secmaxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
+            #upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl.value()
+            #upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl.value()
+
             self.ui.pokename.setText(pokestat[1])
             self.ui.poke.setText(pokestat[1])
             self.ui.pokelvl.setText(str(self.ui.spinlvl.value()))
@@ -1042,12 +1050,19 @@ class MainWindow(QMainWindow):
         else:
             updatepv=pokestat[4]+(2*self.ui.spinlvl_2.value())
             stats=[pokestat[5],pokestat[6],pokestat[7],pokestat[8],pokestat[9]]
-            upstats=[x+self.ui.spinlvl_2.value() for x in stats]
-            maxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
-            stats[maxindex]=0
-            secmaxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
-            upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl_2.value()
-            upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl_2.value()
+            upstats1=[x+self.ui.spinlvl_2.value() for x in stats]
+            distrib=2*self.ui.spinlvl_2.value()
+            toall=int(distrib/5)
+            toadd=distrib % 5
+            upstats=[x+toall for x in upstats1]
+            randomstatup=random.randint(0,4)
+            upstats[randomstatup]=upstats[randomstatup]+toadd
+            #maxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
+            #stats[maxindex]=0
+            #secmaxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
+            #upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl.value()
+            #upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl.value()
+
             self.ui.pokename_2.setText(pokestat[1])
             self.ui.poke_2.setText(pokestat[1])
             self.ui.pokelvl_2.setText(str(self.ui.spinlvl_2.value()))
@@ -1103,12 +1118,19 @@ class MainWindow(QMainWindow):
         else:
             updatepv=pokestat[4]+(2*self.ui.spinlvl_3.value())
             stats=[pokestat[5],pokestat[6],pokestat[7],pokestat[8],pokestat[9]]
-            upstats=[x+self.ui.spinlvl_3.value() for x in stats]
-            maxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
-            stats[maxindex]=0
-            secmaxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
-            upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl_3.value()
-            upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl_3.value()
+            upstats1=[x+self.ui.spinlvl_3.value() for x in stats]
+            distrib=2*self.ui.spinlvl_3.value()
+            toall=int(distrib/5)
+            toadd=distrib % 5
+            upstats=[x+toall for x in upstats1]
+            randomstatup=random.randint(0,4)
+            upstats[randomstatup]=upstats[randomstatup]+toadd
+            #maxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
+            #stats[maxindex]=0
+            #secmaxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
+            #upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl.value()
+            #upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl.value()
+
             self.ui.pokename_3.setText(pokestat[1])
             self.ui.poke_3.setText(pokestat[1])
             self.ui.pokelvl_3.setText(str(self.ui.spinlvl_3.value()))
@@ -1164,12 +1186,19 @@ class MainWindow(QMainWindow):
         else:
             updatepv=pokestat[4]+(2*self.ui.spinlvl_4.value())
             stats=[pokestat[5],pokestat[6],pokestat[7],pokestat[8],pokestat[9]]
-            upstats=[x+self.ui.spinlvl_4.value() for x in stats]
-            maxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
-            stats[maxindex]=0
-            secmaxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
-            upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl_4.value()
-            upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl_4.value()
+            upstats1=[x+self.ui.spinlvl_4.value() for x in stats]
+            distrib=2*self.ui.spinlvl_4.value()
+            toall=int(distrib/5)
+            toadd=distrib % 5
+            upstats=[x+toall for x in upstats1]
+            randomstatup=random.randint(0,4)
+            upstats[randomstatup]=upstats[randomstatup]+toadd
+            #maxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
+            #stats[maxindex]=0
+            #secmaxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
+            #upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl.value()
+            #upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl.value()
+
             self.ui.pokename_4.setText(pokestat[1])
             self.ui.poke_4.setText(pokestat[1])
             self.ui.pokelvl_4.setText(str(self.ui.spinlvl_4.value()))
@@ -1225,12 +1254,19 @@ class MainWindow(QMainWindow):
         else:
             updatepv=pokestat[4]+(2*self.ui.spinlvl_5.value())
             stats=[pokestat[5],pokestat[6],pokestat[7],pokestat[8],pokestat[9]]
-            upstats=[x+self.ui.spinlvl_5.value() for x in stats]
-            maxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
-            stats[maxindex]=0
-            secmaxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
-            upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl_5.value()
-            upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl_5.value()
+            upstats1=[x+self.ui.spinlvl_5.value() for x in stats]
+            distrib=2*self.ui.spinlvl_5.value()
+            toall=int(distrib/5)
+            toadd=distrib % 5
+            upstats=[x+toall for x in upstats1]
+            randomstatup=random.randint(0,4)
+            upstats[randomstatup]=upstats[randomstatup]+toadd
+            #maxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
+            #stats[maxindex]=0
+            #secmaxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
+            #upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl.value()
+            #upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl.value()
+
             self.ui.pokename_5.setText(pokestat[1])
             self.ui.poke_5.setText(pokestat[1])
             self.ui.pokelvl_5.setText(str(self.ui.spinlvl_5.value()))
@@ -1286,12 +1322,19 @@ class MainWindow(QMainWindow):
         else:
             updatepv=pokestat[4]+(2*self.ui.spinlvl_6.value())
             stats=[pokestat[5],pokestat[6],pokestat[7],pokestat[8],pokestat[9]]
-            upstats=[x+self.ui.spinlvl_6.value() for x in stats]
-            maxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
-            stats[maxindex]=0
-            secmaxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
-            upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl_6.value()
-            upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl_6.value()
+            upstats1=[x+self.ui.spinlvl_6.value() for x in stats]
+            distrib=2*self.ui.spinlvl_6.value()
+            toall=int(distrib/5)
+            toadd=distrib % 5
+            upstats=[x+toall for x in upstats1]
+            randomstatup=random.randint(0,4)
+            upstats[randomstatup]=upstats[randomstatup]+toadd
+            #maxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
+            #stats[maxindex]=0
+            #secmaxindex=random.choice([i for i, j in enumerate(stats) if j == max(stats)])
+            #upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl.value()
+            #upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl.value()
+
             self.ui.pokename_6.setText(pokestat[1])
             self.ui.poke_6.setText(pokestat[1])
             self.ui.pokelvl_6.setText(str(self.ui.spinlvl_6.value()))
@@ -1729,7 +1772,7 @@ class MainWindow(QMainWindow):
                         pkmon1["pvcurrent"]=newpv3
                         self.ui.outputrp.append('{[color=#ff0000][b]'+str(round(selfdmg))+'[/b][/color]} PVs [color=#777777][size=10]« '+pkmon1["name"]+' sacrifie ses PVs ! »[/size][/color]\n[i]PVs de [b]'+pkmon1["name"]+'[/b][/i]: '+self.pvToColor(newpv3,pkmon1["pvtotal"])+str(newpv3)+'[/color]/'+str(pkmon1["pvtotal"]))
                         if pkmon1["ko"]:
-                            self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
+                            self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
 
                         statut2["maledi"]=True
                         self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est maudit !}[/i]")
@@ -1910,7 +1953,7 @@ class MainWindow(QMainWindow):
                   elif attck1["statut"]=="Confusion":
                       statut2["conf"]=True
                       self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est confus !}[/i]")
-                      self.ui.outputmodo.append(pkmon2["name"]+" : Confusion")
+                      self.ui.outputmodo.append(pkmon2["name"]+" : Confusion pour "+str(random.randint(1,4))+" tours")
                   elif attck1["statut"]=="Piège":
                       statut2["piege"]=True
                       self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est piégé par "+attck1["name"]+" !}[/i]")
@@ -1923,70 +1966,12 @@ class MainWindow(QMainWindow):
                         self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est infecté par vampigraine !}[/i]")
                         self.ui.outputmodo.append(pkmon2["name"]+" : Vampigraine")
 
-            if statut1["burn"] and advnb==totaladvnb:
-                burndmg=round(pkmon1["pvtotal"]/16)
-                newpv3=pkmon1["pvcurrent"]-burndmg
-                if newpv3<=0:
-                    newpv3=0
-                    pkmon1["ko"]=True
-                self.ui.outputrp.append("\n[i]{"+pkmon1["name"]+" souffre de sa brûlure !}[/i]\n{[color=#ff0000][b]-"+str(burndmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+pkmon1["name"]+"[/b][/i]:"+self.pvToColor(newpv3,pkmon1["pvtotal"])+str(newpv3)+"[/color]/"+str(pkmon1["pvtotal"]))
-                pkmon1["pvcurrent"]=newpv3
-                if pkmon1["ko"]:
-                    self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
-
-            if statut1["piege"] and advnb==totaladvnb:
-                piegedmg=round(pkmon1["pvtotal"]/8)
-                newpv3=pkmon1["pvcurrent"]-piegedmg
-                if newpv3<=0:
-                    newpv3=0
-                    pkmon1["ko"]=True
-                self.ui.outputrp.append("\n[i]{"+pkmon1["name"]+" est blessé par un piège !}[/i]\n{[color=#ff0000][b]-"+str(piegedmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+pkmon1["name"]+"[/b][/i]:"+self.pvToColor(newpv3,pkmon1["pvtotal"])+str(newpv3)+"[/color]/"+str(pkmon1["pvtotal"]))
-                pkmon1["pvcurrent"]=newpv3
-                if pkmon1["ko"]:
-                    self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
-
-            if statut1["poison"] and advnb==totaladvnb:
-                poisondmg=round(pkmon1["pvtotal"]/8)
-                newpv3=pkmon1["pvcurrent"]-poisondmg
-                if newpv3<=0:
-                    newpv3=0
-                    pkmon1["ko"]=True
-                self.ui.outputrp.append("\n[i]{"+pkmon1["name"]+" souffre du poison !}[/i]\n{[color=#ff0000][b]-"+str(poisondmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+pkmon1["name"]+"[/b][/i]:"+self.pvToColor(newpv3,pkmon1["pvtotal"])+str(newpv3)+"[/color]/"+str(pkmon1["pvtotal"]))
-                pkmon1["pvcurrent"]=newpv3
-                if pkmon1["ko"]:
-                    self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" est K.O !}[/i]")
-
-            if statut1["maledi"] and advnb==totaladvnb:
-                maledimdg=round(pkmon1["pvtotal"]/4)
-                newpv3=pkmon1["pvcurrent"]-maledimdg
-                if newpv3<=0:
-                    newpv3=0
-                    pkmon1["ko"]=True
-                self.ui.outputrp.append("\n[i]{"+pkmon1["name"]+" est blessé par la malédiction !}[/i]\n{[color=#ff0000][b]-"+str(maledimdg)+"[/b][/color]} PVs\n[i]PVs de [b]"+pkmon1["name"]+"[/b][/i]:"+self.pvToColor(newpv3,pkmon1["pvtotal"])+str(newpv3)+"[/color]/"+str(pkmon1["pvtotal"]))
-                pkmon1["pvcurrent"]=newpv3
-                if pkmon1["ko"]:
-                    self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
-
             if random.randint(1,100) <= attck1["fearchance"]:
                 statut2["fear"]=True
             if attck1["effet_txt"]!="" and advnb==1:
                 self.ui.outputattack.append(attck1["name"]+":\n"+attck1["effet_txt"])
 
-        if statut1["vampi"]!="" and advnb==totaladvnb:
-            vampidmg=round(pkmon1["pvtotal"]/8)
-            newpv3=pkmon1["pvcurrent"]-vampidmg
-            if newpv3<=0:
-                newpv3=0
-                pkmon1["ko"]=True
-            self.ui.outputrp.append("\n[i]{"+pkmon1["name"]+" est affecté par vampigraine !}[/i]\n{[color=#ff0000][b]-"+str(vampidmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+pkmon1["name"]+"[/b][/i]:"+self.pvToColor(newpv3,pkmon1["pvtotal"])+str(newpv3)+"[/color]/"+str(pkmon1["pvtotal"]))
-            pkmon1["pvcurrent"]=newpv3
-            vampireturn=[statut1["vampi"],vampidmg]
-            if pkmon1["ko"]:
-                self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
-        else:
-            vampireturn=None
-
-        toReturn = {"pkmon1": pkmon1, "statut1": statut1,"pkmon2": pkmon2,"statut2": statut2,"vampireturn": vampireturn}
+        toReturn = {"pkmon1": pkmon1, "statut1": statut1,"pkmon2": pkmon2,"statut2": statut2}
         return toReturn
 
     def fightInit(self):
@@ -2026,6 +2011,7 @@ class MainWindow(QMainWindow):
             allpkmon = [pkmn1]
             allattack = [attck1]
             allstatut = [statut1]
+            niceteam = [pkmn1]
 
             pkmn2 = {"id": idpkmon2[0], "lvl": int(self.ui.pokelvl_2.toPlainText()),"name": self.ui.pokename_2.toPlainText() ,"realname": self.ui.poke_2.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_2.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_2.toPlainText()),"att": int(self.ui.att_2.toPlainText()),"def": int(self.ui.defen_2.toPlainText()),"atts": int(self.ui.atts_2.toPlainText()),"defs": int(self.ui.defs_2.toPlainText()),"type1": self.ui.poketype1_2.toPlainText(),"type2": self.ui.poketype2_2.toPlainText(),"modifatt": self.ui.modifatt_2.value(),"modifdef": self.ui.modifdefen_2.value(), "modifatts": self.ui.modifatts_2.value(), "modifdefs": self.ui.modifdefs_2.value(),"modifvit": self.ui.modifvit_2.value(), "modifesquive": self.ui.modifesquive_2.value(), "modifprec": self.ui.modifprec_2.value(),"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2,"ko": False, "fightID": "A","side": "listR", "truevit": self.ui.vit_2.toPlainText()}
 
@@ -2058,6 +2044,7 @@ class MainWindow(QMainWindow):
                 allpkmon.append(pkmn3)
                 allattack.append(attck3)
                 allstatut.append(statut3)
+                niceteam.append(pkmn3)
 
             # pokemon enemy B
             if self.ui.poke_4.toPlainText()!="" and self.ui.attaque_4.toPlainText()!="":
@@ -2102,6 +2089,7 @@ class MainWindow(QMainWindow):
                 allpkmon.append(pkmn5)
                 allattack.append(attck5)
                 allstatut.append(statut5)
+                niceteam.append(pkmn5)
 
             # pokemon enemy C
             if self.ui.poke_6.toPlainText()!="" and self.ui.attaque_6.toPlainText()!="":
@@ -2136,7 +2124,7 @@ class MainWindow(QMainWindow):
                     if self.ui.friday.isChecked():
                         self.ui.outputrp.append("FRIDAY 1.97 correctement initialisée.")
                     if self.ui.saturday.isChecked():
-                        self.ui.outputrp.append("SATURDAY 2.45 corretement initialisée.")
+                        self.ui.outputrp.append("SATURDAY 2.45 correctement initialisée.")
                     self.ui.outputrp.append("\nPrésence détectée. Estimation en cours.[/color][/i][/listL]")
                     if len(advteam)==1:
                         self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img]\nUn [b]"+advteam[0]["name"]+"[/b] sauvage vous attaque !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+"[/u])[/i][/size][/center]")
@@ -2155,7 +2143,7 @@ class MainWindow(QMainWindow):
                     if self.ui.friday.isChecked():
                         self.ui.outputrp.append("FRIDAY 1.97 correctement initialisée.")
                     if self.ui.saturday.isChecked():
-                        self.ui.outputrp.append("SATURDAY 2.45 corretement initialisée.")
+                        self.ui.outputrp.append("SATURDAY 2.45 correctement initialisée.")
                     self.ui.outputrp.append("\nCombat inter-dresseur détecté. Calcul en cours.[/color][/i][/listL][center][img]http://sunrise-db.yo.fr/Sprites/0.png[/img]\n[b]???[/b] veut se battre !\n[size=10]« J'vais t'casser en deux minable. Ta maman te reconnaîtra qu'à la couleur de ton p'tit cartable ! »[/size]\n")
                     if len(advteam)==1:
                         self.ui.outputrp.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img]\n[b]???[/b] envoie au combat un [b]"+advteam[0]["name"]+"[/b] !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+"[/u])[/i][/size][/center]")
@@ -2301,17 +2289,6 @@ class MainWindow(QMainWindow):
                                         sortedstatut[index]=turn1["statut1"]
                                         sortedpkmon[adv]=turn1["pkmon2"]
                                         sortedstatut[adv]=turn1["statut2"]
-                                        if turn1["vampireturn"]!=None:
-                                            if turn1["vampireturn"][0] in listid:
-                                                newpv3=sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvcurrent"]+turn1["vampireturn"][1]
-                                                if newpv3 > sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvtotal"]:
-                                                    newpv3 = sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvtotal"]
-                                                sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvcurrent"]=newpv3
-                                                self.ui.outputrp.append('[i]PVs de [b]'+sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["name"]+'[/b][/i]: '+self.pvToColor(newpv3,sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvtotal"])+str(newpv3)+'[/color]/'+str(sortedpkmon[indexedpkmon[turn1["vampireturn"][0]]["index"]]["pvtotal"]))
-                                            else:
-                                                msgBox1 = QMessageBox()
-                                                msgBox1.setText('Attention, erreur de cible pour vampigraine: aucun Pokémon soigné.')
-                                                msgBox1.exec_()
                                         if turn1["pkmon2"]["ko"] and turn1["pkmon2"]["fightID"] in ["A","B","C"]:
                                                 for j in range(0,len(sortedpkmon)):
                                                     if sortedpkmon[j]["fightID"] in ["1","2","3"]:
@@ -2374,8 +2351,128 @@ class MainWindow(QMainWindow):
                             msgBox1.setText("L'attaque choisie pour "+sortedpkmon[index]["name"]+" a été supprimée sur Sunrise.")
                             msgBox1.exec_()
 
+                for index in range(0,len(sortedpkmon)):
+                    koinit=sortedpkmon[index]["ko"]
+                    if sortedstatut[index]["vampi"] and sortedpkmon[index]["ko"]==False:
+                        self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"]")
+                        vampidmg=round(sortedpkmon[index]["pvtotal"]/8)
+                        newpv3=sortedpkmon[index]["pvcurrent"]-vampidmg
+                        if newpv3<=0:
+                            newpv3=0
+                            sortedpkmon[index]["ko"]=True
+                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" est blessé par vampigraine !}[/i]\n{[color=#ff0000][b]-"+str(vampidmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]:"+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
+                        sortedpkmon[index]["pvcurrent"]=newpv3
+                        if sortedstatut[index]["vampi"] in listid:
+                            newpvcible=sortedpkmon[indexedpkmon[sortedstatut[index]["vampi"]]["index"]]["pvcurrent"]+vampidmg
+                            if newpvcible > sortedpkmon[indexedpkmon[sortedstatut[index]["vampi"]]["index"]]["pvtotal"]:
+                                newpvcible = sortedpkmon[indexedpkmon[sortedstatut[index]["vampi"]]["index"]]["pvtotal"]
+                            sortedpkmon[indexedpkmon[sortedstatut[index]["vampi"]]["index"]]["pvcurrent"]=newpvcible
+                            self.ui.outputrp.append('[i]PVs de [b]'+sortedpkmon[indexedpkmon[sortedstatut[index]["vampi"]]["index"]]["name"]+'[/b][/i]: '+self.pvToColor(newpvcible,sortedpkmon[indexedpkmon[sortedstatut[index]["vampi"]]["index"]]["pvtotal"])+str(newpvcible)+'[/color]/'+str(sortedpkmon[indexedpkmon[sortedstatut[index]["vampi"]]["index"]]["pvtotal"]))
+                        else:
+                            msgBox1 = QMessageBox()
+                            msgBox1.setText('Attention, erreur de cible pour vampigraine: aucun Pokémon soigné.')
+                            msgBox1.exec_()
+                        self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
+
+                    if sortedstatut[index]["burn"] and sortedpkmon[index]["ko"]==False:
+                        self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"]")
+                        burndmg=round(sortedpkmon[index]["pvtotal"]/16)
+                        newpv3=sortedpkmon[index]["pvcurrent"]-burndmg
+                        if newpv3<=0:
+                            newpv3=0
+                            sortedpkmon[index]["ko"]=True
+                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" souffre de sa brûlure !}[/i]\n{[color=#ff0000][b]-"+str(burndmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]:"+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
+                        sortedpkmon[index]["pvcurrent"]=newpv3
+                        self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
+
+                    if sortedstatut[index]["piege"] and sortedpkmon[index]["ko"]==False:
+                        self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"]")
+                        piegedmg=round(sortedpkmon[index]["pvtotal"]/8)
+                        newpv3=sortedpkmon[index]["pvcurrent"]-piegedmg
+                        if newpv3<=0:
+                            newpv3=0
+                            sortedpkmon[index]["ko"]=True
+                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" est blessé par un piège !}[/i]\n{[color=#ff0000][b]-"+str(piegedmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]:"+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
+                        sortedpkmon[index]["pvcurrent"]=newpv3
+                        self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
+
+                    if sortedstatut[index]["poison"] and sortedpkmon[index]["ko"]==False:
+                        self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"]")
+                        poisondmg=round(sortedpkmon[index]["pvtotal"]/8)
+                        newpv3=sortedpkmon[index]["pvcurrent"]-poisondmg
+                        if newpv3<=0:
+                            newpv3=0
+                            sortedpkmon[index]["ko"]=True
+                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" souffre du poison !}[/i]\n{[color=#ff0000][b]-"+str(poisondmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]:"+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
+                        sortedpkmon[index]["pvcurrent"]=newpv3
+                        self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
+
+                    if sortedstatut[index]["maledi"] and sortedpkmon[index]["ko"]==False:
+                        self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"]")
+                        maledidmg=round(sortedpkmon[index]["pvtotal"]/4)
+                        newpv3=sortedpkmon[index]["pvcurrent"]-maledidmg
+                        if newpv3<=0:
+                            newpv3=0
+                            sortedpkmon[index]["ko"]=True
+                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" est blessé par la malédiction !}[/i]\n{[color=#ff0000][b]-"+str(maledidmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]:"+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
+                        sortedpkmon[index]["pvcurrent"]=newpv3
+                        self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
+
+                    if koinit==False and sortedpkmon[index]["ko"] and sortedpkmon[index]["fightID"] in ["A","B","C"]:
+                        self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(sortedpkmon[index]["id"])+".png[/img]\n[i]{"+str(sortedpkmon[index]["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
+                        for j in range(0,len(sortedpkmon)):
+                            if sortedpkmon[j]["fightID"] in ["1","2","3"]:
+                                difflvl=sortedpkmon[index]["lvl"]-sortedpkmon[j]["lvl"]
+                                if difflvl>10:
+                                    difflvl=10
+                                if difflvl<-10:
+                                    difflvl=-10
+                                xp=50+(difflvl*5)
+                                if sortedpkmon[j]["lvl"]<20 and difflvl>=-5:
+                                    xp=50
+                                elif sortedpkmon[j]["lvl"]<20 and difflvl<-5:
+                                    xp=0
+                                self.ui.outputrp.append("[center][b]"+sortedpkmon[j]["name"]+"[/b] gagne [u]"+str(xp)+"[/u] points d'XP ![/center]")
+                    elif koinit==False and sortedpkmon[index]["ko"] and sortedpkmon[index]["fightID"] in ["1","2","3"]:
+                        self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(sortedpkmon[index]["id"])+".png[/img]\n[i]{"+str(sortedpkmon[index]["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
+                        for j in range(0,len(sortedpkmon)):
+                            if sortedpkmon[j]["fightID"] in ["A","B","C"]:
+                                difflvl=sortedpkmon[index]["lvl"]-sortedpkmon[j]["lvl"]
+                                if difflvl>10:
+                                    difflvl=10
+                                if difflvl<-10:
+                                    difflvl=-10
+                                xp=50+(difflvl*5)
+                                if sortedpkmon[j]["lvl"]<20 and difflvl>=-5:
+                                    xp=50
+                                elif sortedpkmon[j]["lvl"]<20 and difflvl<-5:
+                                    xp=0
+                                self.ui.outputrp.append("[center][b]"+sortedpkmon[j]["name"]+"[/b] gagne [u]"+str(xp)+"[/u] points d'XP ![/center]")
+
                 for p in sortedpkmon:
                     self.ui.outputmodo.append("Code "+p["fightID"]+" : "+p["name"]+" - "+p["realname"]+" - "+str(p["lvl"])+" - "+str(p["pvcurrent"])+"/"+str(p["pvtotal"])+" - "+str(p["att"])+"x"+str(p["def"])+"x"+str(p["atts"])+"x"+str(p["defs"])+"x"+str(p["truevit"])+" - Attaque")
+                
+                resultcapture=self.ui.outputcapture.toPlainText()
+                if resultcapture!="":
+                    if "est capturé" in resultcapture:
+                        self.ui.outputrp.append(resultcapture.replace("[/spoiler]","").replace("[/center]",""))
+                        self.ui.outputrp.append("[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color]")
+                        for pokemon in niceteam:
+                            difflvl=int(self.ui.lvlcapture.toPlainText())-pokemon["lvl"]
+                            if difflvl>10:
+                                difflvl=10
+                            if difflvl<-10:
+                                difflvl=-10
+                            xp=50+(difflvl*5)
+                            if pokemon["lvl"]<20 and difflvl>=-5:
+                                xp=50
+                            elif pokemon["lvl"]<20 and difflvl<-5:
+                                xp=0
+                            self.ui.outputrp.append("[b]"+pokemon["name"]+"[/b] gagne [u]"+str(xp)+"[/u] points d'XP !")
+                        self.ui.outputrp.append("[/spoiler][/spoiler][/spoiler][/spoiler][/center]")
+                    else:
+                        self.ui.outputrp.append(resultcapture)
+
                 self.ui.outputrp.append("[hr]")
                 self.ui.outputrp.append("[color=#999999][i]Et maintenant, [b]Dresseur[/b], quelle est la prochaine étape ?[/i][/color]")
                 self.ui.outputmodo.append('[/code][/spoiler][/modo]')
@@ -2384,6 +2481,270 @@ class MainWindow(QMainWindow):
                 msgBox1 = QMessageBox()
                 msgBox1.setText('Un pokemon sans informations est ciblé !')
                 msgBox1.exec_()
+
+    def clearFun(self):
+        self.ui.pokedex.setCurrentIndex(0)
+        self.ui.attackdex.clear()
+        self.ui.customdatabar.clear()
+        self.ui.poke.clear()
+        self.ui.attaque.clear()
+        self.ui.pokename.clear()
+        self.ui.poketype1.clear()
+        self.ui.poketype2.clear()
+        self.ui.pokelvl.clear()
+        self.ui.attaquetype.clear()
+        self.ui.attaqueclasse.clear()
+        self.ui.attaquepuiss.clear()
+        self.ui.attaqueprio.clear()
+        self.ui.attaqueprec.clear()
+        self.ui.modifprec.setValue(0)
+        self.ui.spinlvl.setValue(0)
+        self.ui.cible.clear()
+        self.ui.pvcurrent.clear()
+        self.ui.pvtotal.clear()
+        self.ui.att.clear()
+        self.ui.defen.clear()
+        self.ui.atts.clear()
+        self.ui.defs.clear()
+        self.ui.vit.clear()
+        self.ui.modifatt.setValue(0)
+        self.ui.modifdefen.setValue(0)
+        self.ui.modifatts.setValue(0)
+        self.ui.modifdefs.setValue(0)
+        self.ui.modifvit.setValue(0)
+        self.ui.modifesquive.setValue(0)
+        self.ui.effetbrule.setChecked(False)
+        self.ui.effetgel.setChecked(False)
+        self.ui.effetpara.setChecked(False)
+        self.ui.effetpiege.setChecked(False)
+        self.ui.effetpoison.setChecked(False)
+        self.ui.effetsommeil.setChecked(False)
+        self.ui.effetattrac.setChecked(False)
+        self.ui.effetident.setChecked(False)
+        self.ui.effetconfus.setChecked(False)
+        self.ui.effetmaledi.setChecked(False)
+        self.ui.effetdeso.setChecked(False)
+        self.ui.vampicible.setCurrentIndex(-1)
+
+        self.ui.pokedex_2.setCurrentIndex(0)
+        self.ui.attackdex_2.clear()
+        self.ui.customdatabar_2.clear()
+        self.ui.poke_2.clear()
+        self.ui.attaque_2.clear()
+        self.ui.pokename_2.clear()
+        self.ui.poketype1_2.clear()
+        self.ui.poketype2_2.clear()
+        self.ui.pokelvl_2.clear()
+        self.ui.attaquetype_2.clear()
+        self.ui.attaqueclasse_2.clear()
+        self.ui.attaquepuiss_2.clear()
+        self.ui.attaqueprio_2.clear()
+        self.ui.attaqueprec_2.clear()
+        self.ui.modifprec_2.setValue(0)
+        self.ui.spinlvl_2.setValue(0)
+        self.ui.cible_2.clear()
+        self.ui.pvcurrent_2.clear()
+        self.ui.pvtotal_2.clear()
+        self.ui.att_2.clear()
+        self.ui.defen_2.clear()
+        self.ui.atts_2.clear()
+        self.ui.defs_2.clear()
+        self.ui.vit_2.clear()
+        self.ui.modifatt_2.setValue(0)
+        self.ui.modifdefen_2.setValue(0)
+        self.ui.modifatts_2.setValue(0)
+        self.ui.modifdefs_2.setValue(0)
+        self.ui.modifvit_2.setValue(0)
+        self.ui.modifesquive_2.setValue(0)
+        self.ui.effetbrule_2.setChecked(False)
+        self.ui.effetgel_2.setChecked(False)
+        self.ui.effetpara_2.setChecked(False)
+        self.ui.effetpiege_2.setChecked(False)
+        self.ui.effetpoison_2.setChecked(False)
+        self.ui.effetsommeil_2.setChecked(False)
+        self.ui.effetattrac_2.setChecked(False)
+        self.ui.effetident_2.setChecked(False)
+        self.ui.effetconfus_2.setChecked(False)
+        self.ui.effetmaledi_2.setChecked(False)
+        self.ui.effetdeso_2.setChecked(False)
+        self.ui.vampicible_2.setCurrentIndex(-1)
+
+        self.ui.pokedex_3.setCurrentIndex(0)
+        self.ui.attackdex_3.clear()
+        self.ui.customdatabar_3.clear()
+        self.ui.poke_3.clear()
+        self.ui.attaque_3.clear()
+        self.ui.pokename_3.clear()
+        self.ui.poketype1_3.clear()
+        self.ui.poketype2_3.clear()
+        self.ui.pokelvl_3.clear()
+        self.ui.attaquetype_3.clear()
+        self.ui.attaqueclasse_3.clear()
+        self.ui.attaquepuiss_3.clear()
+        self.ui.attaqueprio_3.clear()
+        self.ui.attaqueprec_3.clear()
+        self.ui.modifprec_3.setValue(0)
+        self.ui.spinlvl_3.setValue(0)
+        self.ui.cible_3.clear()
+        self.ui.pvcurrent_3.clear()
+        self.ui.pvtotal_3.clear()
+        self.ui.att_3.clear()
+        self.ui.defen_3.clear()
+        self.ui.atts_3.clear()
+        self.ui.defs_3.clear()
+        self.ui.vit_3.clear()
+        self.ui.modifatt_3.setValue(0)
+        self.ui.modifdefen_3.setValue(0)
+        self.ui.modifatts_3.setValue(0)
+        self.ui.modifdefs_3.setValue(0)
+        self.ui.modifvit_3.setValue(0)
+        self.ui.modifesquive_3.setValue(0)
+        self.ui.effetbrule_3.setChecked(False)
+        self.ui.effetgel_3.setChecked(False)
+        self.ui.effetpara_3.setChecked(False)
+        self.ui.effetpiege_3.setChecked(False)
+        self.ui.effetpoison_3.setChecked(False)
+        self.ui.effetsommeil_3.setChecked(False)
+        self.ui.effetattrac_3.setChecked(False)
+        self.ui.effetident_3.setChecked(False)
+        self.ui.effetconfus_3.setChecked(False)
+        self.ui.effetmaledi_3.setChecked(False)
+        self.ui.effetdeso_3.setChecked(False)
+        self.ui.vampicible_3.setCurrentIndex(-1)
+
+        self.ui.pokedex_4.setCurrentIndex(0)
+        self.ui.attackdex_4.clear()
+        self.ui.customdatabar_4.clear()
+        self.ui.poke_4.clear()
+        self.ui.attaque_4.clear()
+        self.ui.pokename_4.clear()
+        self.ui.poketype1_4.clear()
+        self.ui.poketype2_4.clear()
+        self.ui.pokelvl_4.clear()
+        self.ui.attaquetype_4.clear()
+        self.ui.attaqueclasse_4.clear()
+        self.ui.attaquepuiss_4.clear()
+        self.ui.attaqueprio_4.clear()
+        self.ui.attaqueprec_4.clear()
+        self.ui.modifprec_4.setValue(0)
+        self.ui.spinlvl_4.setValue(0)
+        self.ui.cible_4.clear()
+        self.ui.pvcurrent_4.clear()
+        self.ui.pvtotal_4.clear()
+        self.ui.att_4.clear()
+        self.ui.defen_4.clear()
+        self.ui.atts_4.clear()
+        self.ui.defs_4.clear()
+        self.ui.vit_4.clear()
+        self.ui.modifatt_4.setValue(0)
+        self.ui.modifdefen_4.setValue(0)
+        self.ui.modifatts_4.setValue(0)
+        self.ui.modifdefs_4.setValue(0)
+        self.ui.modifvit_4.setValue(0)
+        self.ui.modifesquive_4.setValue(0)
+        self.ui.effetbrule_4.setChecked(False)
+        self.ui.effetgel_4.setChecked(False)
+        self.ui.effetpara_4.setChecked(False)
+        self.ui.effetpiege_4.setChecked(False)
+        self.ui.effetpoison_4.setChecked(False)
+        self.ui.effetsommeil_4.setChecked(False)
+        self.ui.effetattrac_4.setChecked(False)
+        self.ui.effetident_4.setChecked(False)
+        self.ui.effetconfus_4.setChecked(False)
+        self.ui.effetmaledi_4.setChecked(False)
+        self.ui.effetdeso_4.setChecked(False)
+        self.ui.vampicible_4.setCurrentIndex(-1)
+
+        self.ui.pokedex_5.setCurrentIndex(0)
+        self.ui.attackdex_5.clear()
+        self.ui.customdatabar_5.clear()
+        self.ui.poke_5.clear()
+        self.ui.attaque_5.clear()
+        self.ui.pokename_5.clear()
+        self.ui.poketype1_5.clear()
+        self.ui.poketype2_5.clear()
+        self.ui.pokelvl_5.clear()
+        self.ui.attaquetype_5.clear()
+        self.ui.attaqueclasse_5.clear()
+        self.ui.attaquepuiss_5.clear()
+        self.ui.attaqueprio_5.clear()
+        self.ui.attaqueprec_5.clear()
+        self.ui.modifprec_5.setValue(0)
+        self.ui.spinlvl_5.setValue(0)
+        self.ui.cible_5.clear()
+        self.ui.pvcurrent_5.clear()
+        self.ui.pvtotal_5.clear()
+        self.ui.att_5.clear()
+        self.ui.defen_5.clear()
+        self.ui.atts_5.clear()
+        self.ui.defs_5.clear()
+        self.ui.vit_5.clear()
+        self.ui.modifatt_5.setValue(0)
+        self.ui.modifdefen_5.setValue(0)
+        self.ui.modifatts_5.setValue(0)
+        self.ui.modifdefs_5.setValue(0)
+        self.ui.modifvit_5.setValue(0)
+        self.ui.modifesquive_5.setValue(0)
+        self.ui.effetbrule_5.setChecked(False)
+        self.ui.effetgel_5.setChecked(False)
+        self.ui.effetpara_5.setChecked(False)
+        self.ui.effetpiege_5.setChecked(False)
+        self.ui.effetpoison_5.setChecked(False)
+        self.ui.effetsommeil_5.setChecked(False)
+        self.ui.effetattrac_5.setChecked(False)
+        self.ui.effetident_5.setChecked(False)
+        self.ui.effetconfus_5.setChecked(False)
+        self.ui.effetmaledi_5.setChecked(False)
+        self.ui.effetdeso_5.setChecked(False)
+        self.ui.vampicible_5.setCurrentIndex(-1)
+
+        self.ui.pokedex_6.setCurrentIndex(0)
+        self.ui.attackdex_6.clear()
+        self.ui.customdatabar_6.clear()
+        self.ui.poke_6.clear()
+        self.ui.attaque_6.clear()
+        self.ui.pokename_6.clear()
+        self.ui.poketype1_6.clear()
+        self.ui.poketype2_6.clear()
+        self.ui.pokelvl_6.clear()
+        self.ui.attaquetype_6.clear()
+        self.ui.attaqueclasse_6.clear()
+        self.ui.attaquepuiss_6.clear()
+        self.ui.attaqueprio_6.clear()
+        self.ui.attaqueprec_6.clear()
+        self.ui.modifprec_6.setValue(0)
+        self.ui.spinlvl_6.setValue(0)
+        self.ui.cible_6.clear()
+        self.ui.pvcurrent_6.clear()
+        self.ui.pvtotal_6.clear()
+        self.ui.att_6.clear()
+        self.ui.defen_6.clear()
+        self.ui.atts_6.clear()
+        self.ui.defs_6.clear()
+        self.ui.vit_6.clear()
+        self.ui.modifatt_6.setValue(0)
+        self.ui.modifdefen_6.setValue(0)
+        self.ui.modifatts_6.setValue(0)
+        self.ui.modifdefs_6.setValue(0)
+        self.ui.modifvit_6.setValue(0)
+        self.ui.modifesquive_6.setValue(0)
+        self.ui.effetbrule_6.setChecked(False)
+        self.ui.effetgel_6.setChecked(False)
+        self.ui.effetpara_6.setChecked(False)
+        self.ui.effetpiege_6.setChecked(False)
+        self.ui.effetpoison_6.setChecked(False)
+        self.ui.effetsommeil_6.setChecked(False)
+        self.ui.effetattrac_6.setChecked(False)
+        self.ui.effetident_6.setChecked(False)
+        self.ui.effetconfus_6.setChecked(False)
+        self.ui.effetmaledi_6.setChecked(False)
+        self.ui.effetdeso_6.setChecked(False)
+        self.ui.vampicible_6.setCurrentIndex(-1)
+
+        self.ui.outputrp.clear()
+        self.ui.outputmodo.clear()
+        self.ui.outputattack.clear()
+
 
     def pokegen(self):
         if self.ui.methode.currentText()!="":
@@ -2520,10 +2881,14 @@ class MainWindow(QMainWindow):
                 j=j+1
                 checkvalue = random.randint(0,65536)
                 if checkvalue < b:
-                    if j<4:
+                    if j==1:
                         self.ui.outputcapture.append("[spoiler=...]")
+                    elif j==2:
+                        self.ui.outputcapture.append("[spoiler=... ...]")
+                    elif j==3:
+                        self.ui.outputcapture.append("[spoiler=... ... ...]")
                     else:
-                        self.ui.outputcapture.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nFélicitations ! "+pokename+" est capturé !\nIl est niveau "+str(lvl)+" et prêt à se battre ![/spoiler][/spoiler][/spoiler][/spoiler][/center]")
+                        self.ui.outputcapture.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nFélicitations ! "+pokename+" est capturé !\nIl est [u]niveau "+str(lvl)+"[/u] et prêt à se battre ![/spoiler][/spoiler][/spoiler][/spoiler][/center]")
                 else:
                     if j==1:
                         self.ui.outputcapture.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nOh, non ! "+pokename+" s'est libéré ![/spoiler][/center]")
