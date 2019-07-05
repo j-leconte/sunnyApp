@@ -10,12 +10,9 @@ from operator import itemgetter
 
 # Notes of random things to implement:
 # Disobey and identified to add later
-# Add dmg vitesse/poids/niveau/ohko
+# Add dmg from vitesse/poids/niveau/ohko
 # Weather
-
-# To see later, maybe in other tabs
-# Little basic calc tool
-# D100
+# Mettre en balise modo les infos non gérables sur un tour type lance soleil se lance direct si soleil
 
 # import GUI and database
 Ui_MainWindow, QtBaseClass = uic.loadUiType("Interface.ui")
@@ -72,6 +69,8 @@ class MainWindow(QMainWindow):
         self.ui.regionok.clicked.connect(self.checkzone)
         self.ui.zoneok.clicked.connect(self.checkmethode)
         self.ui.capturebutton.clicked.connect(self.pokecatch)
+        self.ui.diceroll.clicked.connect(self.rolldice)
+
 
     def normalise_string_attaques(self,s):
         # pour l'index des attaques mal orthographiée. opérations de simplifications devant être appliquées à l'index et aux attaques raw à march
@@ -252,11 +251,12 @@ class MainWindow(QMainWindow):
         all_attaques=self.init_index_attaques() # get index of attack list to correct errors
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar.toPlainText()
-        datasplit = re.split('/| - |x',databar)
-        if len(datasplit) == 11:
+        datasplit = re.split('/| - ',databar)
+        datasplit2 = re.split('x',datasplit[5])
+        if len(datasplit) == 7 and len(datasplit2) == 5:
             #  ex : Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
-                correctname=self.attaque_match(datasplit[10],all_attaques)
+                correctname=self.attaque_match(datasplit[6],all_attaques)
             except KeyError:
                 correctname="error"
             try:
@@ -267,15 +267,15 @@ class MainWindow(QMainWindow):
             self.ui.pokelvl.setText(datasplit[2])
             self.ui.pvcurrent.setText(datasplit[3])
             self.ui.pvtotal.setText(datasplit[4])
-            self.ui.att.setText(datasplit[5])
-            self.ui.defen.setText(datasplit[6])
-            self.ui.atts.setText(datasplit[7])
-            self.ui.defs.setText(datasplit[8])
-            self.ui.vit.setText(datasplit[9])
+            self.ui.att.setText(datasplit2[0])
+            self.ui.defen.setText(datasplit2[1])
+            self.ui.atts.setText(datasplit2[2])
+            self.ui.defs.setText(datasplit2[3])
+            self.ui.vit.setText(datasplit2[4])
             if correctname!="error":
                 self.ui.attaque.setText(correctname)
             else:
-                self.ui.attaque.setText(datasplit[10])
+                self.ui.attaque.setText(datasplit[6])
             if correctpkmon!="error":
                 self.ui.poke.setText(correctpkmon)
             else:
@@ -357,11 +357,11 @@ class MainWindow(QMainWindow):
                     attaque_nom=c.fetchone()[0]
                     self.ui.attackdex.addItem('CT- '+attaque_nom)
 
-        elif len(datasplit) < 11:
+        elif len(datasplit) < 7 or len(datasplit2) < 5:
             msgBox1 = QMessageBox()
             msgBox1.setText("Attention, il manque des choses !")
             msgBox1.exec_()
-        elif len(datasplit) > 11:
+        elif len(datasplit) > 7 or len(datasplit2) > 5:
             msgBox2 = QMessageBox()
             msgBox2.setText("Attention, il y a des choses en trop !")
             msgBox2.exec_()
@@ -371,11 +371,12 @@ class MainWindow(QMainWindow):
         all_attaques=self.init_index_attaques() # get index of attack list to correct errors
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar_2.toPlainText()
-        datasplit = re.split('/| - |x',databar)
-        if len(datasplit) == 11:
+        datasplit = re.split('/| - ',databar)
+        datasplit2 = re.split('x',datasplit[5])
+        if len(datasplit) == 7 and len(datasplit2) == 5:
             #  ex : Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
-                correctname=self.attaque_match(datasplit[10],all_attaques)
+                correctname=self.attaque_match(datasplit[6],all_attaques)
             except KeyError:
                 correctname="error"
             try:
@@ -386,15 +387,15 @@ class MainWindow(QMainWindow):
             self.ui.pokelvl_2.setText(datasplit[2])
             self.ui.pvcurrent_2.setText(datasplit[3])
             self.ui.pvtotal_2.setText(datasplit[4])
-            self.ui.att_2.setText(datasplit[5])
-            self.ui.defen_2.setText(datasplit[6])
-            self.ui.atts_2.setText(datasplit[7])
-            self.ui.defs_2.setText(datasplit[8])
-            self.ui.vit_2.setText(datasplit[9])
+            self.ui.att_2.setText(datasplit2[0])
+            self.ui.defen_2.setText(datasplit2[1])
+            self.ui.atts_2.setText(datasplit2[2])
+            self.ui.defs_2.setText(datasplit2[3])
+            self.ui.vit_2.setText(datasplit2[4])
             if correctname!="error":
                 self.ui.attaque_2.setText(correctname)
             else:
-                self.ui.attaque_2.setText(datasplit[10])
+                self.ui.attaque_2.setText(datasplit[6])
             if correctpkmon!="error":
                 self.ui.poke_2.setText(correctpkmon)
             else:
@@ -473,11 +474,11 @@ class MainWindow(QMainWindow):
                     attaque_nom=c.fetchone()[0]
                     self.ui.attackdex_2.addItem('CT- '+attaque_nom)
 
-        elif len(datasplit) < 11:
+        elif len(datasplit) < 7 or len(datasplit2) < 5:
             msgBox1 = QMessageBox()
             msgBox1.setText("Attention, il manque des choses !")
             msgBox1.exec_()
-        elif len(datasplit) > 11:
+        elif len(datasplit) > 7 or len(datasplit2) > 5:
             msgBox2 = QMessageBox()
             msgBox2.setText("Attention, il y a des choses en trop !")
             msgBox2.exec_()
@@ -486,11 +487,12 @@ class MainWindow(QMainWindow):
         all_attaques=self.init_index_attaques() # get index of attack list to correct errors
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar_3.toPlainText()
-        datasplit = re.split('/| - |x',databar)
-        if len(datasplit) == 11:
+        datasplit = re.split('/| - ',databar)
+        datasplit2 = re.split('x',datasplit[5])
+        if len(datasplit) == 7 and len(datasplit2) == 5:
             #  ex : Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
-                correctname=self.attaque_match(datasplit[10],all_attaques)
+                correctname=self.attaque_match(datasplit[6],all_attaques)
             except KeyError:
                 correctname="error"
             try:
@@ -501,15 +503,15 @@ class MainWindow(QMainWindow):
             self.ui.pokelvl_3.setText(datasplit[2])
             self.ui.pvcurrent_3.setText(datasplit[3])
             self.ui.pvtotal_3.setText(datasplit[4])
-            self.ui.att_3.setText(datasplit[5])
-            self.ui.defen_3.setText(datasplit[6])
-            self.ui.atts_3.setText(datasplit[7])
-            self.ui.defs_3.setText(datasplit[8])
-            self.ui.vit_3.setText(datasplit[9])
+            self.ui.att_3.setText(datasplit2[0])
+            self.ui.defen_3.setText(datasplit2[1])
+            self.ui.atts_3.setText(datasplit2[2])
+            self.ui.defs_3.setText(datasplit2[3])
+            self.ui.vit_3.setText(datasplit2[4])
             if correctname!="error":
                 self.ui.attaque_3.setText(correctname)
             else:
-                self.ui.attaque_3.setText(datasplit[10])
+                self.ui.attaque_3.setText(datasplit[6])
             if correctpkmon!="error":
                 self.ui.poke_3.setText(correctpkmon)
             else:
@@ -588,11 +590,11 @@ class MainWindow(QMainWindow):
                     attaque_nom=c.fetchone()[0]
                     self.ui.attackdex_3.addItem('CT- '+attaque_nom)
 
-        elif len(datasplit) < 11:
+        elif len(datasplit) < 7 or len(datasplit2) < 5:
             msgBox1 = QMessageBox()
             msgBox1.setText("Attention, il manque des choses !")
             msgBox1.exec_()
-        elif len(datasplit) > 11:
+        elif len(datasplit) > 7 or len(datasplit2) > 5:
             msgBox2 = QMessageBox()
             msgBox2.setText("Attention, il y a des choses en trop !")
             msgBox2.exec_()
@@ -601,11 +603,12 @@ class MainWindow(QMainWindow):
         all_attaques=self.init_index_attaques() # get index of attack list to correct errors
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar_4.toPlainText()
-        datasplit = re.split('/| - |x',databar)
-        if len(datasplit) == 11:
+        datasplit = re.split('/| - ',databar)
+        datasplit2 = re.split('x',datasplit[5])
+        if len(datasplit) == 7 and len(datasplit2) == 5:
             #  ex : Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
-                correctname=self.attaque_match(datasplit[10],all_attaques)
+                correctname=self.attaque_match(datasplit[6],all_attaques)
             except KeyError:
                 correctname="error"
             try:
@@ -616,15 +619,15 @@ class MainWindow(QMainWindow):
             self.ui.pokelvl_4.setText(datasplit[2])
             self.ui.pvcurrent_4.setText(datasplit[3])
             self.ui.pvtotal_4.setText(datasplit[4])
-            self.ui.att_4.setText(datasplit[5])
-            self.ui.defen_4.setText(datasplit[6])
-            self.ui.atts_4.setText(datasplit[7])
-            self.ui.defs_4.setText(datasplit[8])
-            self.ui.vit_4.setText(datasplit[9])
+            self.ui.att_4.setText(datasplit2[0])
+            self.ui.defen_4.setText(datasplit2[1])
+            self.ui.atts_4.setText(datasplit2[2])
+            self.ui.defs_4.setText(datasplit2[3])
+            self.ui.vit_4.setText(datasplit2[4])
             if correctname!="error":
                 self.ui.attaque_4.setText(correctname)
             else:
-                self.ui.attaque_4.setText(datasplit[10])
+                self.ui.attaque_4.setText(datasplit[6])
             if correctpkmon!="error":
                 self.ui.poke_4.setText(correctpkmon)
             else:
@@ -703,11 +706,11 @@ class MainWindow(QMainWindow):
                     attaque_nom=c.fetchone()[0]
                     self.ui.attackdex_4.addItem('CT- '+attaque_nom)
 
-        elif len(datasplit) < 11:
+        elif len(datasplit) < 7 or len(datasplit2) < 5:
             msgBox1 = QMessageBox()
             msgBox1.setText("Attention, il manque des choses !")
             msgBox1.exec_()
-        elif len(datasplit) > 11:
+        elif len(datasplit) > 7 or len(datasplit2) > 5:
             msgBox2 = QMessageBox()
             msgBox2.setText("Attention, il y a des choses en trop !")
             msgBox2.exec_()
@@ -716,11 +719,12 @@ class MainWindow(QMainWindow):
         all_attaques=self.init_index_attaques() # get index of attack list to correct errors
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar_5.toPlainText()
-        datasplit = re.split('/| - |x',databar)
-        if len(datasplit) == 11:
+        datasplit = re.split('/| - ',databar)
+        datasplit2 = re.split('x',datasplit[5])
+        if len(datasplit) == 7 and len(datasplit2) == 5:
             #  ex : Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
-                correctname=self.attaque_match(datasplit[10],all_attaques)
+                correctname=self.attaque_match(datasplit[6],all_attaques)
             except KeyError:
                 correctname="error"
             try:
@@ -731,15 +735,15 @@ class MainWindow(QMainWindow):
             self.ui.pokelvl_5.setText(datasplit[2])
             self.ui.pvcurrent_5.setText(datasplit[3])
             self.ui.pvtotal_5.setText(datasplit[4])
-            self.ui.att_5.setText(datasplit[5])
-            self.ui.defen_5.setText(datasplit[6])
-            self.ui.atts_5.setText(datasplit[7])
-            self.ui.defs_5.setText(datasplit[8])
-            self.ui.vit_5.setText(datasplit[9])
+            self.ui.att_5.setText(datasplit2[0])
+            self.ui.defen_5.setText(datasplit2[1])
+            self.ui.atts_5.setText(datasplit2[2])
+            self.ui.defs_5.setText(datasplit2[3])
+            self.ui.vit_5.setText(datasplit2[4])
             if correctname!="error":
                 self.ui.attaque_5.setText(correctname)
             else:
-                self.ui.attaque_5.setText(datasplit[10])
+                self.ui.attaque_5.setText(datasplit[6])
             if correctpkmon!="error":
                 self.ui.poke_5.setText(correctpkmon)
             else:
@@ -817,11 +821,11 @@ class MainWindow(QMainWindow):
                     attaque_nom=c.fetchone()[0]
                     self.ui.attackdex_5.addItem('CT- '+attaque_nom)
 
-        elif len(datasplit) < 11:
+        elif len(datasplit) < 7 or len(datasplit2) < 5:
             msgBox1 = QMessageBox()
             msgBox1.setText("Attention, il manque des choses !")
             msgBox1.exec_()
-        elif len(datasplit) > 11:
+        elif len(datasplit) > 7 or len(datasplit2) > 5:
             msgBox2 = QMessageBox()
             msgBox2.setText("Attention, il y a des choses en trop !")
             msgBox2.exec_()
@@ -830,11 +834,12 @@ class MainWindow(QMainWindow):
         all_attaques=self.init_index_attaques() # get index of attack list to correct errors
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar_6.toPlainText()
-        datasplit = re.split('/| - |x',databar)
-        if len(datasplit) == 11:
+        datasplit = re.split('/| - ',databar)
+        datasplit2 = re.split('x',datasplit[5])
+        if len(datasplit) == 7 and len(datasplit2) == 5:
             #  ex : Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
-                correctname=self.attaque_match(datasplit[10],all_attaques)
+                correctname=self.attaque_match(datasplit[6],all_attaques)
             except KeyError:
                 correctname="error"
             try:
@@ -845,15 +850,15 @@ class MainWindow(QMainWindow):
             self.ui.pokelvl_6.setText(datasplit[2])
             self.ui.pvcurrent_6.setText(datasplit[3])
             self.ui.pvtotal_6.setText(datasplit[4])
-            self.ui.att_6.setText(datasplit[5])
-            self.ui.defen_6.setText(datasplit[6])
-            self.ui.atts_6.setText(datasplit[7])
-            self.ui.defs_6.setText(datasplit[8])
-            self.ui.vit_6.setText(datasplit[9])
+            self.ui.att_6.setText(datasplit2[0])
+            self.ui.defen_6.setText(datasplit2[1])
+            self.ui.atts_6.setText(datasplit2[2])
+            self.ui.defs_6.setText(datasplit2[3])
+            self.ui.vit_6.setText(datasplit2[4])
             if correctname!="error":
                 self.ui.attaque_6.setText(correctname)
             else:
-                self.ui.attaque_6.setText(datasplit[10])
+                self.ui.attaque_6.setText(datasplit[6])
             if correctpkmon!="error":
                 self.ui.poke_6.setText(correctpkmon)
             else:
@@ -932,11 +937,11 @@ class MainWindow(QMainWindow):
                     attaque_nom=c.fetchone()[0]
                     self.ui.attackdex_6.addItem('CT- '+attaque_nom)
 
-        elif len(datasplit) < 11:
+        elif len(datasplit) < 7 or len(datasplit2) < 5:
             msgBox1 = QMessageBox()
             msgBox1.setText("Attention, il manque des choses !")
             msgBox1.exec_()
-        elif len(datasplit) > 11:
+        elif len(datasplit) > 7 or len(datasplit2) > 5:
             msgBox2 = QMessageBox()
             msgBox2.setText("Attention, il y a des choses en trop !")
             msgBox2.exec_()
@@ -1637,34 +1642,43 @@ class MainWindow(QMainWindow):
             elif attackstat6[15]=="tous" or attackstat6[15]=="tous les alliés": # not doing anything, manual handle
                 self.ui.cible_6.addItem("/")
 
-    def fight(self,pkmon1,statut1,attck1,pkmon2,statut2,advnb,totaladvnb):
+    def fight(self,pkmon1,statut1,attck1,pkmon2,statut2,advnb,totaladvnb,block):
         # pkmon1 is attacking pkmon2
         unfreeze=["Flamme Ultime", "Roue de Feu", "Boutefeu",  "Flamme Croix", "Feu Sacré", "Ébullition", "Jet de Vapeur"]
         sleepymove=["Blabla Dodo", "Ronflement"]
         if statut1["fear"]:
-            self.ui.outputrp.append("[i]{"+str(pkmon1["name"])+" est appeuré ! Il ne peut pas attaquer !}[/i]")
-            statut1["fear"]=False
-        elif statut1["freeze"] and random.randint(1,100) <= 80 and attck1["name"] not in unfreeze:
-            self.ui.outputrp.append('[i]{Le gel empêche '+str(pkmon1["name"])+" d'attaquer !}[/i][/")
-        elif statut1["para"] and random.randint(1,100) <= 25:
-            self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" est paralysé ! Il ne peut pas attaquer !}[/i]")
+            if advnb==1:
+                self.ui.outputrp.append("[i]{"+str(pkmon1["name"])+" est appeuré ! Il ne peut pas attaquer !}[/i]")
+        elif statut1["freeze"] and ((random.randint(1,100) <= 80 and attck1["name"] not in unfreeze) or block):
+            if advnb==1:
+                self.ui.outputrp.append('[i]{Le gel empêche '+str(pkmon1["name"])+" d'attaquer !}[/i][/")
+            block=True
+        elif statut1["para"] and (random.randint(1,100) <= 25 or block):
+            if advnb==1:
+                self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" est paralysé ! Il ne peut pas attaquer !}[/i]")
+            block=True
         elif statut1["sleep"] and attck1["name"] not in sleepymove:
-            self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" est endormi ! Il ne peut pas attaquer !}[/i]")
-        elif statut1["attraction"] and random.randint(1,100) <= 50:
-            self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" est sous le charme d'un adversaire. Il ne peut pas attaquer !}[/i]")
-        elif statut1["conf"] and random.randint(1,100) <= 33:
-            dmg=(((((2*pkmon1["lvl"]/5)+2)*pkmon1["att"]*40)/(pkmon1["def"]*50))+2)
-            if statut1["burn"]:
-                dmg=dmg/2
-            newpv2=pkmon1["pvcurrent"]-round(dmg)
-            if newpv2 <= 0 :
-                newpv2 = 0
-                pkmon1["ko"] = True
-            self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" se blesse dans la confusion !}[/i]")
-            self.ui.outputrp.append('{[color=#ff0000][b]-'+str(round(dmg))+'[/b][/color]} PVs [color=#777777][size=10]« Nooooon ! »[/size][/color]\n[i]PVs de [b]'+pkmon1["name"]+'[/b][/i]: '+self.pvToColor(newpv2,pkmon1["pvtotal"])+str(newpv2)+'[/color]/'+str(pkmon1["pvtotal"]))
-            if pkmon1["ko"]:
-                self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
-            pkmon1["pvcurrent"]=newpv2
+            if advnb==1:
+                self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" est endormi ! Il ne peut pas attaquer !}[/i]")
+        elif statut1["attraction"] and (random.randint(1,100) <= 50 or block):
+            if advnb==1:
+                self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" est sous le charme d'un adversaire. Il ne peut pas attaquer !}[/i]")
+            block=True
+        elif statut1["conf"] and (random.randint(1,100) <= 33 or block):
+            if advnb==1:
+                dmg=(((((2*pkmon1["lvl"]/5)+2)*pkmon1["att"]*40)/(pkmon1["def"]*50))+2)
+                if statut1["burn"]:
+                    dmg=dmg/2
+                newpv2=pkmon1["pvcurrent"]-round(dmg)
+                if newpv2 <= 0 :
+                    newpv2 = 0
+                    pkmon1["ko"] = True
+                self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" se blesse dans la confusion !}[/i]")
+                self.ui.outputrp.append('{[color=#ff0000][b]-'+str(round(dmg))+'[/b][/color]} PVs [color=#777777][size=10]« Nooooon ! »[/size][/color]\n[i]PVs de [b]'+pkmon1["name"]+'[/b][/i]: '+self.pvToColor(newpv2,pkmon1["pvtotal"])+str(newpv2)+'[/color]/'+str(pkmon1["pvtotal"]))
+                if pkmon1["ko"]:
+                    self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
+                pkmon1["pvcurrent"]=newpv2
+            block=True
 
         else:
             modifAccuracy=self.translateModifPrec(pkmon1["modifprec"]-pkmon2["modifesquive"])
@@ -1699,6 +1713,22 @@ class MainWindow(QMainWindow):
                     textcrit=''
                 if attck1["catchiante"]=="pp":
                     attck1["puiss"]=random.choice([40,60,80])
+                
+                if attck1["name"]=="Boule Élek":
+                    percentvit=pkmon1["vit"]/pkmon2["vit"]
+                    if percentvit<=1:
+                        puisselek=40
+                    elif percentvit<2:
+                        puisselek=60
+                    elif percentvit<3:
+                        puisselek=80
+                    elif percentvit<4:
+                        puisselek=120
+                    elif percentvit>=4:
+                        puisselek=150
+                    attck1["puiss"]=puisselek
+                    self.ui.outputattack.append("Boule Élek ("+pkmon1["name"]+") a été utilisé avec une puissance de "+str(puisselek))
+
                 if attck1["puiss"]=='-':
                     if attck1["dmgfixe"]!="":
                         dmg=attck1["dmgfixe"]
@@ -1707,19 +1737,19 @@ class MainWindow(QMainWindow):
                     else:
                         dmg='exception'
                 elif attck1["classe"]=="spécial" and crit=='yes':
-                    if self.translateModifStat(pkmon1["modifatts"])<0:
+                    if pkmon1["modifatts"]<0:
                         pkmon1Atts=pkmon1["atts"]
-                    if self.translateModifStat(pkmon2["modifdefs"])>0:
+                    if pkmon2["modifdefs"]>0:
                         pkmon2Defs=pkmon2["defs"]
-                    dmg= (((((2*pkmon1["lvl"]/5)+2)*pkmon1Atts*int(attck1["puiss"]))/(pkmon2Defs*50))+2)*stab*typeModif*1.5
+                    dmg=(((((2*pkmon1["lvl"]/5)+2)*pkmon1Atts*int(attck1["puiss"]))/(pkmon2Defs*50))+2)*stab*typeModif*1.5
                 elif attck1["classe"]=="physique"and crit=='yes':
-                    if self.translateModifStat(pkmon1["modifatt"])<0:
+                    if pkmon1["modifatt"]<0:
                         pkmon1Att=pkmon1["att"]
-                    if self.translateModifStat(pkmon2["modifdef"])>0:
+                    if pkmon2["modifdef"]>0:
                         pkmon2Def=pkmon2["def"]
-                    dmg= (((((2*pkmon1["lvl"]/5)+2)*pkmon1Att*int(attck1["puiss"]))/(pkmon2Def*50))+2)*stab*typeModif*1.5
+                    dmg=(((((2*pkmon1["lvl"]/5)+2)*pkmon1Att*int(attck1["puiss"]))/(pkmon2Def*50))+2)*stab*typeModif*1.5
                 elif attck1["classe"]=="spécial" and crit=='no':
-                    dmg= (((((2*pkmon1["lvl"]/5)+2)*pkmon1Atts*int(attck1["puiss"]))/(pkmon2Defs*50))+2)*stab*typeModif
+                    dmg=(((((2*pkmon1["lvl"]/5)+2)*pkmon1Atts*int(attck1["puiss"]))/(pkmon2Defs*50))+2)*stab*typeModif
                 elif attck1["classe"]=="physique" and crit=='no':
                     dmg= (((((2*pkmon1["lvl"]/5)+2)*pkmon1Att*int(attck1["puiss"]))/(pkmon2Def*50))+2)*stab*typeModif
             else:
@@ -1732,7 +1762,6 @@ class MainWindow(QMainWindow):
                 self.ui.outputrp.append("[b]"+pkmon1["name"]+"[/b] utilise [u]"+attck1["name"]+"[/u] sur [b]"+pkmon2["name"]+"[/b] !")
             elif advnb==1:
                 self.ui.outputrp.append("[b]"+pkmon1["name"]+"[/b] utilise [u]"+attck1["name"]+"[/u] !")
-
             if dmg=='fail':
                 if totaladvnb > 1:
                     self.ui.outputrp.append(pkmon2["name"]+" esquive !")
@@ -1751,18 +1780,14 @@ class MainWindow(QMainWindow):
                     if attck1["target"]==pkmon1["fightID"]:
                         if pkmon1["modifdef"]==6:
                             self.ui.outputrp.append("[i]{La défense de "+pkmon1["name"]+" ne peut plus augmenter.}[/i]")
-                            self.ui.outputmodo.append("La défense de "+pkmon1["name"]+" a un modif. de 6")
                         else:
                             self.ui.outputrp.append("[i]{La défense de "+pkmon1["name"]+" augmente !}[/i]")
                             pkmon1["modifdef"]=pkmon1["modifdef"]+1
-                            self.ui.outputmodo.append("La défense de "+pkmon1["name"]+" a un modif. de "+str(pkmon1["modifdef"]))
                         if pkmon1["modifatt"]==6:
                             self.ui.outputrp.append("[i]{L'attaque de "+pkmon1["name"]+" ne peut plus augmenter.}[/i]")
-                            self.ui.outputmodo.append("L'attaque de "+pkmon1["name"]+" a un modif. de 6")
                         else:
                             self.ui.outputrp.append("[i]{L'attaque de "+pkmon1["name"]+" augmente !}[/i]")
                             pkmon1["modifatt"]=pkmon1["modifatt"]+1
-                            self.ui.outputmodo.append("L'attaque de "+pkmon1["name"]+" a un modif. de "+str(pkmon1["modifatt"]))
                     else:
                         selfdmg=round(pkmon1["pvtotal"]/2)
                         newpv3=pkmon1['pvcurrent']-selfdmg
@@ -1776,13 +1801,12 @@ class MainWindow(QMainWindow):
 
                         statut2["maledi"]=True
                         self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est maudit !}[/i]")
-                        self.ui.outputmodo.append(pkmon2["name"]+" : Malédiction")
 
                 elif attck1["effet_txt"]!=None and attck1["effet_txt"]!="":
-                    self.ui.outputrp.append("Attaque avec des effets particuliers à gérer à la main.")
+                    self.ui.outputrp.append("Vérifiez les effets de l'attaque, il pourrait manquer quelque chose.")
 
             elif dmg=='exception':
-                # exception means puissance ="-" but attack is physique or special
+                # exception means puissance ="-" but attack is physique or special and there is no fixed dmg or stuffs like that
                 self.ui.outputrp.append("Attaque avec des dégats particuliers à gérer à la main.")
 
             else:
@@ -1878,19 +1902,15 @@ class MainWindow(QMainWindow):
                     if statmodif1[stat+2]<0:
                         if pkmon1[getstat[stat]]==-6:
                             self.ui.outputrp.append("[i]{"+txtstat[stat]+" de "+pkmon1["name"]+" ne peut plus baisser.}[/i]")
-                            self.ui.outputmodo.append(txtstat[stat]+" de "+pkmon1["name"]+" a un modif. de "+str(pkmon1[getstat[stat]]))
                         else:
                             self.ui.outputrp.append("[i]{"+txtstat[stat]+" de "+pkmon1["name"]+" diminue !}[/i]")
                             pkmon1[getstat[stat]]=pkmon1[getstat[stat]]+statmodif1[stat+2]
-                            self.ui.outputmodo.append(txtstat[stat]+" de "+pkmon1["name"]+" a un modif. de "+str(pkmon1[getstat[stat]]))
                     elif statmodif1[stat+2]>0:
                         if pkmon1[getstat[stat]]==+6:
                             self.ui.outputrp.append("[i]{"+txtstat[stat]+" de "+pkmon1["name"]+" ne peut plus augmenter.}[/i]")
-                            self.ui.outputmodo.append(txtstat[stat]+" de "+pkmon1["name"]+" a un modif. de "+str(pkmon1[getstat[stat]]))
                         else:
                             self.ui.outputrp.append("[i]{"+txtstat[stat]+" de "+pkmon1["name"]+" augmente !}[/i]")
                             pkmon1[getstat[stat]]=pkmon1[getstat[stat]]+statmodif1[stat+2]
-                            self.ui.outputmodo.append(txtstat[stat]+" de "+pkmon1["name"]+" a un modif. de "+str(pkmon1[getstat[stat]]))
 
             if statmodif2 !=None and dmg!='fail' and effetproc=='yes':
                 statmodif2=tuple(x if x else 0 for x in statmodif2)
@@ -1898,19 +1918,15 @@ class MainWindow(QMainWindow):
                     if statmodif2[stat+2]<0:
                         if pkmon2[getstat[stat]]==-6:
                             self.ui.outputrp.append("[i]{"+txtstat[stat]+" de "+pkmon2["name"]+" ne peut plus baisser.}[/i]")
-                            self.ui.outputmodo.append(txtstat[stat]+" de "+pkmon2["name"]+" a un modif. de "+str(pkmon2[getstat[stat]]))
                         else:
                             self.ui.outputrp.append("[i]{"+txtstat[stat]+" de "+pkmon2["name"]+" diminue !}[/i]")
                             pkmon2[getstat[stat]]=pkmon2[getstat[stat]]+statmodif2[stat+2]
-                            self.ui.outputmodo.append(txtstat[stat]+" de "+pkmon2["name"]+" a un modif. de "+str(pkmon2[getstat[stat]]))
                     elif statmodif2[stat+2]>0:
                         if pkmon2[getstat[stat]]==+6:
                             self.ui.outputrp.append("[i]{"+txtstat[stat]+" de "+pkmon2["name"]+" ne peut plus augmenter.}[/i]")
-                            self.ui.outputmodo.append(txtstat[stat]+" de "+pkmon2["name"]+" a un modif. de "+str(pkmon2[getstat[stat]]))
                         else:
                             self.ui.outputrp.append("[i]{"+txtstat[stat]+" de "+pkmon2["name"]+" augmente !}[/i]")
                             pkmon2[getstat[stat]]=pkmon2[getstat[stat]]+statmodif2[stat+2]
-                            self.ui.outputmodo.append(txtstat[stat]+" de "+pkmon1["name"]+" a un modif. de "+str(pkmon1[getstat[stat]]))
 
             if attck1["statutchance"]!="" and dmg!="fail":
                 previousStatut=(statut2["burn"] or statut2["freeze"] or statut2["para"] or statut2["sleep"] or statut2["poison"])
@@ -1923,25 +1939,21 @@ class MainWindow(QMainWindow):
                     else:
                       statut2["burn"]=True
                       self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est brûlé !}[/i]")
-                      self.ui.outputmodo.append(pkmon2["name"]+" : Brûlure")
                   elif attck1["statut"]=="Gel":
                       statut2["freeze"]=True
                       self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est gelé !}[/i]")
-                      self.ui.outputmodo.append(pkmon2["name"]+" : Gel")
                   elif attck1["statut"]=="Paralysie":
                       if (pkmon2["type1"]=="sol" or pkmon2["type2"]=="sol") and attck1["type"]=="électrique":
                           self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est immunisé et ne peut pas être paralysé.}[/i]")
                       else:
                           statut2["para"]=True
                           self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est paralysé !}[/i]")
-                          self.ui.outputmodo.append(pkmon2["name"]+" : Paralysie")
                   elif attck1["statut"]=="Empoisonnement":
                     if pkmon2["type1"]=="poison" or pkmon2["type2"]=="poison" or pkmon2["type1"]=="acier" or pkmon2["type2"]=="acier":
                       self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est immunisé et ne peut pas être empoisonné.}[/i]")
                     else:
                       statut2["poison"]=True
                       self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est empoisonné !}[/i]")
-                      self.ui.outputmodo.append(pkmon2["name"]+" : Poison")
                   elif attck1["statut"]=="Sommeil":
                       statut2["sleep"]=True
                       self.ui.outputrp.append("[i]{"+pkmon2["name"]+" s'endort !}[/i]")
@@ -1949,7 +1961,6 @@ class MainWindow(QMainWindow):
                   elif attck1["statut"]=="Attraction":
                       statut2["attraction"]=True
                       self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est sous le charme de "+pkmon1["name"]+" !}[/i]")
-                      self.ui.outputmodo.append(pkmon2["name"]+" : Attraction")
                   elif attck1["statut"]=="Confusion":
                       statut2["conf"]=True
                       self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est confus !}[/i]")
@@ -1964,14 +1975,13 @@ class MainWindow(QMainWindow):
                       else:
                         statut2["vampi"]=pkmon1["fightID"]
                         self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est infecté par vampigraine !}[/i]")
-                        self.ui.outputmodo.append(pkmon2["name"]+" : Vampigraine")
 
             if random.randint(1,100) <= attck1["fearchance"]:
                 statut2["fear"]=True
             if attck1["effet_txt"]!="" and advnb==1:
                 self.ui.outputattack.append(attck1["name"]+":\n"+attck1["effet_txt"])
 
-        toReturn = {"pkmon1": pkmon1, "statut1": statut1,"pkmon2": pkmon2,"statut2": statut2}
+        toReturn = {"pkmon1": pkmon1, "statut1": statut1,"pkmon2": pkmon2,"statut2": statut2,"block": block}
         return toReturn
 
     def fightInit(self):
@@ -2006,7 +2016,7 @@ class MainWindow(QMainWindow):
 
             attck1 = {"name": self.ui.attaque.toPlainText(),"type": self.ui.attaquetype.toPlainText(), "classe": self.ui.attaqueclasse.toPlainText(), "puiss": self.ui.attaquepuiss.toPlainText(), "prec": self.ui.attaqueprec.toPlainText(), "critchance": self.translateCrit(attackdata[14]), "fearchance": attackdata[13], "percenthpheal": attackdata[11], "percenthpdrain": attackdata[12], "statutchance": attackdata[10], "statut": attackdata[9], "effectchance": attackdata[8], "effet_txt": attackdata[7],"prio": int(self.ui.attaqueprio.toPlainText()), "vit": vit1,"target": self.ui.cible.currentText(), "dmgfixe": attackdata[16], "dmgpercent": attackdata[17], "catchiante": attackdata[18]}
 
-            statut1 = {"fear":False, "burn":self.ui.effetbrule.isChecked(), "freeze":self.ui.effetgel.isChecked(), "para":self.ui.effetpara.isChecked(), "poison":self.ui.effetpoison.isChecked(), "sleep":self.ui.effetsommeil.isChecked(), "attraction":self.ui.effetattrac.isChecked(), "conf":self.ui.effetconfus.isChecked(), "maledi":self.ui.effetmaledi.isChecked(), "vampi":self.ui.vampicible.currentText(),"prio": int(self.ui.attaqueprio.toPlainText()), "vit": vit1, "deso": self.ui.effetdeso.isChecked(), "ident": self.ui.effetident.isChecked(), "piege":self.ui.effetpiege.isChecked()}
+            statut1 = {"fear":False, "burn":self.ui.effetbrule.isChecked(), "freeze":self.ui.effetgel.isChecked(), "para":self.ui.effetpara.isChecked(), "poison":self.ui.effetpoison.isChecked(), "sleep":self.ui.effetsommeil.isChecked(), "attraction":self.ui.effetattrac.isChecked(), "conf":self.ui.effetconfus.isChecked(), "maledi":self.ui.effetmaledi.isChecked(), "vampi":self.ui.vampicible.currentText(),"prio": int(self.ui.attaqueprio.toPlainText()), "vit": vit1, "deso": self.ui.effetdeso.isChecked(), "ident": self.ui.effetident.isChecked(), "piege":self.ui.effetpiege.isChecked(), "fightID": "1"}
 
             allpkmon = [pkmn1]
             allattack = [attck1]
@@ -2017,7 +2027,7 @@ class MainWindow(QMainWindow):
 
             attck2 = {"name": self.ui.attaque_2.toPlainText(),"type": self.ui.attaquetype_2.toPlainText(), "classe": self.ui.attaqueclasse_2.toPlainText(), "puiss": self.ui.attaquepuiss_2.toPlainText(), "prec": self.ui.attaqueprec_2.toPlainText(), "critchance": self.translateCrit(attackdata2[14]), "fearchance": attackdata2[13], "percenthpheal": attackdata2[11], "percenthpdrain": attackdata2[12], "statutchance": attackdata2[10], "statut": attackdata2[9], "effectchance": attackdata2[8], "effet_txt": attackdata2[7],"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2,"target": self.ui.cible_2.currentText(), "dmgfixe": attackdata2[16], "dmgpercent": attackdata2[17], "catchiante": attackdata2[18]}
 
-            statut2 = {"fear":False, "burn":self.ui.effetbrule_2.isChecked(), "freeze":self.ui.effetgel_2.isChecked(), "para":self.ui.effetpara_2.isChecked(), "poison":self.ui.effetpoison_2.isChecked(), "sleep":self.ui.effetsommeil_2.isChecked(), "attraction":self.ui.effetattrac_2.isChecked(), "conf":self.ui.effetconfus_2.isChecked(), "maledi":self.ui.effetmaledi_2.isChecked(), "vampi":self.ui.vampicible_2.currentText(),"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2, "deso": self.ui.effetdeso_2.isChecked(), "ident": self.ui.effetident_2.isChecked(), "piege":self.ui.effetpiege_2.isChecked()}
+            statut2 = {"fear":False, "burn":self.ui.effetbrule_2.isChecked(), "freeze":self.ui.effetgel_2.isChecked(), "para":self.ui.effetpara_2.isChecked(), "poison":self.ui.effetpoison_2.isChecked(), "sleep":self.ui.effetsommeil_2.isChecked(), "attraction":self.ui.effetattrac_2.isChecked(), "conf":self.ui.effetconfus_2.isChecked(), "maledi":self.ui.effetmaledi_2.isChecked(), "vampi":self.ui.vampicible_2.currentText(),"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2, "deso": self.ui.effetdeso_2.isChecked(), "ident": self.ui.effetident_2.isChecked(), "piege":self.ui.effetpiege_2.isChecked(), "fightID": "A"}
 
             allpkmon.append(pkmn2)
             allattack.append(attck2)
@@ -2039,7 +2049,7 @@ class MainWindow(QMainWindow):
 
                 attck3 = {"name": self.ui.attaque_3.toPlainText(),"type": self.ui.attaquetype_3.toPlainText(), "classe": self.ui.attaqueclasse_3.toPlainText(), "puiss": self.ui.attaquepuiss_3.toPlainText(), "prec": self.ui.attaqueprec_3.toPlainText(), "critchance": self.translateCrit(attackdata3[14]), "fearchance": attackdata3[13], "percenthpheal": attackdata3[11], "percenthpdrain": attackdata3[12], "statutchance": attackdata3[10], "statut": attackdata3[9], "effectchance": attackdata3[8], "effet_txt": attackdata3[7],"prio": int(self.ui.attaqueprio_3.toPlainText()), "vit": vit3 ,"target": self.ui.cible_3.currentText(), "dmgfixe": attackdata3[16], "dmgpercent": attackdata3[17], "catchiante": attackdata3[18]}
 
-                statut3 = {"fear":False, "burn":self.ui.effetbrule_3.isChecked(), "freeze":self.ui.effetgel_3.isChecked(), "para":self.ui.effetpara_3.isChecked(), "poison":self.ui.effetpoison_3.isChecked(), "sleep":self.ui.effetsommeil_3.isChecked(), "attraction":self.ui.effetattrac_3.isChecked(), "conf":self.ui.effetconfus_3.isChecked(), "maledi":self.ui.effetmaledi_3.isChecked(), "vampi":self.ui.vampicible_3.currentText(),"prio": int(self.ui.attaqueprio_3.toPlainText()), "vit": vit3, "deso": self.ui.effetdeso_3.isChecked(), "ident": self.ui.effetident_3.isChecked(), "piege":self.ui.effetpiege_3.isChecked()}
+                statut3 = {"fear":False, "burn":self.ui.effetbrule_3.isChecked(), "freeze":self.ui.effetgel_3.isChecked(), "para":self.ui.effetpara_3.isChecked(), "poison":self.ui.effetpoison_3.isChecked(), "sleep":self.ui.effetsommeil_3.isChecked(), "attraction":self.ui.effetattrac_3.isChecked(), "conf":self.ui.effetconfus_3.isChecked(), "maledi":self.ui.effetmaledi_3.isChecked(), "vampi":self.ui.vampicible_3.currentText(),"prio": int(self.ui.attaqueprio_3.toPlainText()), "vit": vit3, "deso": self.ui.effetdeso_3.isChecked(), "ident": self.ui.effetident_3.isChecked(), "piege":self.ui.effetpiege_3.isChecked(), "fightID": "2"}
 
                 allpkmon.append(pkmn3)
                 allattack.append(attck3)
@@ -2061,7 +2071,7 @@ class MainWindow(QMainWindow):
 
                 attck4 = {"name": self.ui.attaque_4.toPlainText(),"type": self.ui.attaquetype_4.toPlainText(), "classe": self.ui.attaqueclasse_4.toPlainText(), "puiss": self.ui.attaquepuiss_4.toPlainText(), "prec": self.ui.attaqueprec_4.toPlainText(), "critchance": self.translateCrit(attackdata4[14]), "fearchance": attackdata4[13], "percenthpheal": attackdata4[11], "percenthpdrain": attackdata4[12], "statutchance": attackdata4[10], "statut": attackdata4[9], "effectchance": attackdata4[8], "effet_txt": attackdata4[7], "prio": int(self.ui.attaqueprio_4.toPlainText()), "vit": vit4 ,"target": self.ui.cible_4.currentText(), "dmgfixe": attackdata4[16], "dmgpercent": attackdata4[17], "catchiante": attackdata4[18]}
 
-                statut4 = {"fear":False, "burn":self.ui.effetbrule_4.isChecked(), "freeze":self.ui.effetgel_4.isChecked(), "para":self.ui.effetpara_4.isChecked(), "poison":self.ui.effetpoison_4.isChecked(), "sleep":self.ui.effetsommeil_4.isChecked(), "attraction":self.ui.effetattrac_4.isChecked(), "conf":self.ui.effetconfus_4.isChecked(), "maledi":self.ui.effetmaledi_4.isChecked(), "vampi":self.ui.vampicible_4.currentText(),"prio": int(self.ui.attaqueprio_4.toPlainText()), "vit": vit4, "deso": self.ui.effetdeso_4.isChecked(), "ident": self.ui.effetident_4.isChecked(), "piege":self.ui.effetpiege_4.isChecked()}
+                statut4 = {"fear":False, "burn":self.ui.effetbrule_4.isChecked(), "freeze":self.ui.effetgel_4.isChecked(), "para":self.ui.effetpara_4.isChecked(), "poison":self.ui.effetpoison_4.isChecked(), "sleep":self.ui.effetsommeil_4.isChecked(), "attraction":self.ui.effetattrac_4.isChecked(), "conf":self.ui.effetconfus_4.isChecked(), "maledi":self.ui.effetmaledi_4.isChecked(), "vampi":self.ui.vampicible_4.currentText(),"prio": int(self.ui.attaqueprio_4.toPlainText()), "vit": vit4, "deso": self.ui.effetdeso_4.isChecked(), "ident": self.ui.effetident_4.isChecked(), "piege":self.ui.effetpiege_4.isChecked(), "fightID": "B"}
 
                 allpkmon.append(pkmn4)
                 allattack.append(attck4)
@@ -2084,7 +2094,7 @@ class MainWindow(QMainWindow):
 
                 attck5 = {"name": self.ui.attaque_5.toPlainText(),"type": self.ui.attaquetype_5.toPlainText(), "classe": self.ui.attaqueclasse_5.toPlainText(), "puiss": self.ui.attaquepuiss_5.toPlainText(), "prec": self.ui.attaqueprec_5.toPlainText(), "critchance": self.translateCrit(attackdata5[14]), "fearchance": attackdata5[13], "percenthpheal": attackdata5[11], "percenthpdrain": attackdata5[12], "statutchance": attackdata5[10], "statut": attackdata5[9], "effectchance": attackdata5[8], "effet_txt": attackdata5[7], "prio": int(self.ui.attaqueprio_5.toPlainText()), "vit": vit5,"target": self.ui.cible_5.currentText(), "dmgfixe": attackdata5[16], "dmgpercent": attackdata5[17], "catchiante": attackdata5[18]}
 
-                statut5 = {"fear":False, "burn":self.ui.effetbrule_5.isChecked(), "freeze":self.ui.effetgel_5.isChecked(), "para":self.ui.effetpara_5.isChecked(), "poison":self.ui.effetpoison_5.isChecked(), "sleep":self.ui.effetsommeil_5.isChecked(), "attraction":self.ui.effetattrac_5.isChecked(), "conf":self.ui.effetconfus_5.isChecked(), "maledi":self.ui.effetmaledi_5.isChecked(), "vampi":self.ui.vampicible_5.currentText(), "prio": int(self.ui.attaqueprio_5.toPlainText()), "vit": vit5, "deso": self.ui.effetdeso_5.isChecked(), "ident": self.ui.effetident_5.isChecked(), "piege":self.ui.effetpiege_5.isChecked()}
+                statut5 = {"fear":False, "burn":self.ui.effetbrule_5.isChecked(), "freeze":self.ui.effetgel_5.isChecked(), "para":self.ui.effetpara_5.isChecked(), "poison":self.ui.effetpoison_5.isChecked(), "sleep":self.ui.effetsommeil_5.isChecked(), "attraction":self.ui.effetattrac_5.isChecked(), "conf":self.ui.effetconfus_5.isChecked(), "maledi":self.ui.effetmaledi_5.isChecked(), "vampi":self.ui.vampicible_5.currentText(), "prio": int(self.ui.attaqueprio_5.toPlainText()), "vit": vit5, "deso": self.ui.effetdeso_5.isChecked(), "ident": self.ui.effetident_5.isChecked(), "piege":self.ui.effetpiege_5.isChecked(), "fightID": "3"}
 
                 allpkmon.append(pkmn5)
                 allattack.append(attck5)
@@ -2106,13 +2116,12 @@ class MainWindow(QMainWindow):
 
                 attck6 = {"name": self.ui.attaque_6.toPlainText(),"type": self.ui.attaquetype_6.toPlainText(), "classe": self.ui.attaqueclasse_6.toPlainText(), "puiss": self.ui.attaquepuiss_6.toPlainText(), "prec": self.ui.attaqueprec_6.toPlainText(), "critchance": self.translateCrit(attackdata6[14]), "fearchance": attackdata6[13], "percenthpheal": attackdata6[11], "percenthpdrain": attackdata6[12], "statutchance": attackdata6[10], "statut": attackdata6[9], "effectchance": attackdata6[8], "effet_txt": attackdata6[7],"prio": int(self.ui.attaqueprio_6.toPlainText()), "vit": vit6,"target": self.ui.cible_6.currentText(), "dmgfixe": attackdata6[16], "dmgpercent": attackdata6[17], "catchiante": attackdata6[18]}
 
-                statut6 = {"fear":False, "burn":self.ui.effetbrule_6.isChecked(), "freeze":self.ui.effetgel_6.isChecked(), "para":self.ui.effetpara_6.isChecked(), "poison":self.ui.effetpoison_6.isChecked(), "sleep":self.ui.effetsommeil_6.isChecked(), "attraction":self.ui.effetattrac_6.isChecked(), "conf":self.ui.effetconfus_6.isChecked(), "maledi":self.ui.effetmaledi_6.isChecked(), "vampi":self.ui.vampicible_6.currentText(),"prio": int(self.ui.attaqueprio_6.toPlainText()), "vit": vit6, "deso": self.ui.effetdeso_6.isChecked(), "ident": self.ui.effetident_6.isChecked(), "piege":self.ui.effetpiege_6.isChecked()}
+                statut6 = {"fear":False, "burn":self.ui.effetbrule_6.isChecked(), "freeze":self.ui.effetgel_6.isChecked(), "para":self.ui.effetpara_6.isChecked(), "poison":self.ui.effetpoison_6.isChecked(), "sleep":self.ui.effetsommeil_6.isChecked(), "attraction":self.ui.effetattrac_6.isChecked(), "conf":self.ui.effetconfus_6.isChecked(), "maledi":self.ui.effetmaledi_6.isChecked(), "vampi":self.ui.vampicible_6.currentText(),"prio": int(self.ui.attaqueprio_6.toPlainText()), "vit": vit6, "deso": self.ui.effetdeso_6.isChecked(), "ident": self.ui.effetident_6.isChecked(), "piege":self.ui.effetpiege_6.isChecked(), "fightID": "C"}
 
                 allpkmon.append(pkmn6)
                 allattack.append(attck6)
                 allstatut.append(statut6)
                 advteam.append(pkmn6)
-
 
             if self.ui.init.isChecked():
                 if self.ui.fightwild.isChecked():
@@ -2166,7 +2175,11 @@ class MainWindow(QMainWindow):
 
             listid = [x["fightID"] for x in sortedpkmon]
             listidteam1 = [x for x in listid if x in ['1','2','3']]
+            randomlist1 = listidteam1
+            random.shuffle(randomlist1)
             listidteamA = [x for x in listid if x in ['A','B','C']]
+            randomlistA = listidteamA
+            random.shuffle(randomlistA)
             listtarget = [x["target"] for x in sortedattack]
             listid.extend(["Adversaires","Tous","Aléatoire","Team","/"])
             if all(x in listid for x in listtarget):
@@ -2174,51 +2187,57 @@ class MainWindow(QMainWindow):
                     if sortedpkmon[index]["ko"]==False:
                         if sortedattack[index]["catchiante"] not in ["Delete","attaque z"]:
                             if sortedattack[index]["target"]=="1":
-                                indexadv = [indexedpkmon[x]["index"] for x in ["1"]]
-                                if sortedpkmon[indexadv[0]]["ko"] and ("2" in listidteam1):
-                                    indexadv = [indexedpkmon[x]["index"] for x in ["2"]]
-                                if sortedpkmon[indexadv[0]]["ko"] and ("3" in listidteam1):
-                                    indexadv = [indexedpkmon[x]["index"] for x in ["3"]]
+                                indexadv = [indexedpkmon["1"]["index"]]
+                                if sortedpkmon[indexadv[0]]["ko"]:
+                                    for i in range(0,len(randomlist1)):
+                                        indexadv = [indexedpkmon[randomlist1[i]]["index"]]
+                                        if sortedpkmon[indexadv[0]]["ko"]==False:
+                                            break
                                 if sortedpkmon[indexadv[0]]["ko"]:
                                     indexadv = None
                             elif sortedattack[index]["target"]=="2":
-                                indexadv = [indexedpkmon[x]["index"] for x in ["2"]]
-                                if sortedpkmon[indexadv[0]]["ko"] and ("1" in listidteam1):
-                                    indexadv = [indexedpkmon[x]["index"] for x in ["1"]]
-                                if sortedpkmon[indexadv[0]]["ko"] and ("3" in listidteam1):
-                                    indexadv = [indexedpkmon[x]["index"] for x in ["3"]]
+                                indexadv = [indexedpkmon["2"]["index"]]
+                                if sortedpkmon[indexadv[0]]["ko"]:
+                                    for i in range(0,len(randomlist1)):
+                                        indexadv = [indexedpkmon[randomlist1[i]]["index"]]
+                                        if sortedpkmon[indexadv[0]]["ko"]==False:
+                                            break
                                 if sortedpkmon[indexadv[0]]["ko"]:
                                     indexadv = None
                             elif sortedattack[index]["target"]=="3":
-                                indexadv = [indexedpkmon[x]["index"] for x in ["3"]]
-                                if sortedpkmon[indexadv[0]]["ko"] and ("1" in listidteam1):
-                                    indexadv = [indexedpkmon[x]["index"] for x in ["1"]]
-                                if sortedpkmon[indexadv[0]]["ko"] and ("2" in listidteam1):
-                                    indexadv = [indexedpkmon[x]["index"] for x in ["2"]]
+                                indexadv = [indexedpkmon["3"]["index"]]
+                                if sortedpkmon[indexadv[0]]["ko"]:
+                                    for i in range(0,len(randomlist1)):
+                                        indexadv = [indexedpkmon[randomlist1[i]]["index"]]
+                                        if sortedpkmon[indexadv[0]]["ko"]==False:
+                                            break
                                 if sortedpkmon[indexadv[0]]["ko"]:
                                     indexadv = None
                             elif sortedattack[index]["target"]=="A":
-                                indexadv = [indexedpkmon[x]["index"] for x in ["A"]]
-                                if sortedpkmon[indexadv[0]]["ko"] and ("B" in listidteamA):
-                                    indexadv = [indexedpkmon[x]["index"] for x in ["B"]]
-                                if sortedpkmon[indexadv[0]]["ko"] and ("C" in listidteamA):
-                                    indexadv = [indexedpkmon[x]["index"] for x in ["C"]]
+                                indexadv = [indexedpkmon["A"]["index"]]
+                                if sortedpkmon[indexadv[0]]["ko"]:
+                                    for i in range(0,len(randomlistA)):
+                                        indexadv = [indexedpkmon[randomlistA[i]]["index"]]
+                                        if sortedpkmon[indexadv[0]]["ko"]==False:
+                                            break
                                 if sortedpkmon[indexadv[0]]["ko"]:
                                     indexadv = None
                             elif sortedattack[index]["target"]=="B":
-                                indexadv = [indexedpkmon[x]["index"] for x in ["B"]]
-                                if sortedpkmon[indexadv[0]]["ko"] and ("A" in listidteamA):
-                                    indexadv = [indexedpkmon[x]["index"] for x in ["A"]]
-                                if sortedpkmon[indexadv[0]]["ko"] and ("C" in listidteamA):
-                                    indexadv = [indexedpkmon[x]["index"] for x in ["C"]]
+                                indexadv = [indexedpkmon["B"]["index"]]
+                                if sortedpkmon[indexadv[0]]["ko"]:
+                                    for i in range(0,len(randomlistA)):
+                                        indexadv = [indexedpkmon[randomlistA[i]]["index"]]
+                                        if sortedpkmon[indexadv[0]]["ko"]==False:
+                                            break
                                 if sortedpkmon[indexadv[0]]["ko"]:
                                     indexadv = None
                             elif sortedattack[index]["target"]=="C":
-                                indexadv = [indexedpkmon[x]["index"] for x in ["C"]]
-                                if sortedpkmon[indexadv[0]]["ko"] and ("A" in listidteamA):
-                                    indexadv = [indexedpkmon[x]["index"] for x in ["A"]]
-                                if sortedpkmon[indexadv[0]]["ko"] and ("B" in listidteamA):
-                                    indexadv = [indexedpkmon[x]["index"] for x in ["B"]]
+                                indexadv = [indexedpkmon["C"]["index"]]
+                                if sortedpkmon[indexadv[0]]["ko"]:
+                                    for i in range(0,len(randomlistA)):
+                                        indexadv = [indexedpkmon[randomlistA[i]]["index"]]
+                                        if sortedpkmon[indexadv[0]]["ko"]==False:
+                                            break
                                 if sortedpkmon[indexadv[0]]["ko"]:
                                     indexadv = None
                             elif sortedattack[index]["target"]=="Adversaires":
@@ -2281,14 +2300,16 @@ class MainWindow(QMainWindow):
                             if indexadv != None:
                                 i=0
                                 self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"][img]http://sunrise-db.yo.fr/Sprites/"+str(sortedpkmon[index]["id"])+".png[/img]")
+                                block=False
                                 for adv in indexadv:
                                     if sortedpkmon[adv]["ko"]==False:
                                         i=i+1
-                                        turn1=self.fight(sortedpkmon[index],sortedstatut[index],sortedattack[index],sortedpkmon[adv],sortedstatut[adv],i,len(indexadv))
+                                        turn1=self.fight(sortedpkmon[index],sortedstatut[index],sortedattack[index],sortedpkmon[adv],sortedstatut[adv],i,len(indexadv),block)
                                         sortedpkmon[index]=turn1["pkmon1"]
                                         sortedstatut[index]=turn1["statut1"]
                                         sortedpkmon[adv]=turn1["pkmon2"]
                                         sortedstatut[adv]=turn1["statut2"]
+                                        block=turn1["block"]
                                         if turn1["pkmon2"]["ko"] and turn1["pkmon2"]["fightID"] in ["A","B","C"]:
                                                 for j in range(0,len(sortedpkmon)):
                                                     if sortedpkmon[j]["fightID"] in ["1","2","3"]:
@@ -2374,28 +2395,6 @@ class MainWindow(QMainWindow):
                             msgBox1.exec_()
                         self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
 
-                    if sortedstatut[index]["burn"] and sortedpkmon[index]["ko"]==False:
-                        self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"]")
-                        burndmg=round(sortedpkmon[index]["pvtotal"]/16)
-                        newpv3=sortedpkmon[index]["pvcurrent"]-burndmg
-                        if newpv3<=0:
-                            newpv3=0
-                            sortedpkmon[index]["ko"]=True
-                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" souffre de sa brûlure !}[/i]\n{[color=#ff0000][b]-"+str(burndmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]:"+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
-                        sortedpkmon[index]["pvcurrent"]=newpv3
-                        self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
-
-                    if sortedstatut[index]["piege"] and sortedpkmon[index]["ko"]==False:
-                        self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"]")
-                        piegedmg=round(sortedpkmon[index]["pvtotal"]/8)
-                        newpv3=sortedpkmon[index]["pvcurrent"]-piegedmg
-                        if newpv3<=0:
-                            newpv3=0
-                            sortedpkmon[index]["ko"]=True
-                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" est blessé par un piège !}[/i]\n{[color=#ff0000][b]-"+str(piegedmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]:"+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
-                        sortedpkmon[index]["pvcurrent"]=newpv3
-                        self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
-
                     if sortedstatut[index]["poison"] and sortedpkmon[index]["ko"]==False:
                         self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"]")
                         poisondmg=round(sortedpkmon[index]["pvtotal"]/8)
@@ -2407,6 +2406,17 @@ class MainWindow(QMainWindow):
                         sortedpkmon[index]["pvcurrent"]=newpv3
                         self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
 
+                    if sortedstatut[index]["burn"] and sortedpkmon[index]["ko"]==False:
+                        self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"]")
+                        burndmg=round(sortedpkmon[index]["pvtotal"]/16)
+                        newpv3=sortedpkmon[index]["pvcurrent"]-burndmg
+                        if newpv3<=0:
+                            newpv3=0
+                            sortedpkmon[index]["ko"]=True
+                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" souffre de sa brûlure !}[/i]\n{[color=#ff0000][b]-"+str(burndmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]:"+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
+                        sortedpkmon[index]["pvcurrent"]=newpv3
+                        self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
+
                     if sortedstatut[index]["maledi"] and sortedpkmon[index]["ko"]==False:
                         self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"]")
                         maledidmg=round(sortedpkmon[index]["pvtotal"]/4)
@@ -2415,6 +2425,17 @@ class MainWindow(QMainWindow):
                             newpv3=0
                             sortedpkmon[index]["ko"]=True
                         self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" est blessé par la malédiction !}[/i]\n{[color=#ff0000][b]-"+str(maledidmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]:"+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
+                        sortedpkmon[index]["pvcurrent"]=newpv3
+                        self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
+
+                    if sortedstatut[index]["piege"] and sortedpkmon[index]["ko"]==False:
+                        self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"]")
+                        piegedmg=round(sortedpkmon[index]["pvtotal"]/8)
+                        newpv3=sortedpkmon[index]["pvcurrent"]-piegedmg
+                        if newpv3<=0:
+                            newpv3=0
+                            sortedpkmon[index]["ko"]=True
+                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" est blessé par un piège !}[/i]\n{[color=#ff0000][b]-"+str(piegedmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]:"+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
                         sortedpkmon[index]["pvcurrent"]=newpv3
                         self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
 
@@ -2449,30 +2470,151 @@ class MainWindow(QMainWindow):
                                     xp=0
                                 self.ui.outputrp.append("[center][b]"+sortedpkmon[j]["name"]+"[/b] gagne [u]"+str(xp)+"[/u] points d'XP ![/center]")
 
-                for p in sortedpkmon:
-                    self.ui.outputmodo.append("Code "+p["fightID"]+" : "+p["name"]+" - "+p["realname"]+" - "+str(p["lvl"])+" - "+str(p["pvcurrent"])+"/"+str(p["pvtotal"])+" - "+str(p["att"])+"x"+str(p["def"])+"x"+str(p["atts"])+"x"+str(p["defs"])+"x"+str(p["truevit"])+" - Attaque")
-                
-                resultcapture=self.ui.outputcapture.toPlainText()
-                if resultcapture!="":
-                    if "est capturé" in resultcapture:
-                        self.ui.outputrp.append(resultcapture.replace("[/spoiler]","").replace("[/center]",""))
-                        self.ui.outputrp.append("[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color]")
-                        for pokemon in niceteam:
-                            difflvl=int(self.ui.lvlcapture.toPlainText())-pokemon["lvl"]
-                            if difflvl>10:
-                                difflvl=10
-                            if difflvl<-10:
-                                difflvl=-10
-                            xp=50+(difflvl*5)
-                            if pokemon["lvl"]<20 and difflvl>=-5:
-                                xp=50
-                            elif pokemon["lvl"]<20 and difflvl<-5:
-                                xp=0
-                            self.ui.outputrp.append("[b]"+pokemon["name"]+"[/b] gagne [u]"+str(xp)+"[/u] points d'XP !")
-                        self.ui.outputrp.append("[/spoiler][/spoiler][/spoiler][/spoiler][/center]")
-                    else:
-                        self.ui.outputrp.append(resultcapture)
+                for p in range(0,len(sortedpkmon)):
+                    self.ui.outputmodo.append("Code "+sortedpkmon[p]["fightID"]+" : "+sortedpkmon[p]["name"]+" - "+sortedpkmon[p]["realname"]+" - "+str(sortedpkmon[p]["lvl"])+" - "+str(sortedpkmon[p]["pvcurrent"])+"/"+str(sortedpkmon[p]["pvtotal"])+" - "+str(sortedpkmon[p]["att"])+"x"+str(sortedpkmon[p]["def"])+"x"+str(sortedpkmon[p]["atts"])+"x"+str(sortedpkmon[p]["defs"])+"x"+str(sortedpkmon[p]["truevit"])+" - Attaque")
+                    statstxt=sortedpkmon[p]["name"]+" :"
+                    if int(sortedpkmon[p]["modifatt"])!=0:
+                        statstxt=statstxt+" modif attaque "+str(sortedpkmon[p]["modifatt"])+","
+                    if int(sortedpkmon[p]["modifdef"])!=0:
+                        statstxt=statstxt+" modif defense "+str(sortedpkmon[p]["modifdef"])+","
+                    if int(sortedpkmon[p]["modifatts"])!=0:
+                        statstxt=statstxt+" modif attaque spé "+str(sortedpkmon[p]["modifatts"])+","
+                    if int(sortedpkmon[p]["modifdefs"])!=0:
+                        statstxt=statstxt+" modif defense spé "+str(sortedpkmon[p]["modifdefs"])+","
+                    if int(sortedpkmon[p]["modifvit"])!=0:
+                        statstxt=statstxt+" modif vitesse "+str(sortedpkmon[p]["modifvit"])+","
+                    if int(sortedpkmon[p]["modifesquive"])!=0:
+                        statstxt=statstxt+" modif esquive "+str(sortedpkmon[p]["modifesquive"])+","
+                    if int(sortedpkmon[p]["modifprec"])!=0:
+                        statstxt=statstxt+" modif précision "+str(sortedpkmon[p]["modifprec"])+","
+                    if int(sortedpkmon[p]["modifatt"])!=0 or int(sortedpkmon[p]["modifdef"])!=0 or int(sortedpkmon[p]["modifatts"])!=0 or int(sortedpkmon[p]["modifdefs"])!=0 or int(sortedpkmon[p]["modifvit"])!=0 or int(sortedpkmon[p]["modifesquive"])!=0 or int(sortedpkmon[p]["modifprec"])!=0:
+                        statstxt = statstxt[:-1]
+                        self.ui.outputmodo.append(statstxt)
+                    statuttxt=sortedpkmon[p]["name"]+" :"
+                    if sortedstatut[p]["burn"]:
+                        statuttxt=statuttxt+" brûlure,"
+                    if sortedstatut[p]["freeze"]:
+                        statuttxt=statuttxt+" gel,"
+                    if sortedstatut[p]["para"]:
+                        statuttxt=statuttxt+" paralysie,"
+                    if sortedstatut[p]["poison"]:
+                        statuttxt=statuttxt+" poison,"
+                    if sortedstatut[p]["sleep"]:
+                        statuttxt=statuttxt+" sommeil pour ?? tours,"
+                    if sortedstatut[p]["attraction"]:
+                        statuttxt=statuttxt+" attraction,"
+                    if sortedstatut[p]["conf"]:
+                        statuttxt=statuttxt+" confus pour ?? tours,"
+                    if sortedstatut[p]["maledi"]:
+                        statuttxt=statuttxt+" malédiction,"
+                    if sortedstatut[p]["vampi"]:
+                        statuttxt=statuttxt+" vampigraine,"
+                    if sortedstatut[p]["piege"]:
+                        statuttxt=statuttxt+" piégé pour ?? tours,"
+                    if sortedstatut[p]["burn"] or sortedstatut[p]["freeze"] or sortedstatut[p]["para"] or sortedstatut[p]["poison"] or sortedstatut[p]["sleep"] or sortedstatut[p]["attraction"] or sortedstatut[p]["conf"] or sortedstatut[p]["maledi"] or sortedstatut[p]["vampi"] or sortedstatut[p]["piege"]:
+                        statuttxt = statuttxt[:-1]
+                        self.ui.outputmodo.append(statuttxt)
 
+                if self.ui.captureauto.isChecked():
+                    indexedpkmon2 = self.build_dict(sortedpkmon,key="fightID")
+                    indexedstatut = self.build_dict(sortedstatut,key="fightID")
+                    target=self.ui.ciblecapture.currentText()
+                    if target=="A" and self.ui.poke_2.toPlainText()=="":
+                        msgBox1 = QMessageBox()
+                        msgBox1.setText("Impossible de capturer le Pokémon A : pas d'informations")
+                        msgBox1.exec_()
+                    elif target=="B" and self.ui.poke_4.toPlainText()=="":
+                        msgBox1 = QMessageBox()
+                        msgBox1.setText("Impossible de capturer le Pokémon B : pas d'informations")
+                        msgBox1.exec_()
+                    elif target=="C" and self.ui.poke_6.toPlainText()=="":
+                        msgBox1 = QMessageBox()
+                        msgBox1.setText("Impossible de capturer le Pokémon C : pas d'informations")
+                        msgBox1.exec_()
+                    else:
+                        poke=indexedpkmon2[target]["realname"]
+                        pv=indexedpkmon2[target]["pvcurrent"]
+                        pvmax=indexedpkmon2[target]["pvtotal"]
+                        lvl=indexedpkmon2[target]["lvl"]
+                        capturestatut1=indexedstatut[target]["poison"] or indexedstatut[target]["burn"] or indexedstatut[target]["para"]
+                        capturestatut2=indexedstatut[target]["freeze"] or indexedstatut[target]["sleep"]
+
+                        c.execute('SELECT * FROM pokemons WHERE nom=?',(poke,))
+                        pokedata=c.fetchall()[0]
+                        pokeid=int(pokedata[0])
+                        pokename=pokedata[1]
+                        taux_capture=int(pokedata[10])
+                        ball=self.ui.ballcapture_2.currentText()
+
+                        if capturestatut1:
+                            st1bonus=1.5
+                        else:
+                            st1bonus=1
+                        if capturestatut2:
+                            st2bonus=2.5
+                        else:
+                            st2bonus=1
+                        if ball=="Poké Ball":
+                            ballbonus=1
+                        elif ball=="Super Ball":
+                            ballbonus=1.5
+                        elif ball=="Hyper Ball":
+                            ballbonus=2
+
+                        a=((((3*pvmax) - (2*pv)) * taux_capture * ballbonus)/(3*pvmax)) * (st1bonus*st2bonus)
+                        b = 65536 / ((255/a)**0.1875)
+                        resultcapture="[center][img]http://sunrise-db.yo.fr/Sunrise_Champions/Secretchamp.png[/img]\n[spoiler=??? utilise une "+ball+" !]"
+                        j=0
+                        for i in [0,1,2,3]:
+                            j=j+1
+                            checkvalue = random.randint(0,65536)
+                            if checkvalue < b:
+                                if j==1:
+                                    resultcapture=resultcapture+"\n[spoiler=...]"
+                                elif j==2:
+                                    resultcapture=resultcapture+"\n[spoiler=... ...]"
+                                elif j==3:
+                                    resultcapture=resultcapture+"\n[spoiler=... ... ...]"
+                                else:
+                                    resultcapture=resultcapture+"\n[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nFélicitations ! "+pokename+" est capturé !\nIl est [u]niveau "+str(lvl)+"[/u] et prêt à se battre ![/spoiler][/spoiler][/spoiler][/spoiler][/center]"
+                            else:
+                                if j==1:
+                                    resultcapture=resultcapture+"\n[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nOh, non ! "+pokename+" s'est libéré ![/spoiler][/center]"
+                                if j==2:
+                                    resultcapture=resultcapture+"\n[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nRaaah ! Ça y était presque ![/spoiler][/spoiler][/center]"
+                                if j==3:
+                                    resultcapture=resultcapture+"\n[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nAaaaah ! Presque ![/spoiler][/spoiler][/spoiler][/center]"
+                                if j==4:
+                                    resultcapture=resultcapture+"\n[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nMince ! Ça y était presque ![/spoiler][/spoiler][/spoiler][/spoiler][/center]"
+                                break
+
+                        if "est capturé" in resultcapture:
+                            self.ui.outputrp.append(resultcapture.replace("[/spoiler]","").replace("[/center]",""))
+                            self.ui.outputrp.append("[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color]")
+                            for pokemon in niceteam:
+                                difflvl=int(lvl)-pokemon["lvl"]
+                                if difflvl>10:
+                                    difflvl=10
+                                if difflvl<-10:
+                                    difflvl=-10
+                                xp=50+(difflvl*5)
+                                if pokemon["lvl"]<20 and difflvl>=-5:
+                                    xp=50
+                                elif pokemon["lvl"]<20 and difflvl<-5:
+                                    xp=0
+                                self.ui.outputrp.append("[b]"+pokemon["name"]+"[/b] gagne [u]"+str(xp)+"[/u] points d'XP !")
+                            self.ui.outputrp.append("[/spoiler][/spoiler][/spoiler][/spoiler][/center]")
+                        else:
+                            self.ui.outputrp.append(resultcapture)
+                
+                allko=0
+                howmany=0
+                for p in sortedpkmon:
+                    if p["fightID"] in ["A","B","C"]:
+                        allko=allko+p["ko"]
+                        howmany=howmany+1
+                if self.ui.fighttrainer.isChecked() and allko==howmany:
+                    self.ui.outputrp.append("[hr]\n[listL][center][img]http://sunrise-db.yo.fr/Sprites/0.png[/img]\nVous avez battu [b]???[/b] !\n[size=10]« Noooooooooon »[/size]\nVous gagnez ???[img]http://img.xooimage.com/files9//6/6/b/pok-dollar4-2b3a74c.png[/img] pour ce combat ![/center][/listL]")
                 self.ui.outputrp.append("[hr]")
                 self.ui.outputrp.append("[color=#999999][i]Et maintenant, [b]Dresseur[/b], quelle est la prochaine étape ?[/i][/color]")
                 self.ui.outputmodo.append('[/code][/spoiler][/modo]')
@@ -2745,6 +2887,16 @@ class MainWindow(QMainWindow):
         self.ui.outputmodo.clear()
         self.ui.outputattack.clear()
 
+    def rolldice(self):
+        nbface=self.ui.diceface.currentText()
+        if nbface=="D100":
+            max=100
+        if nbface=="D20":
+            max=20
+        if nbface=="D6":
+            max=6
+        result=random.randint(1,max)
+        self.ui.diceresult.setText(str(result))
 
     def pokegen(self):
         if self.ui.methode.currentText()!="":
