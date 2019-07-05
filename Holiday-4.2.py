@@ -2381,7 +2381,7 @@ class MainWindow(QMainWindow):
                         if newpv3<=0:
                             newpv3=0
                             sortedpkmon[index]["ko"]=True
-                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" est blessé par vampigraine !}[/i]\n{[color=#ff0000][b]-"+str(vampidmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]:"+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
+                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" est blessé par vampigraine !}[/i]\n{[color=#ff0000][b]-"+str(vampidmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]: "+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
                         sortedpkmon[index]["pvcurrent"]=newpv3
                         if sortedstatut[index]["vampi"] in listid:
                             newpvcible=sortedpkmon[indexedpkmon[sortedstatut[index]["vampi"]]["index"]]["pvcurrent"]+vampidmg
@@ -2402,7 +2402,7 @@ class MainWindow(QMainWindow):
                         if newpv3<=0:
                             newpv3=0
                             sortedpkmon[index]["ko"]=True
-                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" souffre du poison !}[/i]\n{[color=#ff0000][b]-"+str(poisondmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]:"+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
+                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" souffre du poison !}[/i]\n{[color=#ff0000][b]-"+str(poisondmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]: "+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
                         sortedpkmon[index]["pvcurrent"]=newpv3
                         self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
 
@@ -2413,7 +2413,7 @@ class MainWindow(QMainWindow):
                         if newpv3<=0:
                             newpv3=0
                             sortedpkmon[index]["ko"]=True
-                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" souffre de sa brûlure !}[/i]\n{[color=#ff0000][b]-"+str(burndmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]:"+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
+                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" souffre de sa brûlure !}[/i]\n{[color=#ff0000][b]-"+str(burndmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]: "+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
                         sortedpkmon[index]["pvcurrent"]=newpv3
                         self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
 
@@ -2424,7 +2424,7 @@ class MainWindow(QMainWindow):
                         if newpv3<=0:
                             newpv3=0
                             sortedpkmon[index]["ko"]=True
-                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" est blessé par la malédiction !}[/i]\n{[color=#ff0000][b]-"+str(maledidmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]:"+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
+                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" est blessé par la malédiction !}[/i]\n{[color=#ff0000][b]-"+str(maledidmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]: "+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
                         sortedpkmon[index]["pvcurrent"]=newpv3
                         self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
 
@@ -2435,7 +2435,7 @@ class MainWindow(QMainWindow):
                         if newpv3<=0:
                             newpv3=0
                             sortedpkmon[index]["ko"]=True
-                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" est blessé par un piège !}[/i]\n{[color=#ff0000][b]-"+str(piegedmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]:"+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
+                        self.ui.outputrp.append("[i]{"+sortedpkmon[index]["name"]+" est blessé par un piège !}[/i]\n{[color=#ff0000][b]-"+str(piegedmg)+"[/b][/color]} PVs\n[i]PVs de [b]"+sortedpkmon[index]["name"]+"[/b][/i]: "+self.pvToColor(newpv3,sortedpkmon[index]["pvtotal"])+str(newpv3)+"[/color]/"+str(sortedpkmon[index]["pvtotal"]))
                         sortedpkmon[index]["pvcurrent"]=newpv3
                         self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
 
