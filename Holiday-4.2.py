@@ -13,6 +13,7 @@ from operator import itemgetter
 # Add dmg from vitesse/poids/niveau/ohko
 # Weather
 # Mettre en balise modo les infos non gérables sur un tour type lance soleil se lance direct si soleil
+# Changer ordre proc statuts
 
 # import GUI and database
 Ui_MainWindow, QtBaseClass = uic.loadUiType("Interface.ui")
@@ -177,7 +178,8 @@ class MainWindow(QMainWindow):
             'glace': {'normal': 1, 'combat': 1, 'vol': 2, 'poison': 1, 'sol': 2, 'roche': 1, 'insecte': 1, 'spectre': 1, 'acier': 0.5, 'feu': 0.5, 'eau': 0.5, 'plante': 2, 'électrique': 1, 'psy': 1, 'glace': 0.5, 'dragon': 2, 'ténèbres': 1, 'fée': 1},
             'dragon': {'normal': 1, 'combat': 1, 'vol': 1, 'poison': 1, 'sol': 1, 'roche': 1, 'insecte': 1, 'spectre': 1, 'acier': 0.5, 'feu': 1, 'eau': 1, 'plante': 1, 'électrique': 1, 'psy': 1, 'glace': 1, 'dragon': 2, 'ténèbres': 1, 'fée': 0},
             'ténèbres': {'normal': 1, 'combat': 0.5, 'vol': 1, 'poison': 1, 'sol': 1, 'roche': 1, 'insecte': 1, 'spectre': 2, 'acier': 1, 'feu': 1, 'eau': 1, 'plante': 1, 'électrique': 1, 'psy': 2, 'glace': 1, 'dragon': 1, 'ténèbres': 0.5, 'fée': 0.5},
-            'fée': {'normal': 1, 'combat': 2, 'vol': 1, 'poison': 0.5, 'sol': 1, 'roche': 1, 'insecte': 1, 'spectre': 1, 'acier': 0.5, 'feu': 0.5, 'eau': 1, 'plante': 1, 'électrique': 1, 'psy': 1, 'glace': 1, 'dragon': 2, 'ténèbres': 2, 'fée': 1}}
+            'fée': {'normal': 1, 'combat': 2, 'vol': 1, 'poison': 0.5, 'sol': 1, 'roche': 1, 'insecte': 1, 'spectre': 1, 'acier': 0.5, 'feu': 0.5, 'eau': 1, 'plante': 1, 'électrique': 1, 'psy': 1, 'glace': 1, 'dragon': 2, 'ténèbres': 2, 'fée': 1},
+            'objet': {'normal': 1, 'combat': 1, 'vol': 1, 'poison': 1, 'sol': 1, 'roche': 1, 'insecte': 1, 'spectre': 1, 'acier': 1, 'feu': 1, 'eau': 1, 'plante': 1, 'électrique': 1, 'psy': 1, 'glace': 1, 'dragon': 1, 'ténèbres': 1, 'fée': 1}}
             i=typeChart[typeAtt][typeDef]
             return i
 
@@ -1776,6 +1778,14 @@ class MainWindow(QMainWindow):
                     self.ui.outputrp.append('{[color=#669900][b]+'+str(round(heal))+'[/b][/color]} PVs [color=#777777][size=10]« '+pkmon2["name"]+' se sent mieux. »[/size][/color]\n[i]PVs de [b]'+pkmon2["name"]+'[/b][/i]: '+self.pvToColor(newpv1,pkmon2["pvtotal"])+str(newpv1)+'[/color]/'+str(pkmon2["pvtotal"]))
                     pkmon2["pvcurrent"]=newpv1
 
+                elif attck1["soinfixe"]>0:
+                    heal=attck1["soinfixe"]
+                    newpv1=pkmon2["pvcurrent"]+round(heal)
+                    if newpv1>pkmon2["pvtotal"]:
+                        newpv1=pkmon2["pvtotal"]
+                    self.ui.outputrp.append('{[color=#669900][b]+'+str(round(heal))+'[/b][/color]} PVs [color=#777777][size=10]« '+pkmon2["name"]+' se sent mieux. »[/size][/color]\n[i]PVs de [b]'+pkmon2["name"]+'[/b][/i]: '+self.pvToColor(newpv1,pkmon2["pvtotal"])+str(newpv1)+'[/color]/'+str(pkmon2["pvtotal"]))
+                    pkmon2["pvcurrent"]=newpv1
+
                 elif attck1["name"]=="Malédiction":
                     if attck1["target"]==pkmon1["fightID"]:
                         if pkmon1["modifdef"]==6:
@@ -1898,7 +1908,7 @@ class MainWindow(QMainWindow):
             getstat = ("modifatt","modifdef","modifatts","modifdefs","modifvit","modifprec","modifesquive")
             if statmodif1 !=None and dmg!='fail' and effetproc=='yes':
                 statmodif1=tuple(x if x else 0 for x in statmodif1)
-                for stat in range(0,6):
+                for stat in range(0,7):
                     if statmodif1[stat+2]<0:
                         if pkmon1[getstat[stat]]==-6:
                             self.ui.outputrp.append("[i]{"+txtstat[stat]+" de "+pkmon1["name"]+" ne peut plus baisser.}[/i]")
@@ -1914,7 +1924,7 @@ class MainWindow(QMainWindow):
 
             if statmodif2 !=None and dmg!='fail' and effetproc=='yes':
                 statmodif2=tuple(x if x else 0 for x in statmodif2)
-                for stat in range(0,6):
+                for stat in range(0,7):
                     if statmodif2[stat+2]<0:
                         if pkmon2[getstat[stat]]==-6:
                             self.ui.outputrp.append("[i]{"+txtstat[stat]+" de "+pkmon2["name"]+" ne peut plus baisser.}[/i]")
@@ -2014,7 +2024,7 @@ class MainWindow(QMainWindow):
 
             pkmn1 = {"id": idpkmon1[0], "lvl": int(self.ui.pokelvl.toPlainText()),"name": self.ui.pokename.toPlainText() ,"realname": self.ui.poke.toPlainText(),"pvcurrent": int(self.ui.pvcurrent.toPlainText()) ,"pvtotal": int(self.ui.pvtotal.toPlainText()),"att": int(self.ui.att.toPlainText()),"def": int(self.ui.defen.toPlainText()),"atts": int(self.ui.atts.toPlainText()),"defs": int(self.ui.defs.toPlainText()),"vit": vit1, "type1": self.ui.poketype1.toPlainText(),"type2": self.ui.poketype2.toPlainText(),"modifatt": self.ui.modifatt.value(),"modifdef": self.ui.modifdefen.value(), "modifatts": self.ui.modifatts.value(), "modifdefs": self.ui.modifdefs.value(),"modifvit": self.ui.modifvit.value(), "modifesquive": self.ui.modifesquive.value(), "modifprec": self.ui.modifprec.value(), "prio": int(self.ui.attaqueprio.toPlainText()),"ko": False, "fightID": "1","side": "listL", "truevit": self.ui.vit.toPlainText()}
 
-            attck1 = {"name": self.ui.attaque.toPlainText(),"type": self.ui.attaquetype.toPlainText(), "classe": self.ui.attaqueclasse.toPlainText(), "puiss": self.ui.attaquepuiss.toPlainText(), "prec": self.ui.attaqueprec.toPlainText(), "critchance": self.translateCrit(attackdata[14]), "fearchance": attackdata[13], "percenthpheal": attackdata[11], "percenthpdrain": attackdata[12], "statutchance": attackdata[10], "statut": attackdata[9], "effectchance": attackdata[8], "effet_txt": attackdata[7],"prio": int(self.ui.attaqueprio.toPlainText()), "vit": vit1,"target": self.ui.cible.currentText(), "dmgfixe": attackdata[16], "dmgpercent": attackdata[17], "catchiante": attackdata[18]}
+            attck1 = {"name": self.ui.attaque.toPlainText(),"type": self.ui.attaquetype.toPlainText(), "classe": self.ui.attaqueclasse.toPlainText(), "puiss": self.ui.attaquepuiss.toPlainText(), "prec": self.ui.attaqueprec.toPlainText(), "critchance": self.translateCrit(attackdata[14]), "fearchance": attackdata[13], "percenthpheal": attackdata[11], "percenthpdrain": attackdata[12], "statutchance": attackdata[10], "statut": attackdata[9], "effectchance": attackdata[8], "effet_txt": attackdata[7],"prio": int(self.ui.attaqueprio.toPlainText()), "vit": vit1,"target": self.ui.cible.currentText(), "dmgfixe": attackdata[16], "dmgpercent": attackdata[17], "catchiante": attackdata[18], "soinfixe": attackdata[19]}
 
             statut1 = {"fear":False, "burn":self.ui.effetbrule.isChecked(), "freeze":self.ui.effetgel.isChecked(), "para":self.ui.effetpara.isChecked(), "poison":self.ui.effetpoison.isChecked(), "sleep":self.ui.effetsommeil.isChecked(), "attraction":self.ui.effetattrac.isChecked(), "conf":self.ui.effetconfus.isChecked(), "maledi":self.ui.effetmaledi.isChecked(), "vampi":self.ui.vampicible.currentText(),"prio": int(self.ui.attaqueprio.toPlainText()), "vit": vit1, "deso": self.ui.effetdeso.isChecked(), "ident": self.ui.effetident.isChecked(), "piege":self.ui.effetpiege.isChecked(), "fightID": "1"}
 
@@ -2025,7 +2035,7 @@ class MainWindow(QMainWindow):
 
             pkmn2 = {"id": idpkmon2[0], "lvl": int(self.ui.pokelvl_2.toPlainText()),"name": self.ui.pokename_2.toPlainText() ,"realname": self.ui.poke_2.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_2.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_2.toPlainText()),"att": int(self.ui.att_2.toPlainText()),"def": int(self.ui.defen_2.toPlainText()),"atts": int(self.ui.atts_2.toPlainText()),"defs": int(self.ui.defs_2.toPlainText()),"type1": self.ui.poketype1_2.toPlainText(),"type2": self.ui.poketype2_2.toPlainText(),"modifatt": self.ui.modifatt_2.value(),"modifdef": self.ui.modifdefen_2.value(), "modifatts": self.ui.modifatts_2.value(), "modifdefs": self.ui.modifdefs_2.value(),"modifvit": self.ui.modifvit_2.value(), "modifesquive": self.ui.modifesquive_2.value(), "modifprec": self.ui.modifprec_2.value(),"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2,"ko": False, "fightID": "A","side": "listR", "truevit": self.ui.vit_2.toPlainText()}
 
-            attck2 = {"name": self.ui.attaque_2.toPlainText(),"type": self.ui.attaquetype_2.toPlainText(), "classe": self.ui.attaqueclasse_2.toPlainText(), "puiss": self.ui.attaquepuiss_2.toPlainText(), "prec": self.ui.attaqueprec_2.toPlainText(), "critchance": self.translateCrit(attackdata2[14]), "fearchance": attackdata2[13], "percenthpheal": attackdata2[11], "percenthpdrain": attackdata2[12], "statutchance": attackdata2[10], "statut": attackdata2[9], "effectchance": attackdata2[8], "effet_txt": attackdata2[7],"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2,"target": self.ui.cible_2.currentText(), "dmgfixe": attackdata2[16], "dmgpercent": attackdata2[17], "catchiante": attackdata2[18]}
+            attck2 = {"name": self.ui.attaque_2.toPlainText(),"type": self.ui.attaquetype_2.toPlainText(), "classe": self.ui.attaqueclasse_2.toPlainText(), "puiss": self.ui.attaquepuiss_2.toPlainText(), "prec": self.ui.attaqueprec_2.toPlainText(), "critchance": self.translateCrit(attackdata2[14]), "fearchance": attackdata2[13], "percenthpheal": attackdata2[11], "percenthpdrain": attackdata2[12], "statutchance": attackdata2[10], "statut": attackdata2[9], "effectchance": attackdata2[8], "effet_txt": attackdata2[7],"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2,"target": self.ui.cible_2.currentText(), "dmgfixe": attackdata2[16], "dmgpercent": attackdata2[17], "catchiante": attackdata2[18], "soinfixe": attackdata2[19]}
 
             statut2 = {"fear":False, "burn":self.ui.effetbrule_2.isChecked(), "freeze":self.ui.effetgel_2.isChecked(), "para":self.ui.effetpara_2.isChecked(), "poison":self.ui.effetpoison_2.isChecked(), "sleep":self.ui.effetsommeil_2.isChecked(), "attraction":self.ui.effetattrac_2.isChecked(), "conf":self.ui.effetconfus_2.isChecked(), "maledi":self.ui.effetmaledi_2.isChecked(), "vampi":self.ui.vampicible_2.currentText(),"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2, "deso": self.ui.effetdeso_2.isChecked(), "ident": self.ui.effetident_2.isChecked(), "piege":self.ui.effetpiege_2.isChecked(), "fightID": "A"}
 
@@ -2047,7 +2057,7 @@ class MainWindow(QMainWindow):
 
                 pkmn3 = {"id": idpkmon3[0], "lvl": int(self.ui.pokelvl_3.toPlainText()),"name": self.ui.pokename_3.toPlainText() ,"realname": self.ui.poke_3.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_3.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_3.toPlainText()),"att": int(self.ui.att_3.toPlainText()),"def": int(self.ui.defen_3.toPlainText()),"atts": int(self.ui.atts_3.toPlainText()),"defs": int(self.ui.defs_3.toPlainText()),"vit": vit3,"type1": self.ui.poketype1_3.toPlainText(),"type2": self.ui.poketype2_3.toPlainText(),"modifatt": self.ui.modifatt_3.value(),"modifdef": self.ui.modifdefen_3.value(), "modifatts": self.ui.modifatts_3.value(), "modifdefs": self.ui.modifdefs_3.value(),"modifvit": self.ui.modifvit_3.value(), "modifesquive": self.ui.modifesquive_3.value(), "modifprec": self.ui.modifprec_3.value(),"prio":  int(self.ui.attaqueprio_3.toPlainText()),"ko": False, "fightID": "2","side": "listL", "truevit": self.ui.vit_3.toPlainText()}
 
-                attck3 = {"name": self.ui.attaque_3.toPlainText(),"type": self.ui.attaquetype_3.toPlainText(), "classe": self.ui.attaqueclasse_3.toPlainText(), "puiss": self.ui.attaquepuiss_3.toPlainText(), "prec": self.ui.attaqueprec_3.toPlainText(), "critchance": self.translateCrit(attackdata3[14]), "fearchance": attackdata3[13], "percenthpheal": attackdata3[11], "percenthpdrain": attackdata3[12], "statutchance": attackdata3[10], "statut": attackdata3[9], "effectchance": attackdata3[8], "effet_txt": attackdata3[7],"prio": int(self.ui.attaqueprio_3.toPlainText()), "vit": vit3 ,"target": self.ui.cible_3.currentText(), "dmgfixe": attackdata3[16], "dmgpercent": attackdata3[17], "catchiante": attackdata3[18]}
+                attck3 = {"name": self.ui.attaque_3.toPlainText(),"type": self.ui.attaquetype_3.toPlainText(), "classe": self.ui.attaqueclasse_3.toPlainText(), "puiss": self.ui.attaquepuiss_3.toPlainText(), "prec": self.ui.attaqueprec_3.toPlainText(), "critchance": self.translateCrit(attackdata3[14]), "fearchance": attackdata3[13], "percenthpheal": attackdata3[11], "percenthpdrain": attackdata3[12], "statutchance": attackdata3[10], "statut": attackdata3[9], "effectchance": attackdata3[8], "effet_txt": attackdata3[7],"prio": int(self.ui.attaqueprio_3.toPlainText()), "vit": vit3 ,"target": self.ui.cible_3.currentText(), "dmgfixe": attackdata3[16], "dmgpercent": attackdata3[17], "catchiante": attackdata3[18], "soinfixe": attackdata3[19]}
 
                 statut3 = {"fear":False, "burn":self.ui.effetbrule_3.isChecked(), "freeze":self.ui.effetgel_3.isChecked(), "para":self.ui.effetpara_3.isChecked(), "poison":self.ui.effetpoison_3.isChecked(), "sleep":self.ui.effetsommeil_3.isChecked(), "attraction":self.ui.effetattrac_3.isChecked(), "conf":self.ui.effetconfus_3.isChecked(), "maledi":self.ui.effetmaledi_3.isChecked(), "vampi":self.ui.vampicible_3.currentText(),"prio": int(self.ui.attaqueprio_3.toPlainText()), "vit": vit3, "deso": self.ui.effetdeso_3.isChecked(), "ident": self.ui.effetident_3.isChecked(), "piege":self.ui.effetpiege_3.isChecked(), "fightID": "2"}
 
@@ -2069,7 +2079,7 @@ class MainWindow(QMainWindow):
 
                 pkmn4 = {"id": idpkmon4[0], "lvl": int(self.ui.pokelvl_4.toPlainText()),"name": self.ui.pokename_4.toPlainText() ,"realname": self.ui.poke_4.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_4.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_4.toPlainText()),"att": int(self.ui.att_4.toPlainText()),"def": int(self.ui.defen_4.toPlainText()),"atts": int(self.ui.atts_4.toPlainText()),"defs": int(self.ui.defs_4.toPlainText()),"vit": vit4,"type1": self.ui.poketype1_4.toPlainText(),"type2": self.ui.poketype2_4.toPlainText(),"modifatt": self.ui.modifatt_4.value(),"modifdef": self.ui.modifdefen_4.value(), "modifatts": self.ui.modifatts_4.value(), "modifdefs": self.ui.modifdefs_4.value(),"modifvit": self.ui.modifvit_4.value(), "modifesquive": self.ui.modifesquive_4.value(), "modifprec": self.ui.modifprec_4.value(),"prio": int(self.ui.attaqueprio_4.toPlainText()),"ko": False, "fightID": "B","side": "listR", "truevit": self.ui.vit_4.toPlainText()}
 
-                attck4 = {"name": self.ui.attaque_4.toPlainText(),"type": self.ui.attaquetype_4.toPlainText(), "classe": self.ui.attaqueclasse_4.toPlainText(), "puiss": self.ui.attaquepuiss_4.toPlainText(), "prec": self.ui.attaqueprec_4.toPlainText(), "critchance": self.translateCrit(attackdata4[14]), "fearchance": attackdata4[13], "percenthpheal": attackdata4[11], "percenthpdrain": attackdata4[12], "statutchance": attackdata4[10], "statut": attackdata4[9], "effectchance": attackdata4[8], "effet_txt": attackdata4[7], "prio": int(self.ui.attaqueprio_4.toPlainText()), "vit": vit4 ,"target": self.ui.cible_4.currentText(), "dmgfixe": attackdata4[16], "dmgpercent": attackdata4[17], "catchiante": attackdata4[18]}
+                attck4 = {"name": self.ui.attaque_4.toPlainText(),"type": self.ui.attaquetype_4.toPlainText(), "classe": self.ui.attaqueclasse_4.toPlainText(), "puiss": self.ui.attaquepuiss_4.toPlainText(), "prec": self.ui.attaqueprec_4.toPlainText(), "critchance": self.translateCrit(attackdata4[14]), "fearchance": attackdata4[13], "percenthpheal": attackdata4[11], "percenthpdrain": attackdata4[12], "statutchance": attackdata4[10], "statut": attackdata4[9], "effectchance": attackdata4[8], "effet_txt": attackdata4[7], "prio": int(self.ui.attaqueprio_4.toPlainText()), "vit": vit4 ,"target": self.ui.cible_4.currentText(), "dmgfixe": attackdata4[16], "dmgpercent": attackdata4[17], "catchiante": attackdata4[18], "soinfixe": attackdata4[19]}
 
                 statut4 = {"fear":False, "burn":self.ui.effetbrule_4.isChecked(), "freeze":self.ui.effetgel_4.isChecked(), "para":self.ui.effetpara_4.isChecked(), "poison":self.ui.effetpoison_4.isChecked(), "sleep":self.ui.effetsommeil_4.isChecked(), "attraction":self.ui.effetattrac_4.isChecked(), "conf":self.ui.effetconfus_4.isChecked(), "maledi":self.ui.effetmaledi_4.isChecked(), "vampi":self.ui.vampicible_4.currentText(),"prio": int(self.ui.attaqueprio_4.toPlainText()), "vit": vit4, "deso": self.ui.effetdeso_4.isChecked(), "ident": self.ui.effetident_4.isChecked(), "piege":self.ui.effetpiege_4.isChecked(), "fightID": "B"}
 
@@ -2092,7 +2102,7 @@ class MainWindow(QMainWindow):
 
                 pkmn5 = {"id": idpkmon5[0], "lvl": int(self.ui.pokelvl_5.toPlainText()),"name": self.ui.pokename_5.toPlainText() ,"realname": self.ui.poke_5.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_5.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_5.toPlainText()),"att": int(self.ui.att_5.toPlainText()),"def": int(self.ui.defen_5.toPlainText()),"atts": int(self.ui.atts_5.toPlainText()),"defs": int(self.ui.defs_5.toPlainText()),"vit": vit5,"type1": self.ui.poketype1_5.toPlainText(),"type2": self.ui.poketype2_5.toPlainText(),"modifatt": self.ui.modifatt_5.value(),"modifdef": self.ui.modifdefen_5.value(), "modifatts": self.ui.modifatts_5.value(), "modifdefs": self.ui.modifdefs_5.value(),"modifvit": self.ui.modifvit_5.value(), "modifesquive": self.ui.modifesquive_5.value(), "modifprec": self.ui.modifprec_5.value(), "prio": int(self.ui.attaqueprio_5.toPlainText()),"ko": False, "fightID": "3","side": "listL", "truevit": self.ui.vit_5.toPlainText()}
 
-                attck5 = {"name": self.ui.attaque_5.toPlainText(),"type": self.ui.attaquetype_5.toPlainText(), "classe": self.ui.attaqueclasse_5.toPlainText(), "puiss": self.ui.attaquepuiss_5.toPlainText(), "prec": self.ui.attaqueprec_5.toPlainText(), "critchance": self.translateCrit(attackdata5[14]), "fearchance": attackdata5[13], "percenthpheal": attackdata5[11], "percenthpdrain": attackdata5[12], "statutchance": attackdata5[10], "statut": attackdata5[9], "effectchance": attackdata5[8], "effet_txt": attackdata5[7], "prio": int(self.ui.attaqueprio_5.toPlainText()), "vit": vit5,"target": self.ui.cible_5.currentText(), "dmgfixe": attackdata5[16], "dmgpercent": attackdata5[17], "catchiante": attackdata5[18]}
+                attck5 = {"name": self.ui.attaque_5.toPlainText(),"type": self.ui.attaquetype_5.toPlainText(), "classe": self.ui.attaqueclasse_5.toPlainText(), "puiss": self.ui.attaquepuiss_5.toPlainText(), "prec": self.ui.attaqueprec_5.toPlainText(), "critchance": self.translateCrit(attackdata5[14]), "fearchance": attackdata5[13], "percenthpheal": attackdata5[11], "percenthpdrain": attackdata5[12], "statutchance": attackdata5[10], "statut": attackdata5[9], "effectchance": attackdata5[8], "effet_txt": attackdata5[7], "prio": int(self.ui.attaqueprio_5.toPlainText()), "vit": vit5,"target": self.ui.cible_5.currentText(), "dmgfixe": attackdata5[16], "dmgpercent": attackdata5[17], "catchiante": attackdata5[18], "soinfixe": attackdata5[19]}
 
                 statut5 = {"fear":False, "burn":self.ui.effetbrule_5.isChecked(), "freeze":self.ui.effetgel_5.isChecked(), "para":self.ui.effetpara_5.isChecked(), "poison":self.ui.effetpoison_5.isChecked(), "sleep":self.ui.effetsommeil_5.isChecked(), "attraction":self.ui.effetattrac_5.isChecked(), "conf":self.ui.effetconfus_5.isChecked(), "maledi":self.ui.effetmaledi_5.isChecked(), "vampi":self.ui.vampicible_5.currentText(), "prio": int(self.ui.attaqueprio_5.toPlainText()), "vit": vit5, "deso": self.ui.effetdeso_5.isChecked(), "ident": self.ui.effetident_5.isChecked(), "piege":self.ui.effetpiege_5.isChecked(), "fightID": "3"}
 
@@ -2114,7 +2124,7 @@ class MainWindow(QMainWindow):
 
                 pkmn6 = {"id": idpkmon6[0], "lvl": int(self.ui.pokelvl_6.toPlainText()),"name": self.ui.pokename_6.toPlainText() ,"realname": self.ui.poke_6.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_6.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_6.toPlainText()),"att": int(self.ui.att_6.toPlainText()),"def": int(self.ui.defen_6.toPlainText()),"atts": int(self.ui.atts_6.toPlainText()),"defs": int(self.ui.defs_6.toPlainText()),"vit": vit6,"type1": self.ui.poketype1_6.toPlainText(),"type2": self.ui.poketype2_6.toPlainText(),"modifatt": self.ui.modifatt_6.value(),"modifdef": self.ui.modifdefen_6.value(), "modifatts": self.ui.modifatts_6.value(), "modifdefs": self.ui.modifdefs_6.value(),"modifvit": self.ui.modifvit_6.value(), "modifesquive": self.ui.modifesquive_6.value(), "modifprec": self.ui.modifprec_6.value(),"prio": int(self.ui.attaqueprio_6.toPlainText()),"ko": False, "fightID": "C","side": "listR", "truevit": self.ui.vit_6.toPlainText()}
 
-                attck6 = {"name": self.ui.attaque_6.toPlainText(),"type": self.ui.attaquetype_6.toPlainText(), "classe": self.ui.attaqueclasse_6.toPlainText(), "puiss": self.ui.attaquepuiss_6.toPlainText(), "prec": self.ui.attaqueprec_6.toPlainText(), "critchance": self.translateCrit(attackdata6[14]), "fearchance": attackdata6[13], "percenthpheal": attackdata6[11], "percenthpdrain": attackdata6[12], "statutchance": attackdata6[10], "statut": attackdata6[9], "effectchance": attackdata6[8], "effet_txt": attackdata6[7],"prio": int(self.ui.attaqueprio_6.toPlainText()), "vit": vit6,"target": self.ui.cible_6.currentText(), "dmgfixe": attackdata6[16], "dmgpercent": attackdata6[17], "catchiante": attackdata6[18]}
+                attck6 = {"name": self.ui.attaque_6.toPlainText(),"type": self.ui.attaquetype_6.toPlainText(), "classe": self.ui.attaqueclasse_6.toPlainText(), "puiss": self.ui.attaquepuiss_6.toPlainText(), "prec": self.ui.attaqueprec_6.toPlainText(), "critchance": self.translateCrit(attackdata6[14]), "fearchance": attackdata6[13], "percenthpheal": attackdata6[11], "percenthpdrain": attackdata6[12], "statutchance": attackdata6[10], "statut": attackdata6[9], "effectchance": attackdata6[8], "effet_txt": attackdata6[7],"prio": int(self.ui.attaqueprio_6.toPlainText()), "vit": vit6,"target": self.ui.cible_6.currentText(), "dmgfixe": attackdata6[16], "dmgpercent": attackdata6[17], "catchiante": attackdata6[18], "soinfixe": attackdata6[19]}
 
                 statut6 = {"fear":False, "burn":self.ui.effetbrule_6.isChecked(), "freeze":self.ui.effetgel_6.isChecked(), "para":self.ui.effetpara_6.isChecked(), "poison":self.ui.effetpoison_6.isChecked(), "sleep":self.ui.effetsommeil_6.isChecked(), "attraction":self.ui.effetattrac_6.isChecked(), "conf":self.ui.effetconfus_6.isChecked(), "maledi":self.ui.effetmaledi_6.isChecked(), "vampi":self.ui.vampicible_6.currentText(),"prio": int(self.ui.attaqueprio_6.toPlainText()), "vit": vit6, "deso": self.ui.effetdeso_6.isChecked(), "ident": self.ui.effetident_6.isChecked(), "piege":self.ui.effetpiege_6.isChecked(), "fightID": "C"}
 
@@ -2554,12 +2564,16 @@ class MainWindow(QMainWindow):
                             st2bonus=2.5
                         else:
                             st2bonus=1
-                        if ball=="Poké Ball":
-                            ballbonus=1
-                        elif ball=="Super Ball":
-                            ballbonus=1.5
-                        elif ball=="Hyper Ball":
-                            ballbonus=2
+                        if self.ui.ball.isChecked():
+                            if ball=="Poké Ball":
+                                ballbonus=1
+                            elif ball=="Super Ball":
+                                ballbonus=1.5
+                            elif ball=="Hyper Ball":
+                                ballbonus=2
+                        elif self.ui.modifball.isChecked():
+                            ball="???"
+                            ballbonus=self.ui.modifballvalue.value()
 
                         a=((((3*pvmax) - (2*pv)) * taux_capture * ballbonus)/(3*pvmax)) * (st1bonus*st2bonus)
                         b = 65536 / ((255/a)**0.1875)
@@ -2614,7 +2628,7 @@ class MainWindow(QMainWindow):
                         allko=allko+p["ko"]
                         howmany=howmany+1
                 if self.ui.fighttrainer.isChecked() and allko==howmany:
-                    self.ui.outputrp.append("[hr]\n[listL][center][img]http://sunrise-db.yo.fr/Sprites/0.png[/img]\nVous avez battu [b]???[/b] !\n[size=10]« Noooooooooon »[/size]\nVous gagnez ???[img]http://img.xooimage.com/files9//6/6/b/pok-dollar4-2b3a74c.png[/img] pour ce combat ![/center][/listL]")
+                    self.ui.outputrp.append("[hr]\n[listL][center][img]http://sunrise-db.yo.fr/Sprites/0.png[/img]\nVous avez battu [b]???[/b] !\n[size=10]« Noooooooooon »[/size]\nVous gagnez ???[img]https://i93.servimg.com/u/f93/20/08/72/05/pok-do10.png[/img] pour ce combat ![/center][/listL]")
                 self.ui.outputrp.append("[hr]")
                 self.ui.outputrp.append("[color=#999999][i]Et maintenant, [b]Dresseur[/b], quelle est la prochaine étape ?[/i][/color]")
                 self.ui.outputmodo.append('[/code][/spoiler][/modo]')

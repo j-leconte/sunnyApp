@@ -1,0 +1,24 @@
+https://github.com/Maeveen/sunnyApp
+https://drive.google.com/open?id=1HT_SIVm93yvJDs65nukCRozWbvVoS5cA
+
+17/09/2019
+- bug fix sur les attaques modifiant l'esquive
+- ajout d'une option pour choisir le modificateur de la ball lors de la capture à la place des 3 balls de base
+- ajout des potions à la bdd des attaques (taper "Potion", "Super Potion", "Hyper Potion" ou "Potion Max" à la place d'une attaque soignes le lanceur)
+
+05/07/2019
+- bug fix sur les critiques avec def ou attaque modifiers
+- séparation de l'outil capture en 2 : possible soit d'avoir le simple texte de capture dans la page outils OU de plutot aller cocher la case et choisir ball+cible pour intégrer à la modo
+- ajout d'un lancé de dé 6/20/100 dans la page outils
+- les pokémons et les attaques avec un "x" dans leur nom ne font plus exploser Holiday
+- Boule élek fonctionne nativement parce qu'on a trop de freakin' pikapika (possible de savoir a quelle puissance boule elek a été lancée si besoin de vérifier, dans le petit onglet d'infos sur l'attaque)
+- changements graphiques : le bouton clear est maintenant en haut à droite, l'espace à droite à été retiré, un menu déroulant pour la météo (qui ne fait rien pour le moment) a été ajouté en haut à gauche
+- les modif de stats et de statuts sont maintenant toujours reportées dans la case modo (pour le sommeil/la confusion/les pieges qui génèrent un nombre de tour, l'info est notée en double sur le tour ou le statut apparait, et le nombre de tour est "??" sur les rounds suivants, donc il faut toujours mettre les tours à jour manuellement)
+- en combat multi, si un adversaire ciblé tombe ko avant qu'un pokémon puisse l'attaquée, sa nouvelle cible est selectionnée au hasard parmis les adversaires restants
+- en mode "dresseur", lorsque tous les pokémons adverses tombent KO sur le tour, le texte de fin de combat de dresseur (vous avez battu ???, vous gagnez x P$...) est ajouté à la modération
+
+27/06/2019
+- la manière dont sont générés les stats des pokemons (plus équilibré qu'avant)
+- les statuts font maintenant des dégats à la fin des tours et plus au momement ou le pokemon attaque 
+- y a un petit bouton "clear" en bas à droite qui vide toutes les cases pour si vous voulez faire plusieurs modo d'affilé
+- si vous générez une capture dans la page "outils", et que vous re-générez le combat après, le texte de capture sera directement intégré dans la modération (avec l'xp !!!!)
