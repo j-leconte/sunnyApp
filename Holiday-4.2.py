@@ -14,6 +14,7 @@ from operator import itemgetter
 # Weather
 # Mettre en balise modo les infos non gérables sur un tour type lance soleil se lance direct si soleil
 # Changer ordre proc statuts
+# Prendre en compte le nombre de tours pour sommeil/conf/piege
 
 # import GUI and database
 Ui_MainWindow, QtBaseClass = uic.loadUiType("Interface.ui")
@@ -63,6 +64,7 @@ class MainWindow(QMainWindow):
 
         self.ui.fightbutton.clicked.connect(self.fightInit) # generate the fight
         self.ui.clearall.clicked.connect(self.clearFun) # clear first page
+        self.ui.codestatutbox.clicked.connect(self.putstat) # Add all statuts and modif
 
         #Second page : outils
         self.ui.genbutton.clicked.connect(self.pokegen)
@@ -248,6 +250,1251 @@ class MainWindow(QMainWindow):
         elif crit=='toujours critique':
             return 100
 
+    # Put all stats and statuts
+    def putstat(self):
+        code = self.ui.codestatut.toPlainText()
+        codeSplit = re.split('-',code)
+        if len(codeSplit) == 6:
+            if(codeSplit[0]!="NA"):
+                if(bool(re.search("BRL", codeSplit[0]))):
+                    self.ui.effetbrule.setChecked(True)
+                if(bool(re.search("PSN", codeSplit[0]))):
+                    self.ui.effetpoison.setChecked(True)
+                if(bool(re.search("CNF", codeSplit[0]))):
+                    self.ui.effetconfus.setChecked(True)
+                if(bool(re.search("GEL", codeSplit[0]))):
+                    self.ui.effetgel.setChecked(True)
+                if(bool(re.search("SLP", codeSplit[0]))):
+                    self.ui.effetsommeil.setChecked(True)
+                if(bool(re.search("MAL", codeSplit[0]))):
+                    self.ui.effetmaledi.setChecked(True)
+                if(bool(re.search("PAR", codeSplit[0]))):
+                    self.ui.effetpara.setChecked(True)
+                if(bool(re.search("ACN", codeSplit[0]))):
+                    self.ui.effetattrac.setChecked(True)
+                if(bool(re.search("DBS", codeSplit[0]))):
+                    self.ui.effetdeso.setChecked(True)
+                if(bool(re.search("PIG", codeSplit[0]))):
+                    self.ui.effetpiege.setChecked(True)
+                if(bool(re.search("IDT", codeSplit[0]))):
+                    self.ui.effetident.setChecked(True)
+                if(bool(re.search("VA", codeSplit[0]))):
+                    self.ui.vampicible.setCurrentIndex(1)
+                if(bool(re.search("VB", codeSplit[0]))):
+                    self.ui.vampicible.setCurrentIndex(2)
+                if(bool(re.search("VC", codeSplit[0]))):
+                    self.ui.vampicible.setCurrentIndex(3)
+                if(bool(re.search("V1", codeSplit[0]))):
+                    self.ui.vampicible.setCurrentIndex(4)
+                if(bool(re.search("V2", codeSplit[0]))):
+                    self.ui.vampicible.setCurrentIndex(5)
+                if(bool(re.search("V3", codeSplit[0]))):
+                    self.ui.vampicible.setCurrentIndex(6)
+
+                if(bool(re.search("A01", codeSplit[0]))):
+                    self.ui.modifatt.setValue(1)
+                if(bool(re.search("A02", codeSplit[0]))):
+                    self.ui.modifatt.setValue(2)
+                if(bool(re.search("A03", codeSplit[0]))):
+                    self.ui.modifatt.setValue(3)
+                if(bool(re.search("A04", codeSplit[0]))):
+                    self.ui.modifatt.setValue(4)
+                if(bool(re.search("A05", codeSplit[0]))):
+                    self.ui.modifatt.setValue(5)
+                if(bool(re.search("A06", codeSplit[0]))):
+                    self.ui.modifatt.setValue(6)
+                if(bool(re.search("A07", codeSplit[0]))):
+                    self.ui.modifatt.setValue(-1)
+                if(bool(re.search("A08", codeSplit[0]))):
+                    self.ui.modifatt.setValue(-2)
+                if(bool(re.search("A09", codeSplit[0]))):
+                    self.ui.modifatt.setValue(-3)
+                if(bool(re.search("A10", codeSplit[0]))):
+                    self.ui.modifatt.setValue(-4)
+                if(bool(re.search("A11", codeSplit[0]))):
+                    self.ui.modifatt.setValue(-5)
+                if(bool(re.search("A12", codeSplit[0]))):
+                    self.ui.modifatt.setValue(-6)
+                if(bool(re.search("D01", codeSplit[0]))):
+                    self.ui.modifdefen.setValue(1)
+                if(bool(re.search("D02", codeSplit[0]))):
+                    self.ui.modifdefen.setValue(2)
+                if(bool(re.search("D03", codeSplit[0]))):
+                    self.ui.modifdefen.setValue(3)
+                if(bool(re.search("D04", codeSplit[0]))):
+                    self.ui.modifdefen.setValue(4)
+                if(bool(re.search("D05", codeSplit[0]))):
+                    self.ui.modifdefen.setValue(5)
+                if(bool(re.search("D06", codeSplit[0]))):
+                    self.ui.modifdefen.setValue(6)
+                if(bool(re.search("D07", codeSplit[0]))):
+                    self.ui.modifdefen.setValue(-1)
+                if(bool(re.search("D08", codeSplit[0]))):
+                    self.ui.modifdefen.setValue(-2)
+                if(bool(re.search("D09", codeSplit[0]))):
+                    self.ui.modifdefen.setValue(-3)
+                if(bool(re.search("D10", codeSplit[0]))):
+                    self.ui.modifdefen.setValue(-4)
+                if(bool(re.search("D11", codeSplit[0]))):
+                    self.ui.modifdefen.setValue(-5)
+                if(bool(re.search("D12", codeSplit[0]))):
+                    self.ui.modifdefen.setValue(-6)
+                if(bool(re.search("S01", codeSplit[0]))):
+                    self.ui.modifatts.setValue(1)
+                if(bool(re.search("S02", codeSplit[0]))):
+                    self.ui.modifatts.setValue(2)
+                if(bool(re.search("S03", codeSplit[0]))):
+                    self.ui.modifatts.setValue(3)
+                if(bool(re.search("S04", codeSplit[0]))):
+                    self.ui.modifatts.setValue(4)
+                if(bool(re.search("S05", codeSplit[0]))):
+                    self.ui.modifatts.setValue(5)
+                if(bool(re.search("S06", codeSplit[0]))):
+                    self.ui.modifatts.setValue(6)
+                if(bool(re.search("S07", codeSplit[0]))):
+                    self.ui.modifatts.setValue(-1)
+                if(bool(re.search("S08", codeSplit[0]))):
+                    self.ui.modifatts.setValue(-2)
+                if(bool(re.search("S09", codeSplit[0]))):
+                    self.ui.modifatts.setValue(-3)
+                if(bool(re.search("S10", codeSplit[0]))):
+                    self.ui.modifatts.setValue(-4)
+                if(bool(re.search("S11", codeSplit[0]))):
+                    self.ui.modifatts.setValue(-5)
+                if(bool(re.search("S12", codeSplit[0]))):
+                    self.ui.modifatts.setValue(-6)
+                if(bool(re.search("F01", codeSplit[0]))):
+                    self.ui.modifdefs.setValue(1)
+                if(bool(re.search("F02", codeSplit[0]))):
+                    self.ui.modifdefs.setValue(2)
+                if(bool(re.search("F03", codeSplit[0]))):
+                    self.ui.modifdefs.setValue(3)
+                if(bool(re.search("F04", codeSplit[0]))):
+                    self.ui.modifdefs.setValue(4)
+                if(bool(re.search("F05", codeSplit[0]))):
+                    self.ui.modifdefs.setValue(5)
+                if(bool(re.search("F06", codeSplit[0]))):
+                    self.ui.modifdefs.setValue(6)
+                if(bool(re.search("F07", codeSplit[0]))):
+                    self.ui.modifdefs.setValue(-1)
+                if(bool(re.search("F08", codeSplit[0]))):
+                    self.ui.modifdefs.setValue(-2)
+                if(bool(re.search("F09", codeSplit[0]))):
+                    self.ui.modifdefs.setValue(-3)
+                if(bool(re.search("F10", codeSplit[0]))):
+                    self.ui.modifdefs.setValue(-4)
+                if(bool(re.search("F11", codeSplit[0]))):
+                    self.ui.modifdefs.setValue(-5)
+                if(bool(re.search("F12", codeSplit[0]))):
+                    self.ui.modifdefs.setValue(-6)
+                if(bool(re.search("T01", codeSplit[0]))):
+                    self.ui.modifvit.setValue(1)
+                if(bool(re.search("T02", codeSplit[0]))):
+                    self.ui.modifvit.setValue(2)
+                if(bool(re.search("T03", codeSplit[0]))):
+                    self.ui.modifvit.setValue(3)
+                if(bool(re.search("T04", codeSplit[0]))):
+                    self.ui.modifvit.setValue(4)
+                if(bool(re.search("T05", codeSplit[0]))):
+                    self.ui.modifvit.setValue(5)
+                if(bool(re.search("T06", codeSplit[0]))):
+                    self.ui.modifvit.setValue(6)
+                if(bool(re.search("T07", codeSplit[0]))):
+                    self.ui.modifvit.setValue(-1)
+                if(bool(re.search("T08", codeSplit[0]))):
+                    self.ui.modifvit.setValue(-2)
+                if(bool(re.search("T09", codeSplit[0]))):
+                    self.ui.modifvit.setValue(-3)
+                if(bool(re.search("T10", codeSplit[0]))):
+                    self.ui.modifvit.setValue(-4)
+                if(bool(re.search("T11", codeSplit[0]))):
+                    self.ui.modifvit.setValue(-5)
+                if(bool(re.search("T12", codeSplit[0]))):
+                    self.ui.modifvit.setValue(-6)
+                if(bool(re.search("E01", codeSplit[0]))):
+                    self.ui.modifesquive.setValue(1)
+                if(bool(re.search("E02", codeSplit[0]))):
+                    self.ui.modifesquive.setValue(2)
+                if(bool(re.search("E03", codeSplit[0]))):
+                    self.ui.modifesquive.setValue(3)
+                if(bool(re.search("E04", codeSplit[0]))):
+                    self.ui.modifesquive.setValue(4)
+                if(bool(re.search("E05", codeSplit[0]))):
+                    self.ui.modifesquive.setValue(5)
+                if(bool(re.search("E06", codeSplit[0]))):
+                    self.ui.modifesquive.setValue(6)
+                if(bool(re.search("E07", codeSplit[0]))):
+                    self.ui.modifesquive.setValue(-1)
+                if(bool(re.search("E08", codeSplit[0]))):
+                    self.ui.modifesquive.setValue(-2)
+                if(bool(re.search("E09", codeSplit[0]))):
+                    self.ui.modifesquive.setValue(-3)
+                if(bool(re.search("E10", codeSplit[0]))):
+                    self.ui.modifesquive.setValue(-4)
+                if(bool(re.search("E11", codeSplit[0]))):
+                    self.ui.modifesquive.setValue(-5)
+                if(bool(re.search("E12", codeSplit[0]))):
+                    self.ui.modifesquive.setValue(-6)
+                if(bool(re.search("P01", codeSplit[0]))):
+                    self.ui.modifprec.setValue(1)
+                if(bool(re.search("P02", codeSplit[0]))):
+                    self.ui.modifprec.setValue(2)
+                if(bool(re.search("P03", codeSplit[0]))):
+                    self.ui.modifprec.setValue(3)
+                if(bool(re.search("P04", codeSplit[0]))):
+                    self.ui.modifprec.setValue(4)
+                if(bool(re.search("P05", codeSplit[0]))):
+                    self.ui.modifprec.setValue(5)
+                if(bool(re.search("P06", codeSplit[0]))):
+                    self.ui.modifprec.setValue(6)
+                if(bool(re.search("P07", codeSplit[0]))):
+                    self.ui.modifprec.setValue(-1)
+                if(bool(re.search("P08", codeSplit[0]))):
+                    self.ui.modifprec.setValue(-2)
+                if(bool(re.search("P09", codeSplit[0]))):
+                    self.ui.modifprec.setValue(-3)
+                if(bool(re.search("P10", codeSplit[0]))):
+                    self.ui.modifprec.setValue(-4)
+                if(bool(re.search("P11", codeSplit[0]))):
+                    self.ui.modifprec.setValue(-5)
+                if(bool(re.search("P12", codeSplit[0]))):
+                    self.ui.modifprec.setValue(-6)
+
+            if(codeSplit[1]!="NA"):
+                if(bool(re.search("BRL", codeSplit[1]))):
+                    self.ui.effetbrule_3.setChecked(True)
+                if(bool(re.search("PSN", codeSplit[1]))):
+                    self.ui.effetpoison_3.setChecked(True)
+                if(bool(re.search("CNF", codeSplit[1]))):
+                    self.ui.effetconfus_3.setChecked(True)
+                if(bool(re.search("GEL", codeSplit[1]))):
+                    self.ui.effetgel_3.setChecked(True)
+                if(bool(re.search("SLP", codeSplit[1]))):
+                    self.ui.effetsommeil_3.setChecked(True)
+                if(bool(re.search("MAL", codeSplit[1]))):
+                    self.ui.effetmaledi_3.setChecked(True)
+                if(bool(re.search("PAR", codeSplit[1]))):
+                    self.ui.effetpara_3.setChecked(True)
+                if(bool(re.search("ACN", codeSplit[1]))):
+                    self.ui.effetattrac_3.setChecked(True)
+                if(bool(re.search("DBS", codeSplit[1]))):
+                    self.ui.effetdeso_3.setChecked(True)
+                if(bool(re.search("PIG", codeSplit[1]))):
+                    self.ui.effetpiege_3.setChecked(True)
+                if(bool(re.search("IDT", codeSplit[1]))):
+                    self.ui.effetident_3.setChecked(True)
+                if(bool(re.search("V1", codeSplit[1]))):
+                    self.ui.vampicible_3.setCurrentIndex(1)
+                if(bool(re.search("V2", codeSplit[1]))):
+                    self.ui.vampicible_3.setCurrentIndex(2)
+                if(bool(re.search("V3", codeSplit[1]))):
+                    self.ui.vampicible_3.setCurrentIndex(3)
+                if(bool(re.search("VA", codeSplit[1]))):
+                    self.ui.vampicible_3.setCurrentIndex(4)
+                if(bool(re.search("VB", codeSplit[1]))):
+                    self.ui.vampicible_3.setCurrentIndex(5)
+                if(bool(re.search("VC", codeSplit[1]))):
+                    self.ui.vampicible_3.setCurrentIndex(6)
+
+                if(bool(re.search("A01", codeSplit[1]))):
+                    self.ui.modifatt_3.setValue(1)
+                if(bool(re.search("A02", codeSplit[1]))):
+                    self.ui.modifatt_3.setValue(2)
+                if(bool(re.search("A03", codeSplit[1]))):
+                    self.ui.modifatt_3.setValue(3)
+                if(bool(re.search("A04", codeSplit[1]))):
+                    self.ui.modifatt_3.setValue(4)
+                if(bool(re.search("A05", codeSplit[1]))):
+                    self.ui.modifatt_3.setValue(5)
+                if(bool(re.search("A06", codeSplit[1]))):
+                    self.ui.modifatt_3.setValue(6)
+                if(bool(re.search("A07", codeSplit[1]))):
+                    self.ui.modifatt_3.setValue(-1)
+                if(bool(re.search("A08", codeSplit[1]))):
+                    self.ui.modifatt_3.setValue(-2)
+                if(bool(re.search("A09", codeSplit[1]))):
+                    self.ui.modifatt_3.setValue(-3)
+                if(bool(re.search("A10", codeSplit[1]))):
+                    self.ui.modifatt_3.setValue(-4)
+                if(bool(re.search("A11", codeSplit[1]))):
+                    self.ui.modifatt_3.setValue(-5)
+                if(bool(re.search("A12", codeSplit[1]))):
+                    self.ui.modifatt_3.setValue(-6)
+                if(bool(re.search("D01", codeSplit[1]))):
+                    self.ui.modifdefen_3.setValue(1)
+                if(bool(re.search("D02", codeSplit[1]))):
+                    self.ui.modifdefen_3.setValue(2)
+                if(bool(re.search("D03", codeSplit[1]))):
+                    self.ui.modifdefen_3.setValue(3)
+                if(bool(re.search("D04", codeSplit[1]))):
+                    self.ui.modifdefen_3.setValue(4)
+                if(bool(re.search("D05", codeSplit[1]))):
+                    self.ui.modifdefen_3.setValue(5)
+                if(bool(re.search("D06", codeSplit[1]))):
+                    self.ui.modifdefen_3.setValue(6)
+                if(bool(re.search("D07", codeSplit[1]))):
+                    self.ui.modifdefen_3.setValue(-1)
+                if(bool(re.search("D08", codeSplit[1]))):
+                    self.ui.modifdefen_3.setValue(-2)
+                if(bool(re.search("D09", codeSplit[1]))):
+                    self.ui.modifdefen_3.setValue(-3)
+                if(bool(re.search("D10", codeSplit[1]))):
+                    self.ui.modifdefen_3.setValue(-4)
+                if(bool(re.search("D11", codeSplit[1]))):
+                    self.ui.modifdefen_3.setValue(-5)
+                if(bool(re.search("D12", codeSplit[1]))):
+                    self.ui.modifdefen_3.setValue(-6)
+                if(bool(re.search("S01", codeSplit[1]))):
+                    self.ui.modifatts_3.setValue(1)
+                if(bool(re.search("S02", codeSplit[1]))):
+                    self.ui.modifatts_3.setValue(2)
+                if(bool(re.search("S03", codeSplit[1]))):
+                    self.ui.modifatts_3.setValue(3)
+                if(bool(re.search("S04", codeSplit[1]))):
+                    self.ui.modifatts_3.setValue(4)
+                if(bool(re.search("S05", codeSplit[1]))):
+                    self.ui.modifatts_3.setValue(5)
+                if(bool(re.search("S06", codeSplit[1]))):
+                    self.ui.modifatts_3.setValue(6)
+                if(bool(re.search("S07", codeSplit[1]))):
+                    self.ui.modifatts_3.setValue(-1)
+                if(bool(re.search("S08", codeSplit[1]))):
+                    self.ui.modifatts_3.setValue(-2)
+                if(bool(re.search("S09", codeSplit[1]))):
+                    self.ui.modifatts_3.setValue(-3)
+                if(bool(re.search("S10", codeSplit[1]))):
+                    self.ui.modifatts_3.setValue(-4)
+                if(bool(re.search("S11", codeSplit[1]))):
+                    self.ui.modifatts_3.setValue(-5)
+                if(bool(re.search("S12", codeSplit[1]))):
+                    self.ui.modifatts_3.setValue(-6)
+                if(bool(re.search("F01", codeSplit[1]))):
+                    self.ui.modifdefs_3.setValue(1)
+                if(bool(re.search("F02", codeSplit[1]))):
+                    self.ui.modifdefs_3.setValue(2)
+                if(bool(re.search("F03", codeSplit[1]))):
+                    self.ui.modifdefs_3.setValue(3)
+                if(bool(re.search("F04", codeSplit[1]))):
+                    self.ui.modifdefs_3.setValue(4)
+                if(bool(re.search("F05", codeSplit[1]))):
+                    self.ui.modifdefs_3.setValue(5)
+                if(bool(re.search("F06", codeSplit[1]))):
+                    self.ui.modifdefs_3.setValue(6)
+                if(bool(re.search("F07", codeSplit[1]))):
+                    self.ui.modifdefs_3.setValue(-1)
+                if(bool(re.search("F08", codeSplit[1]))):
+                    self.ui.modifdefs_3.setValue(-2)
+                if(bool(re.search("F09", codeSplit[1]))):
+                    self.ui.modifdefs_3.setValue(-3)
+                if(bool(re.search("F10", codeSplit[1]))):
+                    self.ui.modifdefs_3.setValue(-4)
+                if(bool(re.search("F11", codeSplit[1]))):
+                    self.ui.modifdefs_3.setValue(-5)
+                if(bool(re.search("F12", codeSplit[1]))):
+                    self.ui.modifdefs_3.setValue(-6)
+                if(bool(re.search("T01", codeSplit[1]))):
+                    self.ui.modifvit_3.setValue(1)
+                if(bool(re.search("T02", codeSplit[1]))):
+                    self.ui.modifvit_3.setValue(2)
+                if(bool(re.search("T03", codeSplit[1]))):
+                    self.ui.modifvit_3.setValue(3)
+                if(bool(re.search("T04", codeSplit[1]))):
+                    self.ui.modifvit_3.setValue(4)
+                if(bool(re.search("T05", codeSplit[1]))):
+                    self.ui.modifvit_3.setValue(5)
+                if(bool(re.search("T06", codeSplit[1]))):
+                    self.ui.modifvit_3.setValue(6)
+                if(bool(re.search("T07", codeSplit[1]))):
+                    self.ui.modifvit_3.setValue(-1)
+                if(bool(re.search("T08", codeSplit[1]))):
+                    self.ui.modifvit_3.setValue(-2)
+                if(bool(re.search("T09", codeSplit[1]))):
+                    self.ui.modifvit_3.setValue(-3)
+                if(bool(re.search("T10", codeSplit[1]))):
+                    self.ui.modifvit_3.setValue(-4)
+                if(bool(re.search("T11", codeSplit[1]))):
+                    self.ui.modifvit_3.setValue(-5)
+                if(bool(re.search("T12", codeSplit[1]))):
+                    self.ui.modifvit_3.setValue(-6)
+                if(bool(re.search("E01", codeSplit[1]))):
+                    self.ui.modifesquive_3.setValue(1)
+                if(bool(re.search("E02", codeSplit[1]))):
+                    self.ui.modifesquive_3.setValue(2)
+                if(bool(re.search("E03", codeSplit[1]))):
+                    self.ui.modifesquive_3.setValue(3)
+                if(bool(re.search("E04", codeSplit[1]))):
+                    self.ui.modifesquive_3.setValue(4)
+                if(bool(re.search("E05", codeSplit[1]))):
+                    self.ui.modifesquive_3.setValue(5)
+                if(bool(re.search("E06", codeSplit[1]))):
+                    self.ui.modifesquive_3.setValue(6)
+                if(bool(re.search("E07", codeSplit[1]))):
+                    self.ui.modifesquive_3.setValue(-1)
+                if(bool(re.search("E08", codeSplit[1]))):
+                    self.ui.modifesquive_3.setValue(-2)
+                if(bool(re.search("E09", codeSplit[1]))):
+                    self.ui.modifesquive_3.setValue(-3)
+                if(bool(re.search("E10", codeSplit[1]))):
+                    self.ui.modifesquive_3.setValue(-4)
+                if(bool(re.search("E11", codeSplit[1]))):
+                    self.ui.modifesquive_3.setValue(-5)
+                if(bool(re.search("E12", codeSplit[1]))):
+                    self.ui.modifesquive_3.setValue(-6)
+                if(bool(re.search("P01", codeSplit[1]))):
+                    self.ui.modifprec_3.setValue(1)
+                if(bool(re.search("P02", codeSplit[1]))):
+                    self.ui.modifprec_3.setValue(2)
+                if(bool(re.search("P03", codeSplit[1]))):
+                    self.ui.modifprec_3.setValue(3)
+                if(bool(re.search("P04", codeSplit[1]))):
+                    self.ui.modifprec_3.setValue(4)
+                if(bool(re.search("P05", codeSplit[1]))):
+                    self.ui.modifprec_3.setValue(5)
+                if(bool(re.search("P06", codeSplit[1]))):
+                    self.ui.modifprec_3.setValue(6)
+                if(bool(re.search("P07", codeSplit[1]))):
+                    self.ui.modifprec_3.setValue(-1)
+                if(bool(re.search("P08", codeSplit[1]))):
+                    self.ui.modifprec_3.setValue(-2)
+                if(bool(re.search("P09", codeSplit[1]))):
+                    self.ui.modifprec_3.setValue(-3)
+                if(bool(re.search("P10", codeSplit[1]))):
+                    self.ui.modifprec_3.setValue(-4)
+                if(bool(re.search("P11", codeSplit[1]))):
+                    self.ui.modifprec_3.setValue(-5)
+                if(bool(re.search("P12", codeSplit[1]))):
+                    self.ui.modifprec_3.setValue(-6)
+
+            if(codeSplit[2]!="NA"):
+                if(bool(re.search("BRL", codeSplit[2]))):
+                    self.ui.effetbrule_5.setChecked(True)
+                if(bool(re.search("PSN", codeSplit[2]))):
+                    self.ui.effetpoison_5.setChecked(True)
+                if(bool(re.search("CNF", codeSplit[2]))):
+                    self.ui.effetconfus_5.setChecked(True)
+                if(bool(re.search("GEL", codeSplit[2]))):
+                    self.ui.effetgel_5.setChecked(True)
+                if(bool(re.search("SLP", codeSplit[2]))):
+                    self.ui.effetsommeil_5.setChecked(True)
+                if(bool(re.search("MAL", codeSplit[2]))):
+                    self.ui.effetmaledi_5.setChecked(True)
+                if(bool(re.search("PAR", codeSplit[2]))):
+                    self.ui.effetpara_5.setChecked(True)
+                if(bool(re.search("ACN", codeSplit[2]))):
+                    self.ui.effetattrac_5.setChecked(True)
+                if(bool(re.search("DBS", codeSplit[2]))):
+                    self.ui.effetdeso_5.setChecked(True)
+                if(bool(re.search("PIG", codeSplit[2]))):
+                    self.ui.effetpiege_5.setChecked(True)
+                if(bool(re.search("IDT", codeSplit[2]))):
+                    self.ui.effetident_5.setChecked(True)
+                if(bool(re.search("VA", codeSplit[2]))):
+                    self.ui.vampicible_5.setCurrentIndex(1)
+                if(bool(re.search("VB", codeSplit[2]))):
+                    self.ui.vampicible_5.setCurrentIndex(2)
+                if(bool(re.search("VC", codeSplit[2]))):
+                    self.ui.vampicible_5.setCurrentIndex(3)
+                if(bool(re.search("V1", codeSplit[2]))):
+                    self.ui.vampicible_5.setCurrentIndex(4)
+                if(bool(re.search("V2", codeSplit[2]))):
+                    self.ui.vampicible_5.setCurrentIndex(5)
+                if(bool(re.search("V3", codeSplit[2]))):
+                    self.ui.vampicible_5.setCurrentIndex(6)
+
+                if(bool(re.search("A01", codeSplit[2]))):
+                    self.ui.modifatt_5.setValue(1)
+                if(bool(re.search("A02", codeSplit[2]))):
+                    self.ui.modifatt_5.setValue(2)
+                if(bool(re.search("A03", codeSplit[2]))):
+                    self.ui.modifatt_5.setValue(3)
+                if(bool(re.search("A04", codeSplit[2]))):
+                    self.ui.modifatt_5.setValue(4)
+                if(bool(re.search("A05", codeSplit[2]))):
+                    self.ui.modifatt_5.setValue(5)
+                if(bool(re.search("A06", codeSplit[2]))):
+                    self.ui.modifatt_5.setValue(6)
+                if(bool(re.search("A07", codeSplit[2]))):
+                    self.ui.modifatt_5.setValue(-1)
+                if(bool(re.search("A08", codeSplit[2]))):
+                    self.ui.modifatt_5.setValue(-2)
+                if(bool(re.search("A09", codeSplit[2]))):
+                    self.ui.modifatt_5.setValue(-3)
+                if(bool(re.search("A10", codeSplit[2]))):
+                    self.ui.modifatt_5.setValue(-4)
+                if(bool(re.search("A11", codeSplit[2]))):
+                    self.ui.modifatt_5.setValue(-5)
+                if(bool(re.search("A12", codeSplit[2]))):
+                    self.ui.modifatt_5.setValue(-6)
+                if(bool(re.search("D01", codeSplit[2]))):
+                    self.ui.modifdefen_5.setValue(1)
+                if(bool(re.search("D02", codeSplit[2]))):
+                    self.ui.modifdefen_5.setValue(2)
+                if(bool(re.search("D03", codeSplit[2]))):
+                    self.ui.modifdefen_5.setValue(3)
+                if(bool(re.search("D04", codeSplit[2]))):
+                    self.ui.modifdefen_5.setValue(4)
+                if(bool(re.search("D05", codeSplit[2]))):
+                    self.ui.modifdefen_5.setValue(5)
+                if(bool(re.search("D06", codeSplit[2]))):
+                    self.ui.modifdefen_5.setValue(6)
+                if(bool(re.search("D07", codeSplit[2]))):
+                    self.ui.modifdefen_5.setValue(-1)
+                if(bool(re.search("D08", codeSplit[2]))):
+                    self.ui.modifdefen_5.setValue(-2)
+                if(bool(re.search("D09", codeSplit[2]))):
+                    self.ui.modifdefen_5.setValue(-3)
+                if(bool(re.search("D10", codeSplit[2]))):
+                    self.ui.modifdefen_5.setValue(-4)
+                if(bool(re.search("D11", codeSplit[2]))):
+                    self.ui.modifdefen_5.setValue(-5)
+                if(bool(re.search("D12", codeSplit[2]))):
+                    self.ui.modifdefen_5.setValue(-6)
+                if(bool(re.search("S01", codeSplit[2]))):
+                    self.ui.modifatts_5.setValue(1)
+                if(bool(re.search("S02", codeSplit[2]))):
+                    self.ui.modifatts_5.setValue(2)
+                if(bool(re.search("S03", codeSplit[2]))):
+                    self.ui.modifatts_5.setValue(3)
+                if(bool(re.search("S04", codeSplit[2]))):
+                    self.ui.modifatts_5.setValue(4)
+                if(bool(re.search("S05", codeSplit[2]))):
+                    self.ui.modifatts_5.setValue(5)
+                if(bool(re.search("S06", codeSplit[2]))):
+                    self.ui.modifatts_5.setValue(6)
+                if(bool(re.search("S07", codeSplit[2]))):
+                    self.ui.modifatts_5.setValue(-1)
+                if(bool(re.search("S08", codeSplit[2]))):
+                    self.ui.modifatts_5.setValue(-2)
+                if(bool(re.search("S09", codeSplit[2]))):
+                    self.ui.modifatts_5.setValue(-3)
+                if(bool(re.search("S10", codeSplit[2]))):
+                    self.ui.modifatts_5.setValue(-4)
+                if(bool(re.search("S11", codeSplit[2]))):
+                    self.ui.modifatts_5.setValue(-5)
+                if(bool(re.search("S12", codeSplit[2]))):
+                    self.ui.modifatts_5.setValue(-6)
+                if(bool(re.search("F01", codeSplit[2]))):
+                    self.ui.modifdefs_5.setValue(1)
+                if(bool(re.search("F02", codeSplit[2]))):
+                    self.ui.modifdefs_5.setValue(2)
+                if(bool(re.search("F03", codeSplit[2]))):
+                    self.ui.modifdefs_5.setValue(3)
+                if(bool(re.search("F04", codeSplit[2]))):
+                    self.ui.modifdefs_5.setValue(4)
+                if(bool(re.search("F05", codeSplit[2]))):
+                    self.ui.modifdefs_5.setValue(5)
+                if(bool(re.search("F06", codeSplit[2]))):
+                    self.ui.modifdefs_5.setValue(6)
+                if(bool(re.search("F07", codeSplit[2]))):
+                    self.ui.modifdefs_5.setValue(-1)
+                if(bool(re.search("F08", codeSplit[2]))):
+                    self.ui.modifdefs_5.setValue(-2)
+                if(bool(re.search("F09", codeSplit[2]))):
+                    self.ui.modifdefs_5.setValue(-3)
+                if(bool(re.search("F10", codeSplit[2]))):
+                    self.ui.modifdefs_5.setValue(-4)
+                if(bool(re.search("F11", codeSplit[2]))):
+                    self.ui.modifdefs_5.setValue(-5)
+                if(bool(re.search("F12", codeSplit[2]))):
+                    self.ui.modifdefs_5.setValue(-6)
+                if(bool(re.search("T01", codeSplit[2]))):
+                    self.ui.modifvit_5.setValue(1)
+                if(bool(re.search("T02", codeSplit[2]))):
+                    self.ui.modifvit_5.setValue(2)
+                if(bool(re.search("T03", codeSplit[2]))):
+                    self.ui.modifvit_5.setValue(3)
+                if(bool(re.search("T04", codeSplit[2]))):
+                    self.ui.modifvit_5.setValue(4)
+                if(bool(re.search("T05", codeSplit[2]))):
+                    self.ui.modifvit_5.setValue(5)
+                if(bool(re.search("T06", codeSplit[2]))):
+                    self.ui.modifvit_5.setValue(6)
+                if(bool(re.search("T07", codeSplit[2]))):
+                    self.ui.modifvit_5.setValue(-1)
+                if(bool(re.search("T08", codeSplit[2]))):
+                    self.ui.modifvit_5.setValue(-2)
+                if(bool(re.search("T09", codeSplit[2]))):
+                    self.ui.modifvit_5.setValue(-3)
+                if(bool(re.search("T10", codeSplit[2]))):
+                    self.ui.modifvit_5.setValue(-4)
+                if(bool(re.search("T11", codeSplit[2]))):
+                    self.ui.modifvit_5.setValue(-5)
+                if(bool(re.search("T12", codeSplit[2]))):
+                    self.ui.modifvit_5.setValue(-6)
+                if(bool(re.search("E01", codeSplit[2]))):
+                    self.ui.modifesquive_5.setValue(1)
+                if(bool(re.search("E02", codeSplit[2]))):
+                    self.ui.modifesquive_5.setValue(2)
+                if(bool(re.search("E03", codeSplit[2]))):
+                    self.ui.modifesquive_5.setValue(3)
+                if(bool(re.search("E04", codeSplit[2]))):
+                    self.ui.modifesquive_5.setValue(4)
+                if(bool(re.search("E05", codeSplit[2]))):
+                    self.ui.modifesquive_5.setValue(5)
+                if(bool(re.search("E06", codeSplit[2]))):
+                    self.ui.modifesquive_5.setValue(6)
+                if(bool(re.search("E07", codeSplit[2]))):
+                    self.ui.modifesquive_5.setValue(-1)
+                if(bool(re.search("E08", codeSplit[2]))):
+                    self.ui.modifesquive_5.setValue(-2)
+                if(bool(re.search("E09", codeSplit[2]))):
+                    self.ui.modifesquive_5.setValue(-3)
+                if(bool(re.search("E10", codeSplit[2]))):
+                    self.ui.modifesquive_5.setValue(-4)
+                if(bool(re.search("E11", codeSplit[2]))):
+                    self.ui.modifesquive_5.setValue(-5)
+                if(bool(re.search("E12", codeSplit[2]))):
+                    self.ui.modifesquive_5.setValue(-6)
+                if(bool(re.search("P01", codeSplit[2]))):
+                    self.ui.modifprec_5.setValue(1)
+                if(bool(re.search("P02", codeSplit[2]))):
+                    self.ui.modifprec_5.setValue(2)
+                if(bool(re.search("P03", codeSplit[2]))):
+                    self.ui.modifprec_5.setValue(3)
+                if(bool(re.search("P04", codeSplit[2]))):
+                    self.ui.modifprec_5.setValue(4)
+                if(bool(re.search("P05", codeSplit[2]))):
+                    self.ui.modifprec_5.setValue(5)
+                if(bool(re.search("P06", codeSplit[2]))):
+                    self.ui.modifprec_5.setValue(6)
+                if(bool(re.search("P07", codeSplit[2]))):
+                    self.ui.modifprec_5.setValue(-1)
+                if(bool(re.search("P08", codeSplit[2]))):
+                    self.ui.modifprec_5.setValue(-2)
+                if(bool(re.search("P09", codeSplit[2]))):
+                    self.ui.modifprec_5.setValue(-3)
+                if(bool(re.search("P10", codeSplit[2]))):
+                    self.ui.modifprec_5.setValue(-4)
+                if(bool(re.search("P11", codeSplit[2]))):
+                    self.ui.modifprec_5.setValue(-5)
+                if(bool(re.search("P12", codeSplit[2]))):
+                    self.ui.modifprec_5.setValue(-6)
+
+            if(codeSplit[3]!="NA"):
+                if(bool(re.search("BRL", codeSplit[3]))):
+                    self.ui.effetbrule_2.setChecked(True)
+                if(bool(re.search("PSN", codeSplit[3]))):
+                    self.ui.effetpoison_2.setChecked(True)
+                if(bool(re.search("CNF", codeSplit[3]))):
+                    self.ui.effetconfus_2.setChecked(True)
+                if(bool(re.search("GEL", codeSplit[3]))):
+                    self.ui.effetgel_2.setChecked(True)
+                if(bool(re.search("SLP", codeSplit[3]))):
+                    self.ui.effetsommeil_2.setChecked(True)
+                if(bool(re.search("MAL", codeSplit[3]))):
+                    self.ui.effetmaledi_2.setChecked(True)
+                if(bool(re.search("PAR", codeSplit[3]))):
+                    self.ui.effetpara_2.setChecked(True)
+                if(bool(re.search("ACN", codeSplit[3]))):
+                    self.ui.effetattrac_2.setChecked(True)
+                if(bool(re.search("DBS", codeSplit[3]))):
+                    self.ui.effetdeso_2.setChecked(True)
+                if(bool(re.search("PIG", codeSplit[3]))):
+                    self.ui.effetpiege_2.setChecked(True)
+                if(bool(re.search("IDT", codeSplit[3]))):
+                    self.ui.effetident_2.setChecked(True)
+                if(bool(re.search("V1", codeSplit[3]))):
+                    self.ui.vampicible_2.setCurrentIndex(1)
+                if(bool(re.search("V2", codeSplit[3]))):
+                    self.ui.vampicible_2.setCurrentIndex(2)
+                if(bool(re.search("V3", codeSplit[3]))):
+                    self.ui.vampicible_2.setCurrentIndex(3)
+                if(bool(re.search("VA", codeSplit[3]))):
+                    self.ui.vampicible_2.setCurrentIndex(4)
+                if(bool(re.search("VB", codeSplit[3]))):
+                    self.ui.vampicible_2.setCurrentIndex(5)
+                if(bool(re.search("VC", codeSplit[3]))):
+                    self.ui.vampicible_2.setCurrentIndex(6)
+
+                if(bool(re.search("A01", codeSplit[3]))):
+                    self.ui.modifatt_2.setValue(1)
+                if(bool(re.search("A02", codeSplit[3]))):
+                    self.ui.modifatt_2.setValue(2)
+                if(bool(re.search("A03", codeSplit[3]))):
+                    self.ui.modifatt_2.setValue(3)
+                if(bool(re.search("A04", codeSplit[3]))):
+                    self.ui.modifatt_2.setValue(4)
+                if(bool(re.search("A05", codeSplit[3]))):
+                    self.ui.modifatt_2.setValue(5)
+                if(bool(re.search("A06", codeSplit[3]))):
+                    self.ui.modifatt_2.setValue(6)
+                if(bool(re.search("A07", codeSplit[3]))):
+                    self.ui.modifatt_2.setValue(-1)
+                if(bool(re.search("A08", codeSplit[3]))):
+                    self.ui.modifatt_2.setValue(-2)
+                if(bool(re.search("A09", codeSplit[3]))):
+                    self.ui.modifatt_2.setValue(-3)
+                if(bool(re.search("A10", codeSplit[3]))):
+                    self.ui.modifatt_2.setValue(-4)
+                if(bool(re.search("A11", codeSplit[3]))):
+                    self.ui.modifatt_2.setValue(-5)
+                if(bool(re.search("A12", codeSplit[3]))):
+                    self.ui.modifatt_2.setValue(-6)
+                if(bool(re.search("D01", codeSplit[3]))):
+                    self.ui.modifdefen_2.setValue(1)
+                if(bool(re.search("D02", codeSplit[3]))):
+                    self.ui.modifdefen_2.setValue(2)
+                if(bool(re.search("D03", codeSplit[3]))):
+                    self.ui.modifdefen_2.setValue(3)
+                if(bool(re.search("D04", codeSplit[3]))):
+                    self.ui.modifdefen_2.setValue(4)
+                if(bool(re.search("D05", codeSplit[3]))):
+                    self.ui.modifdefen_2.setValue(5)
+                if(bool(re.search("D06", codeSplit[3]))):
+                    self.ui.modifdefen_2.setValue(6)
+                if(bool(re.search("D07", codeSplit[3]))):
+                    self.ui.modifdefen_2.setValue(-1)
+                if(bool(re.search("D08", codeSplit[3]))):
+                    self.ui.modifdefen_2.setValue(-2)
+                if(bool(re.search("D09", codeSplit[3]))):
+                    self.ui.modifdefen_2.setValue(-3)
+                if(bool(re.search("D10", codeSplit[3]))):
+                    self.ui.modifdefen_2.setValue(-4)
+                if(bool(re.search("D11", codeSplit[3]))):
+                    self.ui.modifdefen_2.setValue(-5)
+                if(bool(re.search("D12", codeSplit[3]))):
+                    self.ui.modifdefen_2.setValue(-6)
+                if(bool(re.search("S01", codeSplit[3]))):
+                    self.ui.modifatts_2.setValue(1)
+                if(bool(re.search("S02", codeSplit[3]))):
+                    self.ui.modifatts_2.setValue(2)
+                if(bool(re.search("S03", codeSplit[3]))):
+                    self.ui.modifatts_2.setValue(3)
+                if(bool(re.search("S04", codeSplit[3]))):
+                    self.ui.modifatts_2.setValue(4)
+                if(bool(re.search("S05", codeSplit[3]))):
+                    self.ui.modifatts_2.setValue(5)
+                if(bool(re.search("S06", codeSplit[3]))):
+                    self.ui.modifatts_2.setValue(6)
+                if(bool(re.search("S07", codeSplit[3]))):
+                    self.ui.modifatts_2.setValue(-1)
+                if(bool(re.search("S08", codeSplit[3]))):
+                    self.ui.modifatts_2.setValue(-2)
+                if(bool(re.search("S09", codeSplit[3]))):
+                    self.ui.modifatts_2.setValue(-3)
+                if(bool(re.search("S10", codeSplit[3]))):
+                    self.ui.modifatts_2.setValue(-4)
+                if(bool(re.search("S11", codeSplit[3]))):
+                    self.ui.modifatts_2.setValue(-5)
+                if(bool(re.search("S12", codeSplit[3]))):
+                    self.ui.modifatts_2.setValue(-6)
+                if(bool(re.search("F01", codeSplit[3]))):
+                    self.ui.modifdefs_2.setValue(1)
+                if(bool(re.search("F02", codeSplit[3]))):
+                    self.ui.modifdefs_2.setValue(2)
+                if(bool(re.search("F03", codeSplit[3]))):
+                    self.ui.modifdefs_2.setValue(3)
+                if(bool(re.search("F04", codeSplit[3]))):
+                    self.ui.modifdefs_2.setValue(4)
+                if(bool(re.search("F05", codeSplit[3]))):
+                    self.ui.modifdefs_2.setValue(5)
+                if(bool(re.search("F06", codeSplit[3]))):
+                    self.ui.modifdefs_2.setValue(6)
+                if(bool(re.search("F07", codeSplit[3]))):
+                    self.ui.modifdefs_2.setValue(-1)
+                if(bool(re.search("F08", codeSplit[3]))):
+                    self.ui.modifdefs_2.setValue(-2)
+                if(bool(re.search("F09", codeSplit[3]))):
+                    self.ui.modifdefs_2.setValue(-3)
+                if(bool(re.search("F10", codeSplit[3]))):
+                    self.ui.modifdefs_2.setValue(-4)
+                if(bool(re.search("F11", codeSplit[3]))):
+                    self.ui.modifdefs_2.setValue(-5)
+                if(bool(re.search("F12", codeSplit[3]))):
+                    self.ui.modifdefs_2.setValue(-6)
+                if(bool(re.search("T01", codeSplit[3]))):
+                    self.ui.modifvit_2.setValue(1)
+                if(bool(re.search("T02", codeSplit[3]))):
+                    self.ui.modifvit_2.setValue(2)
+                if(bool(re.search("T03", codeSplit[3]))):
+                    self.ui.modifvit_2.setValue(3)
+                if(bool(re.search("T04", codeSplit[3]))):
+                    self.ui.modifvit_2.setValue(4)
+                if(bool(re.search("T05", codeSplit[3]))):
+                    self.ui.modifvit_2.setValue(5)
+                if(bool(re.search("T06", codeSplit[3]))):
+                    self.ui.modifvit_2.setValue(6)
+                if(bool(re.search("T07", codeSplit[3]))):
+                    self.ui.modifvit_2.setValue(-1)
+                if(bool(re.search("T08", codeSplit[3]))):
+                    self.ui.modifvit_2.setValue(-2)
+                if(bool(re.search("T09", codeSplit[3]))):
+                    self.ui.modifvit_2.setValue(-3)
+                if(bool(re.search("T10", codeSplit[3]))):
+                    self.ui.modifvit_2.setValue(-4)
+                if(bool(re.search("T11", codeSplit[3]))):
+                    self.ui.modifvit_2.setValue(-5)
+                if(bool(re.search("T12", codeSplit[3]))):
+                    self.ui.modifvit_2.setValue(-6)
+                if(bool(re.search("E01", codeSplit[3]))):
+                    self.ui.modifesquive_2.setValue(1)
+                if(bool(re.search("E02", codeSplit[3]))):
+                    self.ui.modifesquive_2.setValue(2)
+                if(bool(re.search("E03", codeSplit[3]))):
+                    self.ui.modifesquive_2.setValue(3)
+                if(bool(re.search("E04", codeSplit[3]))):
+                    self.ui.modifesquive_2.setValue(4)
+                if(bool(re.search("E05", codeSplit[3]))):
+                    self.ui.modifesquive_2.setValue(5)
+                if(bool(re.search("E06", codeSplit[3]))):
+                    self.ui.modifesquive_2.setValue(6)
+                if(bool(re.search("E07", codeSplit[3]))):
+                    self.ui.modifesquive_2.setValue(-1)
+                if(bool(re.search("E08", codeSplit[3]))):
+                    self.ui.modifesquive_2.setValue(-2)
+                if(bool(re.search("E09", codeSplit[3]))):
+                    self.ui.modifesquive_2.setValue(-3)
+                if(bool(re.search("E10", codeSplit[3]))):
+                    self.ui.modifesquive_2.setValue(-4)
+                if(bool(re.search("E11", codeSplit[3]))):
+                    self.ui.modifesquive_2.setValue(-5)
+                if(bool(re.search("E12", codeSplit[3]))):
+                    self.ui.modifesquive_2.setValue(-6)
+                if(bool(re.search("P01", codeSplit[3]))):
+                    self.ui.modifprec_2.setValue(1)
+                if(bool(re.search("P02", codeSplit[3]))):
+                    self.ui.modifprec_2.setValue(2)
+                if(bool(re.search("P03", codeSplit[3]))):
+                    self.ui.modifprec_2.setValue(3)
+                if(bool(re.search("P04", codeSplit[3]))):
+                    self.ui.modifprec_2.setValue(4)
+                if(bool(re.search("P05", codeSplit[3]))):
+                    self.ui.modifprec_2.setValue(5)
+                if(bool(re.search("P06", codeSplit[3]))):
+                    self.ui.modifprec_2.setValue(6)
+                if(bool(re.search("P07", codeSplit[3]))):
+                    self.ui.modifprec_2.setValue(-1)
+                if(bool(re.search("P08", codeSplit[3]))):
+                    self.ui.modifprec_2.setValue(-2)
+                if(bool(re.search("P09", codeSplit[3]))):
+                    self.ui.modifprec_2.setValue(-3)
+                if(bool(re.search("P10", codeSplit[3]))):
+                    self.ui.modifprec_2.setValue(-4)
+                if(bool(re.search("P11", codeSplit[3]))):
+                    self.ui.modifprec_2.setValue(-5)
+                if(bool(re.search("P12", codeSplit[3]))):
+                    self.ui.modifprec_2.setValue(-6)
+
+            if(codeSplit[4]!="NA"):
+                if(bool(re.search("BRL", codeSplit[4]))):
+                    self.ui.effetbrule_4.setChecked(True)
+                if(bool(re.search("PSN", codeSplit[4]))):
+                    self.ui.effetpoison_4.setChecked(True)
+                if(bool(re.search("CNF", codeSplit[4]))):
+                    self.ui.effetconfus_4.setChecked(True)
+                if(bool(re.search("GEL", codeSplit[4]))):
+                    self.ui.effetgel_4.setChecked(True)
+                if(bool(re.search("SLP", codeSplit[4]))):
+                    self.ui.effetsommeil_4.setChecked(True)
+                if(bool(re.search("MAL", codeSplit[4]))):
+                    self.ui.effetmaledi_4.setChecked(True)
+                if(bool(re.search("PAR", codeSplit[4]))):
+                    self.ui.effetpara_4.setChecked(True)
+                if(bool(re.search("ACN", codeSplit[4]))):
+                    self.ui.effetattrac_4.setChecked(True)
+                if(bool(re.search("DBS", codeSplit[4]))):
+                    self.ui.effetdeso_4.setChecked(True)
+                if(bool(re.search("PIG", codeSplit[4]))):
+                    self.ui.effetpiege_4.setChecked(True)
+                if(bool(re.search("IDT", codeSplit[4]))):
+                    self.ui.effetident_4.setChecked(True)
+                if(bool(re.search("VA", codeSplit[4]))):
+                    self.ui.vampicible_4.setCurrentIndex(1)
+                if(bool(re.search("VB", codeSplit[4]))):
+                    self.ui.vampicible_4.setCurrentIndex(2)
+                if(bool(re.search("VC", codeSplit[4]))):
+                    self.ui.vampicible_4.setCurrentIndex(3)
+                if(bool(re.search("V1", codeSplit[4]))):
+                    self.ui.vampicible_4.setCurrentIndex(4)
+                if(bool(re.search("V2", codeSplit[4]))):
+                    self.ui.vampicible_4.setCurrentIndex(5)
+                if(bool(re.search("V3", codeSplit[4]))):
+                    self.ui.vampicible_4.setCurrentIndex(6)
+
+                if(bool(re.search("A01", codeSplit[4]))):
+                    self.ui.modifatt_4.setValue(1)
+                if(bool(re.search("A02", codeSplit[4]))):
+                    self.ui.modifatt_4.setValue(2)
+                if(bool(re.search("A03", codeSplit[4]))):
+                    self.ui.modifatt_4.setValue(3)
+                if(bool(re.search("A04", codeSplit[4]))):
+                    self.ui.modifatt_4.setValue(4)
+                if(bool(re.search("A05", codeSplit[4]))):
+                    self.ui.modifatt_4.setValue(5)
+                if(bool(re.search("A06", codeSplit[4]))):
+                    self.ui.modifatt_4.setValue(6)
+                if(bool(re.search("A07", codeSplit[4]))):
+                    self.ui.modifatt_4.setValue(-1)
+                if(bool(re.search("A08", codeSplit[4]))):
+                    self.ui.modifatt_4.setValue(-2)
+                if(bool(re.search("A09", codeSplit[4]))):
+                    self.ui.modifatt_4.setValue(-3)
+                if(bool(re.search("A10", codeSplit[4]))):
+                    self.ui.modifatt_4.setValue(-4)
+                if(bool(re.search("A11", codeSplit[4]))):
+                    self.ui.modifatt_4.setValue(-5)
+                if(bool(re.search("A12", codeSplit[4]))):
+                    self.ui.modifatt_4.setValue(-6)
+                if(bool(re.search("D01", codeSplit[4]))):
+                    self.ui.modifdefen_4.setValue(1)
+                if(bool(re.search("D02", codeSplit[4]))):
+                    self.ui.modifdefen_4.setValue(2)
+                if(bool(re.search("D03", codeSplit[4]))):
+                    self.ui.modifdefen_4.setValue(3)
+                if(bool(re.search("D04", codeSplit[4]))):
+                    self.ui.modifdefen_4.setValue(4)
+                if(bool(re.search("D05", codeSplit[4]))):
+                    self.ui.modifdefen_4.setValue(5)
+                if(bool(re.search("D06", codeSplit[4]))):
+                    self.ui.modifdefen_4.setValue(6)
+                if(bool(re.search("D07", codeSplit[4]))):
+                    self.ui.modifdefen_4.setValue(-1)
+                if(bool(re.search("D08", codeSplit[4]))):
+                    self.ui.modifdefen_4.setValue(-2)
+                if(bool(re.search("D09", codeSplit[4]))):
+                    self.ui.modifdefen_4.setValue(-3)
+                if(bool(re.search("D10", codeSplit[4]))):
+                    self.ui.modifdefen_4.setValue(-4)
+                if(bool(re.search("D11", codeSplit[4]))):
+                    self.ui.modifdefen_4.setValue(-5)
+                if(bool(re.search("D12", codeSplit[4]))):
+                    self.ui.modifdefen_4.setValue(-6)
+                if(bool(re.search("S01", codeSplit[4]))):
+                    self.ui.modifatts_4.setValue(1)
+                if(bool(re.search("S02", codeSplit[4]))):
+                    self.ui.modifatts_4.setValue(2)
+                if(bool(re.search("S03", codeSplit[4]))):
+                    self.ui.modifatts_4.setValue(3)
+                if(bool(re.search("S04", codeSplit[4]))):
+                    self.ui.modifatts_4.setValue(4)
+                if(bool(re.search("S05", codeSplit[4]))):
+                    self.ui.modifatts_4.setValue(5)
+                if(bool(re.search("S06", codeSplit[4]))):
+                    self.ui.modifatts_4.setValue(6)
+                if(bool(re.search("S07", codeSplit[4]))):
+                    self.ui.modifatts_4.setValue(-1)
+                if(bool(re.search("S08", codeSplit[4]))):
+                    self.ui.modifatts_4.setValue(-2)
+                if(bool(re.search("S09", codeSplit[4]))):
+                    self.ui.modifatts_4.setValue(-3)
+                if(bool(re.search("S10", codeSplit[4]))):
+                    self.ui.modifatts_4.setValue(-4)
+                if(bool(re.search("S11", codeSplit[4]))):
+                    self.ui.modifatts_4.setValue(-5)
+                if(bool(re.search("S12", codeSplit[4]))):
+                    self.ui.modifatts_4.setValue(-6)
+                if(bool(re.search("F01", codeSplit[4]))):
+                    self.ui.modifdefs_4.setValue(1)
+                if(bool(re.search("F02", codeSplit[4]))):
+                    self.ui.modifdefs_4.setValue(2)
+                if(bool(re.search("F03", codeSplit[4]))):
+                    self.ui.modifdefs_4.setValue(3)
+                if(bool(re.search("F04", codeSplit[4]))):
+                    self.ui.modifdefs_4.setValue(4)
+                if(bool(re.search("F05", codeSplit[4]))):
+                    self.ui.modifdefs_4.setValue(5)
+                if(bool(re.search("F06", codeSplit[4]))):
+                    self.ui.modifdefs_4.setValue(6)
+                if(bool(re.search("F07", codeSplit[4]))):
+                    self.ui.modifdefs_4.setValue(-1)
+                if(bool(re.search("F08", codeSplit[4]))):
+                    self.ui.modifdefs_4.setValue(-2)
+                if(bool(re.search("F09", codeSplit[4]))):
+                    self.ui.modifdefs_4.setValue(-3)
+                if(bool(re.search("F10", codeSplit[4]))):
+                    self.ui.modifdefs_4.setValue(-4)
+                if(bool(re.search("F11", codeSplit[4]))):
+                    self.ui.modifdefs_4.setValue(-5)
+                if(bool(re.search("F12", codeSplit[4]))):
+                    self.ui.modifdefs_4.setValue(-6)
+                if(bool(re.search("T01", codeSplit[4]))):
+                    self.ui.modifvit_4.setValue(1)
+                if(bool(re.search("T02", codeSplit[4]))):
+                    self.ui.modifvit_4.setValue(2)
+                if(bool(re.search("T03", codeSplit[4]))):
+                    self.ui.modifvit_4.setValue(3)
+                if(bool(re.search("T04", codeSplit[4]))):
+                    self.ui.modifvit_4.setValue(4)
+                if(bool(re.search("T05", codeSplit[4]))):
+                    self.ui.modifvit_4.setValue(5)
+                if(bool(re.search("T06", codeSplit[4]))):
+                    self.ui.modifvit_4.setValue(6)
+                if(bool(re.search("T07", codeSplit[4]))):
+                    self.ui.modifvit_4.setValue(-1)
+                if(bool(re.search("T08", codeSplit[4]))):
+                    self.ui.modifvit_4.setValue(-2)
+                if(bool(re.search("T09", codeSplit[4]))):
+                    self.ui.modifvit_4.setValue(-3)
+                if(bool(re.search("T10", codeSplit[4]))):
+                    self.ui.modifvit_4.setValue(-4)
+                if(bool(re.search("T11", codeSplit[4]))):
+                    self.ui.modifvit_4.setValue(-5)
+                if(bool(re.search("T12", codeSplit[4]))):
+                    self.ui.modifvit_4.setValue(-6)
+                if(bool(re.search("E01", codeSplit[4]))):
+                    self.ui.modifesquive_4.setValue(1)
+                if(bool(re.search("E02", codeSplit[4]))):
+                    self.ui.modifesquive_4.setValue(2)
+                if(bool(re.search("E03", codeSplit[4]))):
+                    self.ui.modifesquive_4.setValue(3)
+                if(bool(re.search("E04", codeSplit[4]))):
+                    self.ui.modifesquive_4.setValue(4)
+                if(bool(re.search("E05", codeSplit[4]))):
+                    self.ui.modifesquive_4.setValue(5)
+                if(bool(re.search("E06", codeSplit[4]))):
+                    self.ui.modifesquive_4.setValue(6)
+                if(bool(re.search("E07", codeSplit[4]))):
+                    self.ui.modifesquive_4.setValue(-1)
+                if(bool(re.search("E08", codeSplit[4]))):
+                    self.ui.modifesquive_4.setValue(-2)
+                if(bool(re.search("E09", codeSplit[4]))):
+                    self.ui.modifesquive_4.setValue(-3)
+                if(bool(re.search("E10", codeSplit[4]))):
+                    self.ui.modifesquive_4.setValue(-4)
+                if(bool(re.search("E11", codeSplit[4]))):
+                    self.ui.modifesquive_4.setValue(-5)
+                if(bool(re.search("E12", codeSplit[4]))):
+                    self.ui.modifesquive_4.setValue(-6)
+                if(bool(re.search("P01", codeSplit[4]))):
+                    self.ui.modifprec_4.setValue(1)
+                if(bool(re.search("P02", codeSplit[4]))):
+                    self.ui.modifprec_4.setValue(2)
+                if(bool(re.search("P03", codeSplit[4]))):
+                    self.ui.modifprec_4.setValue(3)
+                if(bool(re.search("P04", codeSplit[4]))):
+                    self.ui.modifprec_4.setValue(4)
+                if(bool(re.search("P05", codeSplit[4]))):
+                    self.ui.modifprec_4.setValue(5)
+                if(bool(re.search("P06", codeSplit[4]))):
+                    self.ui.modifprec_4.setValue(6)
+                if(bool(re.search("P07", codeSplit[4]))):
+                    self.ui.modifprec_4.setValue(-1)
+                if(bool(re.search("P08", codeSplit[4]))):
+                    self.ui.modifprec_4.setValue(-2)
+                if(bool(re.search("P09", codeSplit[4]))):
+                    self.ui.modifprec_4.setValue(-3)
+                if(bool(re.search("P10", codeSplit[4]))):
+                    self.ui.modifprec_4.setValue(-4)
+                if(bool(re.search("P11", codeSplit[4]))):
+                    self.ui.modifprec_4.setValue(-5)
+                if(bool(re.search("P12", codeSplit[4]))):
+                    self.ui.modifprec_4.setValue(-6)
+
+            if(codeSplit[5]!="NA"):
+                if(bool(re.search("BRL", codeSplit[5]))):
+                    self.ui.effetbrule_6.setChecked(True)
+                if(bool(re.search("PSN", codeSplit[5]))):
+                    self.ui.effetpoison_6.setChecked(True)
+                if(bool(re.search("CNF", codeSplit[5]))):
+                    self.ui.effetconfus_6.setChecked(True)
+                if(bool(re.search("GEL", codeSplit[5]))):
+                    self.ui.effetgel_6.setChecked(True)
+                if(bool(re.search("SLP", codeSplit[5]))):
+                    self.ui.effetsommeil_6.setChecked(True)
+                if(bool(re.search("MAL", codeSplit[5]))):
+                    self.ui.effetmaledi_6.setChecked(True)
+                if(bool(re.search("PAR", codeSplit[5]))):
+                    self.ui.effetpara_6.setChecked(True)
+                if(bool(re.search("ACN", codeSplit[5]))):
+                    self.ui.effetattrac_6.setChecked(True)
+                if(bool(re.search("DBS", codeSplit[5]))):
+                    self.ui.effetdeso_6.setChecked(True)
+                if(bool(re.search("PIG", codeSplit[5]))):
+                    self.ui.effetpiege_6.setChecked(True)
+                if(bool(re.search("IDT", codeSplit[5]))):
+                    self.ui.effetident_6.setChecked(True)
+                if(bool(re.search("V1", codeSplit[5]))):
+                    self.ui.vampicible_6.setCurrentIndex(1)
+                if(bool(re.search("V2", codeSplit[5]))):
+                    self.ui.vampicible_6.setCurrentIndex(2)
+                if(bool(re.search("V3", codeSplit[5]))):
+                    self.ui.vampicible_6.setCurrentIndex(3)
+                if(bool(re.search("VA", codeSplit[5]))):
+                    self.ui.vampicible_6.setCurrentIndex(4)
+                if(bool(re.search("VB", codeSplit[5]))):
+                    self.ui.vampicible_6.setCurrentIndex(5)
+                if(bool(re.search("VC", codeSplit[5]))):
+                    self.ui.vampicible_6.setCurrentIndex(6)
+
+                if(bool(re.search("A01", codeSplit[5]))):
+                    self.ui.modifatt_6.setValue(1)
+                if(bool(re.search("A02", codeSplit[5]))):
+                    self.ui.modifatt_6.setValue(2)
+                if(bool(re.search("A03", codeSplit[5]))):
+                    self.ui.modifatt_6.setValue(3)
+                if(bool(re.search("A04", codeSplit[5]))):
+                    self.ui.modifatt_6.setValue(4)
+                if(bool(re.search("A05", codeSplit[5]))):
+                    self.ui.modifatt_6.setValue(5)
+                if(bool(re.search("A06", codeSplit[5]))):
+                    self.ui.modifatt_6.setValue(6)
+                if(bool(re.search("A07", codeSplit[5]))):
+                    self.ui.modifatt_6.setValue(-1)
+                if(bool(re.search("A08", codeSplit[5]))):
+                    self.ui.modifatt_6.setValue(-2)
+                if(bool(re.search("A09", codeSplit[5]))):
+                    self.ui.modifatt_6.setValue(-3)
+                if(bool(re.search("A10", codeSplit[5]))):
+                    self.ui.modifatt_6.setValue(-4)
+                if(bool(re.search("A11", codeSplit[5]))):
+                    self.ui.modifatt_6.setValue(-5)
+                if(bool(re.search("A12", codeSplit[5]))):
+                    self.ui.modifatt_6.setValue(-6)
+                if(bool(re.search("D01", codeSplit[5]))):
+                    self.ui.modifdefen_6.setValue(1)
+                if(bool(re.search("D02", codeSplit[5]))):
+                    self.ui.modifdefen_6.setValue(2)
+                if(bool(re.search("D03", codeSplit[5]))):
+                    self.ui.modifdefen_6.setValue(3)
+                if(bool(re.search("D04", codeSplit[5]))):
+                    self.ui.modifdefen_6.setValue(4)
+                if(bool(re.search("D05", codeSplit[5]))):
+                    self.ui.modifdefen_6.setValue(5)
+                if(bool(re.search("D06", codeSplit[5]))):
+                    self.ui.modifdefen_6.setValue(6)
+                if(bool(re.search("D07", codeSplit[5]))):
+                    self.ui.modifdefen_6.setValue(-1)
+                if(bool(re.search("D08", codeSplit[5]))):
+                    self.ui.modifdefen_6.setValue(-2)
+                if(bool(re.search("D09", codeSplit[5]))):
+                    self.ui.modifdefen_6.setValue(-3)
+                if(bool(re.search("D10", codeSplit[5]))):
+                    self.ui.modifdefen_6.setValue(-4)
+                if(bool(re.search("D11", codeSplit[5]))):
+                    self.ui.modifdefen_6.setValue(-5)
+                if(bool(re.search("D12", codeSplit[5]))):
+                    self.ui.modifdefen_6.setValue(-6)
+                if(bool(re.search("S01", codeSplit[5]))):
+                    self.ui.modifatts_6.setValue(1)
+                if(bool(re.search("S02", codeSplit[5]))):
+                    self.ui.modifatts_6.setValue(2)
+                if(bool(re.search("S03", codeSplit[5]))):
+                    self.ui.modifatts_6.setValue(3)
+                if(bool(re.search("S04", codeSplit[5]))):
+                    self.ui.modifatts_6.setValue(4)
+                if(bool(re.search("S05", codeSplit[5]))):
+                    self.ui.modifatts_6.setValue(5)
+                if(bool(re.search("S06", codeSplit[5]))):
+                    self.ui.modifatts_6.setValue(6)
+                if(bool(re.search("S07", codeSplit[5]))):
+                    self.ui.modifatts_6.setValue(-1)
+                if(bool(re.search("S08", codeSplit[5]))):
+                    self.ui.modifatts_6.setValue(-2)
+                if(bool(re.search("S09", codeSplit[5]))):
+                    self.ui.modifatts_6.setValue(-3)
+                if(bool(re.search("S10", codeSplit[5]))):
+                    self.ui.modifatts_6.setValue(-4)
+                if(bool(re.search("S11", codeSplit[5]))):
+                    self.ui.modifatts_6.setValue(-5)
+                if(bool(re.search("S12", codeSplit[5]))):
+                    self.ui.modifatts_6.setValue(-6)
+                if(bool(re.search("F01", codeSplit[5]))):
+                    self.ui.modifdefs_6.setValue(1)
+                if(bool(re.search("F02", codeSplit[5]))):
+                    self.ui.modifdefs_6.setValue(2)
+                if(bool(re.search("F03", codeSplit[5]))):
+                    self.ui.modifdefs_6.setValue(3)
+                if(bool(re.search("F04", codeSplit[5]))):
+                    self.ui.modifdefs_6.setValue(4)
+                if(bool(re.search("F05", codeSplit[5]))):
+                    self.ui.modifdefs_6.setValue(5)
+                if(bool(re.search("F06", codeSplit[5]))):
+                    self.ui.modifdefs_6.setValue(6)
+                if(bool(re.search("F07", codeSplit[5]))):
+                    self.ui.modifdefs_6.setValue(-1)
+                if(bool(re.search("F08", codeSplit[5]))):
+                    self.ui.modifdefs_6.setValue(-2)
+                if(bool(re.search("F09", codeSplit[5]))):
+                    self.ui.modifdefs_6.setValue(-3)
+                if(bool(re.search("F10", codeSplit[5]))):
+                    self.ui.modifdefs_6.setValue(-4)
+                if(bool(re.search("F11", codeSplit[5]))):
+                    self.ui.modifdefs_6.setValue(-5)
+                if(bool(re.search("F12", codeSplit[5]))):
+                    self.ui.modifdefs_6.setValue(-6)
+                if(bool(re.search("T01", codeSplit[5]))):
+                    self.ui.modifvit_6.setValue(1)
+                if(bool(re.search("T02", codeSplit[5]))):
+                    self.ui.modifvit_6.setValue(2)
+                if(bool(re.search("T03", codeSplit[5]))):
+                    self.ui.modifvit_6.setValue(3)
+                if(bool(re.search("T04", codeSplit[5]))):
+                    self.ui.modifvit_6.setValue(4)
+                if(bool(re.search("T05", codeSplit[5]))):
+                    self.ui.modifvit_6.setValue(5)
+                if(bool(re.search("T06", codeSplit[5]))):
+                    self.ui.modifvit_6.setValue(6)
+                if(bool(re.search("T07", codeSplit[5]))):
+                    self.ui.modifvit_6.setValue(-1)
+                if(bool(re.search("T08", codeSplit[5]))):
+                    self.ui.modifvit_6.setValue(-2)
+                if(bool(re.search("T09", codeSplit[5]))):
+                    self.ui.modifvit_6.setValue(-3)
+                if(bool(re.search("T10", codeSplit[5]))):
+                    self.ui.modifvit_6.setValue(-4)
+                if(bool(re.search("T11", codeSplit[5]))):
+                    self.ui.modifvit_6.setValue(-5)
+                if(bool(re.search("T12", codeSplit[5]))):
+                    self.ui.modifvit_6.setValue(-6)
+                if(bool(re.search("E01", codeSplit[5]))):
+                    self.ui.modifesquive_6.setValue(1)
+                if(bool(re.search("E02", codeSplit[5]))):
+                    self.ui.modifesquive_6.setValue(2)
+                if(bool(re.search("E03", codeSplit[5]))):
+                    self.ui.modifesquive_6.setValue(3)
+                if(bool(re.search("E04", codeSplit[5]))):
+                    self.ui.modifesquive_6.setValue(4)
+                if(bool(re.search("E05", codeSplit[5]))):
+                    self.ui.modifesquive_6.setValue(5)
+                if(bool(re.search("E06", codeSplit[5]))):
+                    self.ui.modifesquive_6.setValue(6)
+                if(bool(re.search("E07", codeSplit[5]))):
+                    self.ui.modifesquive_6.setValue(-1)
+                if(bool(re.search("E08", codeSplit[5]))):
+                    self.ui.modifesquive_6.setValue(-2)
+                if(bool(re.search("E09", codeSplit[5]))):
+                    self.ui.modifesquive_6.setValue(-3)
+                if(bool(re.search("E10", codeSplit[5]))):
+                    self.ui.modifesquive_6.setValue(-4)
+                if(bool(re.search("E11", codeSplit[5]))):
+                    self.ui.modifesquive_6.setValue(-5)
+                if(bool(re.search("E12", codeSplit[5]))):
+                    self.ui.modifesquive_6.setValue(-6)
+                if(bool(re.search("P01", codeSplit[5]))):
+                    self.ui.modifprec_6.setValue(1)
+                if(bool(re.search("P02", codeSplit[5]))):
+                    self.ui.modifprec_6.setValue(2)
+                if(bool(re.search("P03", codeSplit[5]))):
+                    self.ui.modifprec_6.setValue(3)
+                if(bool(re.search("P04", codeSplit[5]))):
+                    self.ui.modifprec_6.setValue(4)
+                if(bool(re.search("P05", codeSplit[5]))):
+                    self.ui.modifprec_6.setValue(5)
+                if(bool(re.search("P06", codeSplit[5]))):
+                    self.ui.modifprec_6.setValue(6)
+                if(bool(re.search("P07", codeSplit[5]))):
+                    self.ui.modifprec_6.setValue(-1)
+                if(bool(re.search("P08", codeSplit[5]))):
+                    self.ui.modifprec_6.setValue(-2)
+                if(bool(re.search("P09", codeSplit[5]))):
+                    self.ui.modifprec_6.setValue(-3)
+                if(bool(re.search("P10", codeSplit[5]))):
+                    self.ui.modifprec_6.setValue(-4)
+                if(bool(re.search("P11", codeSplit[5]))):
+                    self.ui.modifprec_6.setValue(-5)
+                if(bool(re.search("P12", codeSplit[5]))):
+                    self.ui.modifprec_6.setValue(-6)
+
+        elif len(codeSplit) < 6:
+            msgBox1 = QMessageBox()
+            msgBox1.setText("Attention, il manque des choses !")
+            msgBox1.exec_()
+        elif len(codeSplit) > 6:
+            msgBox2 = QMessageBox()
+            msgBox2.setText("Attention, il y a des choses en trop !")
+            msgBox2.exec_()
+
+
     # Take custom entry on pokemon 1 and put it in boxes + does query on pkmon and attack
     def SplitCustom(self):
         all_attaques=self.init_index_attaques() # get index of attack list to correct errors
@@ -346,7 +1593,7 @@ class MainWindow(QMainWindow):
                 msgBox1.exec_()
             else:
                 idpoke =  str(idpoke[0])
-                c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND methode=?',(idpoke,str(self.ui.pokelvl.toPlainText()),'niveau'))
+                c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND (methode=? OR methode=?)',(idpoke,str(self.ui.pokelvl.toPlainText()),'niveau','preevolution'))
                 for row in c.fetchall():
                     attaque_id=row[0]
                     c.execute('SELECT nom FROM attaques WHERE id='+str(attaque_id))
@@ -463,7 +1710,7 @@ class MainWindow(QMainWindow):
                 msgBox1.exec_()
             else:
                 idpoke =  str(idpoke[0])
-                c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND methode=?',(idpoke,str(self.ui.pokelvl_2.toPlainText()),'niveau'))
+                c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND (methode=? OR methode=?)',(idpoke,str(self.ui.pokelvl_2.toPlainText()),'niveau','preevolution'))
                 for row in c.fetchall():
                     attaque_id=row[0]
                     c.execute('SELECT nom FROM attaques WHERE id='+str(attaque_id))
@@ -579,7 +1826,7 @@ class MainWindow(QMainWindow):
                 msgBox1.exec_()
             else:
                 idpoke =  str(idpoke[0])
-                c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND methode=?',(idpoke,str(self.ui.pokelvl_3.toPlainText()),'niveau'))
+                c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND (methode=? OR methode=?)',(idpoke,str(self.ui.pokelvl_3.toPlainText()),'niveau','preevolution'))
                 for row in c.fetchall():
                     attaque_id=row[0]
                     c.execute('SELECT nom FROM attaques WHERE id='+str(attaque_id))
@@ -695,7 +1942,7 @@ class MainWindow(QMainWindow):
                 msgBox1.exec_()
             else:
                 idpoke =  str(idpoke[0])
-                c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND methode=?',(idpoke,str(self.ui.pokelvl_4.toPlainText()),'niveau'))
+                c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND (methode=? OR methode=?)',(idpoke,str(self.ui.pokelvl_4.toPlainText()),'niveau','preevolution'))
                 for row in c.fetchall():
                     attaque_id=row[0]
                     c.execute('SELECT nom FROM attaques WHERE id='+str(attaque_id))
@@ -810,7 +2057,7 @@ class MainWindow(QMainWindow):
                 msgBox1.exec_()
             else:
                 idpoke =  str(idpoke[0])
-                c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND methode=?',(idpoke,str(self.ui.pokelvl_5.toPlainText()),'niveau'))
+                c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND (methode=? OR methode=?)',(idpoke,str(self.ui.pokelvl_5.toPlainText()),'niveau','preevolution'))
                 for row in c.fetchall():
                     attaque_id=row[0]
                     c.execute('SELECT nom FROM attaques WHERE id='+str(attaque_id))
@@ -926,7 +2173,7 @@ class MainWindow(QMainWindow):
                 msgBox1.exec_()
             else:
                 idpoke =  str(idpoke[0])
-                c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND methode=?',(idpoke,str(self.ui.pokelvl_6.toPlainText()),'niveau'))
+                c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND (methode=? OR methode=?)',(idpoke,str(self.ui.pokelvl_6.toPlainText()),'niveau','preevolution'))
                 for row in c.fetchall():
                     attaque_id=row[0]
                     c.execute('SELECT nom FROM attaques WHERE id='+str(attaque_id))
@@ -967,7 +2214,7 @@ class MainWindow(QMainWindow):
             msgBox1.exec_()
         else:
             idpoke =  str(idpoke[0])
-            c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND methode=?',(idpoke,str(self.ui.spinlvl.value()),'niveau'))
+            c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND (methode=? OR methode=?)',(idpoke,str(self.ui.spinlvl.value()),'niveau','preevolution'))
             for row in c.fetchall():
                 attaque_id=row[0]
                 c.execute('SELECT nom FROM attaques WHERE id='+str(attaque_id))
@@ -1035,7 +2282,7 @@ class MainWindow(QMainWindow):
             msgBox1.exec_()
         else:
             idpoke = str(idpoke[0])
-            c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND methode=?',(idpoke,str(self.ui.spinlvl_2.value()),'niveau'))
+            c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND (methode=? OR methode=?)',(idpoke,str(self.ui.spinlvl_2.value()),'niveau','preevolution'))
             for row in c.fetchall():
                 attaque_id=row[0]
                 c.execute('SELECT nom FROM attaques WHERE id='+str(attaque_id))
@@ -1103,7 +2350,7 @@ class MainWindow(QMainWindow):
             msgBox1.exec_()
         else:
             idpoke = str(idpoke[0])
-            c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND methode=?',(idpoke,str(self.ui.spinlvl_3.value()),'niveau'))
+            c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND (methode=? OR methode=?)',(idpoke,str(self.ui.spinlvl_3.value()),'niveau','preevolution'))
             for row in c.fetchall():
                 attaque_id=row[0]
                 c.execute('SELECT nom FROM attaques WHERE id='+str(attaque_id))
@@ -1171,7 +2418,7 @@ class MainWindow(QMainWindow):
             msgBox1.exec_()
         else:
             idpoke = str(idpoke[0])
-            c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND methode=?',(idpoke,str(self.ui.spinlvl_4.value()),'niveau'))
+            c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND (methode=? OR methode=?)',(idpoke,str(self.ui.spinlvl_4.value()),'niveau','preevolution'))
             for row in c.fetchall():
                 attaque_id=row[0]
                 c.execute('SELECT nom FROM attaques WHERE id='+str(attaque_id))
@@ -1239,7 +2486,7 @@ class MainWindow(QMainWindow):
             msgBox1.exec_()
         else:
             idpoke = str(idpoke[0])
-            c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND methode=?',(idpoke,str(self.ui.spinlvl_5.value()),'niveau'))
+            c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND (methode=? OR methode=?)',(idpoke,str(self.ui.spinlvl_5.value()),'niveau','preevolution'))
             for row in c.fetchall():
                 attaque_id=row[0]
                 c.execute('SELECT nom FROM attaques WHERE id='+str(attaque_id))
@@ -1307,7 +2554,7 @@ class MainWindow(QMainWindow):
             msgBox1.exec_()
         else:
             idpoke = str(idpoke[0])
-            c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND methode=?',(idpoke,str(self.ui.spinlvl_6.value()),'niveau'))
+            c.execute('SELECT attaque_id FROM apprentissage WHERE pokemon_id=? AND niveau<=? AND (methode=? OR methode=?)',(idpoke,str(self.ui.spinlvl_6.value()),'niveau','preevolution'))
             for row in c.fetchall():
                 attaque_id=row[0]
                 c.execute('SELECT nom FROM attaques WHERE id='+str(attaque_id))
@@ -1650,7 +2897,7 @@ class MainWindow(QMainWindow):
         sleepymove=["Blabla Dodo", "Ronflement"]
         if statut1["fear"]:
             if advnb==1:
-                self.ui.outputrp.append("[i]{"+str(pkmon1["name"])+" est appeuré ! Il ne peut pas attaquer !}[/i]")
+                self.ui.outputrp.append("[i]{"+str(pkmon1["name"])+" est apeuré ! Il ne peut pas attaquer !}[/i]")
         elif statut1["freeze"] and ((random.randint(1,100) <= 80 and attck1["name"] not in unfreeze) or block):
             if advnb==1:
                 self.ui.outputrp.append('[i]{Le gel empêche '+str(pkmon1["name"])+" d'attaquer !}[/i][/")
@@ -1998,7 +3245,7 @@ class MainWindow(QMainWindow):
         self.ui.outputrp.setText('')
         self.ui.outputmodo.setText("[modo][spoiler=Infos modération][code]")
         self.ui.outputattack.setText('')
-        if self.ui.attaqueprio.toPlainText()=='' or self.ui.attaqueprio_2.toPlainText()=='' or self.ui.vit.toPlainText()=='' or self.ui.vit_2.toPlainText()=='':
+        if (self.ui.attaqueprio.toPlainText()=='' and self.ui.attaqueprio_3.toPlainText()=='' and self.ui.attaqueprio_4.toPlainText()=='') or (self.ui.attaqueprio_2.toPlainText()=='' and self.ui.attaqueprio_4.toPlainText()=='' and self.ui.attaqueprio_6.toPlainText()==''):
             msgBox1 = QMessageBox()
             msgBox1.setText('Données manquantes')
             msgBox1.exec_()
@@ -2014,35 +3261,55 @@ class MainWindow(QMainWindow):
             c.execute('SELECT * FROM attaques WHERE nom=?',(self.ui.attaque_2.toPlainText(),))
             attackdata2 = c.fetchone()
             # dic with pokemons and attacks data to pass to function
+               # pokemon trainer 1
+            allpkmon=[]
+            allattack=[]
+            allstatut=[]
+            niceteam=[]
+            advteam=[]
 
-            vit1 = int(self.ui.vit.toPlainText())*self.translateModifStat(self.ui.modifvit.value())
-            vit2 = int(self.ui.vit_2.toPlainText())*self.translateModifStat(self.ui.modifvit_2.value())
-            if self.ui.effetpara.isChecked():
-                vit1=vit1/2
-            if self.ui.effetpara_2.isChecked():
-                vit2=vit2/2
+            if self.ui.poke.toPlainText()!="" and self.ui.attaque.toPlainText()!="":
+                c.execute('SELECT id FROM pokemons WHERE nom=?',(self.ui.poke.toPlainText(),))
+                idpkmon1 = c.fetchone()
+                c.execute('SELECT * FROM attaques WHERE nom=?',(self.ui.attaque.toPlainText(),))
+                attackdata = c.fetchone()
 
-            pkmn1 = {"id": idpkmon1[0], "lvl": int(self.ui.pokelvl.toPlainText()),"name": self.ui.pokename.toPlainText() ,"realname": self.ui.poke.toPlainText(),"pvcurrent": int(self.ui.pvcurrent.toPlainText()) ,"pvtotal": int(self.ui.pvtotal.toPlainText()),"att": int(self.ui.att.toPlainText()),"def": int(self.ui.defen.toPlainText()),"atts": int(self.ui.atts.toPlainText()),"defs": int(self.ui.defs.toPlainText()),"vit": vit1, "type1": self.ui.poketype1.toPlainText(),"type2": self.ui.poketype2.toPlainText(),"modifatt": self.ui.modifatt.value(),"modifdef": self.ui.modifdefen.value(), "modifatts": self.ui.modifatts.value(), "modifdefs": self.ui.modifdefs.value(),"modifvit": self.ui.modifvit.value(), "modifesquive": self.ui.modifesquive.value(), "modifprec": self.ui.modifprec.value(), "prio": int(self.ui.attaqueprio.toPlainText()),"ko": False, "fightID": "1","side": "listL", "truevit": self.ui.vit.toPlainText()}
+                vit1 = int(self.ui.vit.toPlainText())*self.translateModifStat(self.ui.modifvit.value())
+                if self.ui.effetpara.isChecked():
+                    vit1=vit1/2
 
-            attck1 = {"name": self.ui.attaque.toPlainText(),"type": self.ui.attaquetype.toPlainText(), "classe": self.ui.attaqueclasse.toPlainText(), "puiss": self.ui.attaquepuiss.toPlainText(), "prec": self.ui.attaqueprec.toPlainText(), "critchance": self.translateCrit(attackdata[14]), "fearchance": attackdata[13], "percenthpheal": attackdata[11], "percenthpdrain": attackdata[12], "statutchance": attackdata[10], "statut": attackdata[9], "effectchance": attackdata[8], "effet_txt": attackdata[7],"prio": int(self.ui.attaqueprio.toPlainText()), "vit": vit1,"target": self.ui.cible.currentText(), "dmgfixe": attackdata[16], "dmgpercent": attackdata[17], "catchiante": attackdata[18], "soinfixe": attackdata[19]}
+                pkmn1 = {"id": idpkmon1[0], "lvl": int(self.ui.pokelvl.toPlainText()),"name": self.ui.pokename.toPlainText() ,"realname": self.ui.poke.toPlainText(),"pvcurrent": int(self.ui.pvcurrent.toPlainText()) ,"pvtotal": int(self.ui.pvtotal.toPlainText()),"att": int(self.ui.att.toPlainText()),"def": int(self.ui.defen.toPlainText()),"atts": int(self.ui.atts.toPlainText()),"defs": int(self.ui.defs.toPlainText()),"vit": vit1, "type1": self.ui.poketype1.toPlainText(),"type2": self.ui.poketype2.toPlainText(),"modifatt": self.ui.modifatt.value(),"modifdef": self.ui.modifdefen.value(), "modifatts": self.ui.modifatts.value(), "modifdefs": self.ui.modifdefs.value(),"modifvit": self.ui.modifvit.value(), "modifesquive": self.ui.modifesquive.value(), "modifprec": self.ui.modifprec.value(), "prio": int(self.ui.attaqueprio.toPlainText()),"ko": False, "fightID": "1","side": "listL", "truevit": self.ui.vit.toPlainText()}
 
-            statut1 = {"fear":False, "burn":self.ui.effetbrule.isChecked(), "freeze":self.ui.effetgel.isChecked(), "para":self.ui.effetpara.isChecked(), "poison":self.ui.effetpoison.isChecked(), "sleep":self.ui.effetsommeil.isChecked(), "attraction":self.ui.effetattrac.isChecked(), "conf":self.ui.effetconfus.isChecked(), "maledi":self.ui.effetmaledi.isChecked(), "vampi":self.ui.vampicible.currentText(),"prio": int(self.ui.attaqueprio.toPlainText()), "vit": vit1, "deso": self.ui.effetdeso.isChecked(), "ident": self.ui.effetident.isChecked(), "piege":self.ui.effetpiege.isChecked(), "fightID": "1"}
+                attck1 = {"name": self.ui.attaque.toPlainText(),"type": self.ui.attaquetype.toPlainText(), "classe": self.ui.attaqueclasse.toPlainText(), "puiss": self.ui.attaquepuiss.toPlainText(), "prec": self.ui.attaqueprec.toPlainText(), "critchance": self.translateCrit(attackdata[14]), "fearchance": attackdata[13], "percenthpheal": attackdata[11], "percenthpdrain": attackdata[12], "statutchance": attackdata[10], "statut": attackdata[9], "effectchance": attackdata[8], "effet_txt": attackdata[7],"prio": int(self.ui.attaqueprio.toPlainText()), "vit": vit1,"target": self.ui.cible.currentText(), "dmgfixe": attackdata[16], "dmgpercent": attackdata[17], "catchiante": attackdata[18], "soinfixe": attackdata[19]}
 
-            allpkmon = [pkmn1]
-            allattack = [attck1]
-            allstatut = [statut1]
-            niceteam = [pkmn1]
+                statut1 = {"fear":False, "burn":self.ui.effetbrule.isChecked(), "freeze":self.ui.effetgel.isChecked(), "para":self.ui.effetpara.isChecked(), "poison":self.ui.effetpoison.isChecked(), "sleep":self.ui.effetsommeil.isChecked(), "attraction":self.ui.effetattrac.isChecked(), "conf":self.ui.effetconfus.isChecked(), "maledi":self.ui.effetmaledi.isChecked(), "vampi":self.ui.vampicible.currentText(),"prio": int(self.ui.attaqueprio.toPlainText()), "vit": vit1, "deso": self.ui.effetdeso.isChecked(), "ident": self.ui.effetident.isChecked(), "piege":self.ui.effetpiege.isChecked(), "fightID": "1"}
+ 
+                allpkmon.append(pkmn1)
+                allattack.append(attck1)
+                allstatut.append(statut1)
+                niceteam.append(pkmn1)
 
-            pkmn2 = {"id": idpkmon2[0], "lvl": int(self.ui.pokelvl_2.toPlainText()),"name": self.ui.pokename_2.toPlainText() ,"realname": self.ui.poke_2.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_2.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_2.toPlainText()),"att": int(self.ui.att_2.toPlainText()),"def": int(self.ui.defen_2.toPlainText()),"atts": int(self.ui.atts_2.toPlainText()),"defs": int(self.ui.defs_2.toPlainText()),"type1": self.ui.poketype1_2.toPlainText(),"type2": self.ui.poketype2_2.toPlainText(),"modifatt": self.ui.modifatt_2.value(),"modifdef": self.ui.modifdefen_2.value(), "modifatts": self.ui.modifatts_2.value(), "modifdefs": self.ui.modifdefs_2.value(),"modifvit": self.ui.modifvit_2.value(), "modifesquive": self.ui.modifesquive_2.value(), "modifprec": self.ui.modifprec_2.value(),"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2,"ko": False, "fightID": "A","side": "listR", "truevit": self.ui.vit_2.toPlainText()}
+            # pokemon enemy A
+            if self.ui.poke_2.toPlainText()!="" and self.ui.attaque_2.toPlainText()!="":
+                c.execute('SELECT id FROM pokemons WHERE nom=?',(self.ui.poke_2.toPlainText(),))
+                idpkmon2 = c.fetchone()
+                c.execute('SELECT * FROM attaques WHERE nom=?',(self.ui.attaque_2.toPlainText(),))
+                attackdata2 = c.fetchone()
 
-            attck2 = {"name": self.ui.attaque_2.toPlainText(),"type": self.ui.attaquetype_2.toPlainText(), "classe": self.ui.attaqueclasse_2.toPlainText(), "puiss": self.ui.attaquepuiss_2.toPlainText(), "prec": self.ui.attaqueprec_2.toPlainText(), "critchance": self.translateCrit(attackdata2[14]), "fearchance": attackdata2[13], "percenthpheal": attackdata2[11], "percenthpdrain": attackdata2[12], "statutchance": attackdata2[10], "statut": attackdata2[9], "effectchance": attackdata2[8], "effet_txt": attackdata2[7],"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2,"target": self.ui.cible_2.currentText(), "dmgfixe": attackdata2[16], "dmgpercent": attackdata2[17], "catchiante": attackdata2[18], "soinfixe": attackdata2[19]}
+                vit2 = int(self.ui.vit_2.toPlainText())*self.translateModifStat(self.ui.modifvit_2.value())
+                if self.ui.effetpara_2.isChecked():
+                    vit2=vit2/2
 
-            statut2 = {"fear":False, "burn":self.ui.effetbrule_2.isChecked(), "freeze":self.ui.effetgel_2.isChecked(), "para":self.ui.effetpara_2.isChecked(), "poison":self.ui.effetpoison_2.isChecked(), "sleep":self.ui.effetsommeil_2.isChecked(), "attraction":self.ui.effetattrac_2.isChecked(), "conf":self.ui.effetconfus_2.isChecked(), "maledi":self.ui.effetmaledi_2.isChecked(), "vampi":self.ui.vampicible_2.currentText(),"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2, "deso": self.ui.effetdeso_2.isChecked(), "ident": self.ui.effetident_2.isChecked(), "piege":self.ui.effetpiege_2.isChecked(), "fightID": "A"}
+                pkmn2 = {"id": idpkmon2[0], "lvl": int(self.ui.pokelvl_2.toPlainText()),"name": self.ui.pokename_2.toPlainText() ,"realname": self.ui.poke_2.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_2.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_2.toPlainText()),"att": int(self.ui.att_2.toPlainText()),"def": int(self.ui.defen_2.toPlainText()),"atts": int(self.ui.atts_2.toPlainText()),"defs": int(self.ui.defs_2.toPlainText()),"type1": self.ui.poketype1_2.toPlainText(),"type2": self.ui.poketype2_2.toPlainText(),"modifatt": self.ui.modifatt_2.value(),"modifdef": self.ui.modifdefen_2.value(), "modifatts": self.ui.modifatts_2.value(), "modifdefs": self.ui.modifdefs_2.value(),"modifvit": self.ui.modifvit_2.value(), "modifesquive": self.ui.modifesquive_2.value(), "modifprec": self.ui.modifprec_2.value(),"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2,"ko": False, "fightID": "A","side": "listR", "truevit": self.ui.vit_2.toPlainText()}
 
-            allpkmon.append(pkmn2)
-            allattack.append(attck2)
-            allstatut.append(statut2)
-            advteam=[pkmn2]
+                attck2 = {"name": self.ui.attaque_2.toPlainText(),"type": self.ui.attaquetype_2.toPlainText(), "classe": self.ui.attaqueclasse_2.toPlainText(), "puiss": self.ui.attaquepuiss_2.toPlainText(), "prec": self.ui.attaqueprec_2.toPlainText(), "critchance": self.translateCrit(attackdata2[14]), "fearchance": attackdata2[13], "percenthpheal": attackdata2[11], "percenthpdrain": attackdata2[12], "statutchance": attackdata2[10], "statut": attackdata2[9], "effectchance": attackdata2[8], "effet_txt": attackdata2[7],"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2,"target": self.ui.cible_2.currentText(), "dmgfixe": attackdata2[16], "dmgpercent": attackdata2[17], "catchiante": attackdata2[18], "soinfixe": attackdata2[19]}
+
+                statut2 = {"fear":False, "burn":self.ui.effetbrule_2.isChecked(), "freeze":self.ui.effetgel_2.isChecked(), "para":self.ui.effetpara_2.isChecked(), "poison":self.ui.effetpoison_2.isChecked(), "sleep":self.ui.effetsommeil_2.isChecked(), "attraction":self.ui.effetattrac_2.isChecked(), "conf":self.ui.effetconfus_2.isChecked(), "maledi":self.ui.effetmaledi_2.isChecked(), "vampi":self.ui.vampicible_2.currentText(),"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2, "deso": self.ui.effetdeso_2.isChecked(), "ident": self.ui.effetident_2.isChecked(), "piege":self.ui.effetpiege_2.isChecked(), "fightID": "A"}
+
+                allpkmon.append(pkmn2)
+                allattack.append(attck2)
+                allstatut.append(statut2)
+                advteam.append(pkmn2)
 
             # pokemon trainer 2
             if self.ui.poke_3.toPlainText()!="" and self.ui.attaque_3.toPlainText()!="":
@@ -2479,51 +3746,185 @@ class MainWindow(QMainWindow):
                                 elif sortedpkmon[j]["lvl"]<20 and difflvl<-5:
                                     xp=0
                                 self.ui.outputrp.append("[center][b]"+sortedpkmon[j]["name"]+"[/b] gagne [u]"+str(xp)+"[/u] points d'XP ![/center]")
+                
+                resortedpkmon=sorted(sortedpkmon,key=lambda tmp: tmp["fightID"])
+                resortedstatut=sorted(sortedstatut,key=lambda tmp: tmp["fightID"])
+                globalstatutcode=[]
+                idlist=[]
+                for p in range(0,len(resortedpkmon)):
+                    self.ui.outputmodo.append("Code "+resortedpkmon[p]["fightID"]+" : "+resortedpkmon[p]["name"]+" - "+resortedpkmon[p]["realname"]+" - "+str(resortedpkmon[p]["lvl"])+" - "+str(resortedpkmon[p]["pvcurrent"])+"/"+str(resortedpkmon[p]["pvtotal"])+" - "+str(resortedpkmon[p]["att"])+"x"+str(resortedpkmon[p]["def"])+"x"+str(resortedpkmon[p]["atts"])+"x"+str(resortedpkmon[p]["defs"])+"x"+str(resortedpkmon[p]["truevit"])+" - Attaque")
+                    statstxt=resortedpkmon[p]["name"]+" :"
+                    statutcodetxt=""
+                    idlist.append(resortedpkmon[p]["fightID"])
 
-                for p in range(0,len(sortedpkmon)):
-                    self.ui.outputmodo.append("Code "+sortedpkmon[p]["fightID"]+" : "+sortedpkmon[p]["name"]+" - "+sortedpkmon[p]["realname"]+" - "+str(sortedpkmon[p]["lvl"])+" - "+str(sortedpkmon[p]["pvcurrent"])+"/"+str(sortedpkmon[p]["pvtotal"])+" - "+str(sortedpkmon[p]["att"])+"x"+str(sortedpkmon[p]["def"])+"x"+str(sortedpkmon[p]["atts"])+"x"+str(sortedpkmon[p]["defs"])+"x"+str(sortedpkmon[p]["truevit"])+" - Attaque")
-                    statstxt=sortedpkmon[p]["name"]+" :"
-                    if int(sortedpkmon[p]["modifatt"])!=0:
-                        statstxt=statstxt+" modif attaque "+str(sortedpkmon[p]["modifatt"])+","
-                    if int(sortedpkmon[p]["modifdef"])!=0:
-                        statstxt=statstxt+" modif defense "+str(sortedpkmon[p]["modifdef"])+","
-                    if int(sortedpkmon[p]["modifatts"])!=0:
-                        statstxt=statstxt+" modif attaque spé "+str(sortedpkmon[p]["modifatts"])+","
-                    if int(sortedpkmon[p]["modifdefs"])!=0:
-                        statstxt=statstxt+" modif defense spé "+str(sortedpkmon[p]["modifdefs"])+","
-                    if int(sortedpkmon[p]["modifvit"])!=0:
-                        statstxt=statstxt+" modif vitesse "+str(sortedpkmon[p]["modifvit"])+","
-                    if int(sortedpkmon[p]["modifesquive"])!=0:
-                        statstxt=statstxt+" modif esquive "+str(sortedpkmon[p]["modifesquive"])+","
-                    if int(sortedpkmon[p]["modifprec"])!=0:
-                        statstxt=statstxt+" modif précision "+str(sortedpkmon[p]["modifprec"])+","
-                    if int(sortedpkmon[p]["modifatt"])!=0 or int(sortedpkmon[p]["modifdef"])!=0 or int(sortedpkmon[p]["modifatts"])!=0 or int(sortedpkmon[p]["modifdefs"])!=0 or int(sortedpkmon[p]["modifvit"])!=0 or int(sortedpkmon[p]["modifesquive"])!=0 or int(sortedpkmon[p]["modifprec"])!=0:
+                    if int(resortedpkmon[p]["modifatt"])!=0:
+                        statstxt=statstxt+" modif attaque "+str(resortedpkmon[p]["modifatt"])+","
+                        if resortedpkmon[p]["modifatt"]>0:
+                            statutcodetxt=statutcodetxt+"A0"+str(resortedpkmon[p]["modifatt"])
+                        elif resortedpkmon[p]["modifatt"]==-1:
+                            statutcodetxt=statutcodetxt+"A07"
+                        elif resortedpkmon[p]["modifatt"]==-2:
+                            statutcodetxt=statutcodetxt+"A08"
+                        elif resortedpkmon[p]["modifatt"]==-3:
+                            statutcodetxt=statutcodetxt+"A09"
+                        elif resortedpkmon[p]["modifatt"]==-4:
+                            statutcodetxt=statutcodetxt+"A10"
+                        elif resortedpkmon[p]["modifatt"]==-5:
+                            statutcodetxt=statutcodetxt+"A11"
+                        elif resortedpkmon[p]["modifatt"]==-6:
+                            statutcodetxt=statutcodetxt+"A12"
+                    if int(resortedpkmon[p]["modifdef"])!=0:
+                        statstxt=statstxt+" modif defense "+str(resortedpkmon[p]["modifdef"])+","
+                        if resortedpkmon[p]["modifdef"]>0:
+                            statutcodetxt=statutcodetxt+"D0"+str(resortedpkmon[p]["modifdef"])
+                        elif resortedpkmon[p]["modifdef"]==-1:
+                            statutcodetxt=statutcodetxt+"D07"
+                        elif resortedpkmon[p]["modifdef"]==-2:
+                            statutcodetxt=statutcodetxt+"D08"
+                        elif resortedpkmon[p]["modifdef"]==-3:
+                            statutcodetxt=statutcodetxt+"D09"
+                        elif resortedpkmon[p]["modifdef"]==-4:
+                            statutcodetxt=statutcodetxt+"D10"
+                        elif resortedpkmon[p]["modifdef"]==-5:
+                            statutcodetxt=statutcodetxt+"D11"
+                        elif resortedpkmon[p]["modifdef"]==-6:
+                            statutcodetxt=statutcodetxt+"D12"
+                    if int(resortedpkmon[p]["modifatts"])!=0:
+                        statstxt=statstxt+" modif attaque spé "+str(resortedpkmon[p]["modifatts"])+","
+                        if resortedpkmon[p]["modifatts"]>0:
+                            statutcodetxt=statutcodetxt+"S0"+str(resortedpkmon[p]["modifatt"])
+                        elif resortedpkmon[p]["modifatts"]==-1:
+                            statutcodetxt=statutcodetxt+"S07"
+                        elif resortedpkmon[p]["modifatts"]==-2:
+                            statutcodetxt=statutcodetxt+"S08"
+                        elif resortedpkmon[p]["modifatts"]==-3:
+                            statutcodetxt=statutcodetxt+"S09"
+                        elif resortedpkmon[p]["modifatts"]==-4:
+                            statutcodetxt=statutcodetxt+"S10"
+                        elif resortedpkmon[p]["modifatts"]==-5:
+                            statutcodetxt=statutcodetxt+"S11"
+                        elif resortedpkmon[p]["modifatts"]==-6:
+                            statutcodetxt=statutcodetxt+"S12"
+                    if int(resortedpkmon[p]["modifdefs"])!=0:
+                        statstxt=statstxt+" modif defense spé "+str(resortedpkmon[p]["modifdefs"])+","
+                        if resortedpkmon[p]["modifdefs"]>0:
+                            statutcodetxt=statutcodetxt+"F0"+str(resortedpkmon[p]["modifdef"])
+                        elif resortedpkmon[p]["modifdefs"]==-1:
+                            statutcodetxt=statutcodetxt+"F07"
+                        elif resortedpkmon[p]["modifdefs"]==-2:
+                            statutcodetxt=statutcodetxt+"F08"
+                        elif resortedpkmon[p]["modifdefs"]==-3:
+                            statutcodetxt=statutcodetxt+"F09"
+                        elif resortedpkmon[p]["modifdefs"]==-4:
+                            statutcodetxt=statutcodetxt+"F10"
+                        elif resortedpkmon[p]["modifdefs"]==-5:
+                            statutcodetxt=statutcodetxt+"F11"
+                        elif resortedpkmon[p]["modifdefs"]==-6:
+                            statutcodetxt=statutcodetxt+"F12"
+                    if int(resortedpkmon[p]["modifvit"])!=0:
+                        statstxt=statstxt+" modif vitesse "+str(resortedpkmon[p]["modifvit"])+","
+                        if resortedpkmon[p]["modifvit"]>0:
+                            statutcodetxt=statutcodetxt+"T0"+str(resortedpkmon[p]["modifvit"])
+                        elif resortedpkmon[p]["modifvit"]==-1:
+                            statutcodetxt=statutcodetxt+"T07"
+                        elif resortedpkmon[p]["modifvit"]==-2:
+                            statutcodetxt=statutcodetxt+"T08"
+                        elif resortedpkmon[p]["modifvit"]==-3:
+                            statutcodetxt=statutcodetxt+"T09"
+                        elif resortedpkmon[p]["modifvit"]==-4:
+                            statutcodetxt=statutcodetxt+"T10"
+                        elif resortedpkmon[p]["modifvit"]==-5:
+                            statutcodetxt=statutcodetxt+"T11"
+                        elif resortedpkmon[p]["modifvit"]==-6:
+                            statutcodetxt=statutcodetxt+"T12"
+                    if int(resortedpkmon[p]["modifesquive"])!=0:
+                        statstxt=statstxt+" modif esquive "+str(resortedpkmon[p]["modifesquive"])+","
+                        if resortedpkmon[p]["modifesquive"]>0:
+                            statutcodetxt=statutcodetxt+"E0"+str(resortedpkmon[p]["modifesquive"])
+                        elif resortedpkmon[p]["modifesquive"]==-1:
+                            statutcodetxt=statutcodetxt+"E07"
+                        elif resortedpkmon[p]["modifesquive"]==-2:
+                            statutcodetxt=statutcodetxt+"E08"
+                        elif resortedpkmon[p]["modifesquive"]==-3:
+                            statutcodetxt=statutcodetxt+"E09"
+                        elif resortedpkmon[p]["modifesquive"]==-4:
+                            statutcodetxt=statutcodetxt+"E10"
+                        elif resortedpkmon[p]["modifesquive"]==-5:
+                            statutcodetxt=statutcodetxt+"E11"
+                        elif resortedpkmon[p]["modifesquive"]==-6:
+                            statutcodetxt=statutcodetxt+"E12"
+                    if int(resortedpkmon[p]["modifprec"])!=0:
+                        statstxt=statstxt+" modif précision "+str(resortedpkmon[p]["modifprec"])+","
+                        if resortedpkmon[p]["modifprec"]>0:
+                            statutcodetxt=statutcodetxt+"P0"+str(resortedpkmon[p]["modifprec"])
+                        elif resortedpkmon[p]["modifprec"]==-1:
+                            statutcodetxt=statutcodetxt+"P07"
+                        elif resortedpkmon[p]["modifprec"]==-2:
+                            statutcodetxt=statutcodetxt+"P08"
+                        elif resortedpkmon[p]["modifprec"]==-3:
+                            statutcodetxt=statutcodetxt+"P09"
+                        elif resortedpkmon[p]["modifprec"]==-4:
+                            statutcodetxt=statutcodetxt+"P10"
+                        elif resortedpkmon[p]["modifprec"]==-5:
+                            statutcodetxt=statutcodetxt+"P11"
+                        elif resortedpkmon[p]["modifprec"]==-6:
+                            statutcodetxt=statutcodetxt+"P12"
+
+                    if int(resortedpkmon[p]["modifatt"])!=0 or int(resortedpkmon[p]["modifdef"])!=0 or int(resortedpkmon[p]["modifatts"])!=0 or int(resortedpkmon[p]["modifdefs"])!=0 or int(resortedpkmon[p]["modifvit"])!=0 or int(resortedpkmon[p]["modifesquive"])!=0 or int(resortedpkmon[p]["modifprec"])!=0:
                         statstxt = statstxt[:-1]
                         self.ui.outputmodo.append(statstxt)
-                    statuttxt=sortedpkmon[p]["name"]+" :"
-                    if sortedstatut[p]["burn"]:
+                    statuttxt=resortedpkmon[p]["name"]+" :"
+                    if resortedstatut[p]["burn"]:
                         statuttxt=statuttxt+" brûlure,"
-                    if sortedstatut[p]["freeze"]:
+                        statutcodetxt=statutcodetxt+"BRL"
+                    if resortedstatut[p]["freeze"]:
                         statuttxt=statuttxt+" gel,"
-                    if sortedstatut[p]["para"]:
+                        statutcodetxt=statutcodetxt+"GEL"
+                    if resortedstatut[p]["para"]:
                         statuttxt=statuttxt+" paralysie,"
-                    if sortedstatut[p]["poison"]:
+                        statutcodetxt=statutcodetxt+"PAR"
+                    if resortedstatut[p]["poison"]:
                         statuttxt=statuttxt+" poison,"
-                    if sortedstatut[p]["sleep"]:
+                        statutcodetxt=statutcodetxt+"PSN"
+                    if resortedstatut[p]["sleep"]:
                         statuttxt=statuttxt+" sommeil pour ?? tours,"
-                    if sortedstatut[p]["attraction"]:
+                        statutcodetxt=statutcodetxt+"SLP"
+                    if resortedstatut[p]["attraction"]:
                         statuttxt=statuttxt+" attraction,"
-                    if sortedstatut[p]["conf"]:
+                        statutcodetxt=statutcodetxt+"ACN"
+                    if resortedstatut[p]["conf"]:
                         statuttxt=statuttxt+" confus pour ?? tours,"
-                    if sortedstatut[p]["maledi"]:
+                        statutcodetxt=statutcodetxt+"CNF"
+                    if resortedstatut[p]["maledi"]:
                         statuttxt=statuttxt+" malédiction,"
-                    if sortedstatut[p]["vampi"]:
+                        statutcodetxt=statutcodetxt+"MAL"
+                    if resortedstatut[p]["vampi"]:
                         statuttxt=statuttxt+" vampigraine,"
-                    if sortedstatut[p]["piege"]:
+                        statutcodetxt=statutcodetxt+"V"+str(resortedstatut[p]["vampi"])
+                    if resortedstatut[p]["piege"]:
                         statuttxt=statuttxt+" piégé pour ?? tours,"
-                    if sortedstatut[p]["burn"] or sortedstatut[p]["freeze"] or sortedstatut[p]["para"] or sortedstatut[p]["poison"] or sortedstatut[p]["sleep"] or sortedstatut[p]["attraction"] or sortedstatut[p]["conf"] or sortedstatut[p]["maledi"] or sortedstatut[p]["vampi"] or sortedstatut[p]["piege"]:
+                        statutcodetxt=statutcodetxt+"PIG"
+                    if resortedstatut[p]["burn"] or resortedstatut[p]["freeze"] or resortedstatut[p]["para"] or resortedstatut[p]["poison"] or resortedstatut[p]["sleep"] or resortedstatut[p]["attraction"] or resortedstatut[p]["conf"] or resortedstatut[p]["maledi"] or resortedstatut[p]["vampi"] or resortedstatut[p]["piege"]:
                         statuttxt = statuttxt[:-1]
                         self.ui.outputmodo.append(statuttxt)
+                    if statutcodetxt=="":
+                        statutcodetxt="NA"
+                    globalstatutcode.append(statutcodetxt)
+                if "1" not in idlist:
+                    globalstatutcode.insert(0,"NA")
+                if "2" not in idlist:
+                    globalstatutcode.insert(1,"NA")
+                if "3" not in idlist:
+                    globalstatutcode.insert(2,"NA")
+                if "A" not in idlist:
+                    globalstatutcode.insert(3,"NA")
+                if "B" not in idlist:
+                    globalstatutcode.insert(4,"NA")
+                if "C" not in idlist:
+                    globalstatutcode.insert(5,"NA")
+                sep="-"
+                globalstatutcode2=sep.join(globalstatutcode)
+                self.ui.outputmodo.append("Code statut: "+globalstatutcode2)
 
                 if self.ui.captureauto.isChecked():
                     indexedpkmon2 = self.build_dict(sortedpkmon,key="fightID")
