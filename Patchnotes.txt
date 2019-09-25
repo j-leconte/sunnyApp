@@ -1,5 +1,9 @@
 https://github.com/Maeveen/sunnyApp
 https://drive.google.com/open?id=1HT_SIVm93yvJDs65nukCRozWbvVoS5cA
+25/09/2019
+- ajout d'un code de statut: code global à la fin de la balise modo qui récapitule l'ensemble des statuts de tout les pokemons et peut être copié en haut à gauche de l'interface en début de modo (en cliquant sur le bouton stats)
+- les pokemons sont maintenant dans l'ordre 1/2/3/A/B/C en balise modo et plus par vitesse
+- update de la base de données pour inclure automatiquement les attaques des préévolutions
 
 17/09/2019
 - bug fix sur les attaques modifiant l'esquive
