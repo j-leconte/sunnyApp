@@ -3007,7 +3007,15 @@ class MainWindow(QMainWindow):
             if statut1["freeze"]:
               statut1["freeze"]=False
               self.ui.outputrp.append("[i]{"+pkmon1["name"]+" n'est plus gelé !}[/i]")
-            if advnb==1 and totaladvnb==1:
+            if attck1["type"]=="objet":
+                if attck1["name"]=="Swap":
+                    self.ui.outputrp.append("[b]"+pkmon1["name"]+"[/b] arrive sur le terrain !")
+                else:
+                    self.ui.outputrp.append("[b]"+pkmon1["name"]+"[/b] utilise [u]"+attck1["name"]+"[/u] !")
+            elif attck1["target"]==pkmon1["fightID"]:
+                self.ui.outputrp.append("[b]"+pkmon1["name"]+"[/b] utilise [u]"+attck1["name"]+"[/u] !")
+
+            elif advnb==1 and totaladvnb==1:
                 self.ui.outputrp.append("[b]"+pkmon1["name"]+"[/b] utilise [u]"+attck1["name"]+"[/u] sur [b]"+pkmon2["name"]+"[/b] !")
             elif advnb==1:
                 self.ui.outputrp.append("[b]"+pkmon1["name"]+"[/b] utilise [u]"+attck1["name"]+"[/u] !")
@@ -3016,7 +3024,7 @@ class MainWindow(QMainWindow):
                     self.ui.outputrp.append(pkmon2["name"]+" esquive !")
                 else:
                     self.ui.outputrp.append("L'attaque a échoué !")
-            elif  attck1["classe"]=="no damage":
+            elif attck1["classe"]=="no damage":
                 if attck1["percenthpheal"]>0:
                     heal=pkmon2["pvtotal"]*attck1["percenthpheal"]/100
                     newpv1=pkmon2["pvcurrent"]+round(heal)
@@ -3156,13 +3164,13 @@ class MainWindow(QMainWindow):
             if statmodif1 !=None and dmg!='fail' and effetproc=='yes':
                 statmodif1=tuple(x if x else 0 for x in statmodif1)
                 for stat in range(0,7):
-                    if statmodif1[stat+2]<0:
+                    if statmodif1[stat+2]<0 and pkmon1["ko"]==False:
                         if pkmon1[getstat[stat]]==-6:
                             self.ui.outputrp.append("[i]{"+txtstat[stat]+" de "+pkmon1["name"]+" ne peut plus baisser.}[/i]")
                         else:
                             self.ui.outputrp.append("[i]{"+txtstat[stat]+" de "+pkmon1["name"]+" diminue !}[/i]")
                             pkmon1[getstat[stat]]=pkmon1[getstat[stat]]+statmodif1[stat+2]
-                    elif statmodif1[stat+2]>0:
+                    elif statmodif1[stat+2]>0 and pkmon1["ko"]==False:
                         if pkmon1[getstat[stat]]==+6:
                             self.ui.outputrp.append("[i]{"+txtstat[stat]+" de "+pkmon1["name"]+" ne peut plus augmenter.}[/i]")
                         else:
@@ -3172,13 +3180,13 @@ class MainWindow(QMainWindow):
             if statmodif2 !=None and dmg!='fail' and effetproc=='yes':
                 statmodif2=tuple(x if x else 0 for x in statmodif2)
                 for stat in range(0,7):
-                    if statmodif2[stat+2]<0:
+                    if statmodif2[stat+2]<0 and pkmon2["ko"]==False:
                         if pkmon2[getstat[stat]]==-6:
                             self.ui.outputrp.append("[i]{"+txtstat[stat]+" de "+pkmon2["name"]+" ne peut plus baisser.}[/i]")
                         else:
                             self.ui.outputrp.append("[i]{"+txtstat[stat]+" de "+pkmon2["name"]+" diminue !}[/i]")
                             pkmon2[getstat[stat]]=pkmon2[getstat[stat]]+statmodif2[stat+2]
-                    elif statmodif2[stat+2]>0:
+                    elif statmodif2[stat+2]>0 and pkmon2["ko"]==False:
                         if pkmon2[getstat[stat]]==+6:
                             self.ui.outputrp.append("[i]{"+txtstat[stat]+" de "+pkmon2["name"]+" ne peut plus augmenter.}[/i]")
                         else:
@@ -3187,8 +3195,9 @@ class MainWindow(QMainWindow):
 
             if attck1["statutchance"]!="" and dmg!="fail":
                 previousStatut=(statut2["burn"] or statut2["freeze"] or statut2["para"] or statut2["sleep"] or statut2["poison"])
+                statutmain=(attck1["statut"]=="Brûlure" or attck1["statut"]=="Gel" or attck1["statut"]=="Paralysie" or attck1["statut"]=="Sommeil" or attck1["statut"]=="Empoisonnement")
                 if random.randint(1,100) <= attck1["statutchance"]:
-                  if previousStatut:
+                  if previousStatut and statutmain:
                     self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est déjà sous l'effet d'un statut.}[/i]")
                   elif attck1["statut"]=="Brûlure":
                     if pkmon2["type1"]=="feu" or pkmon2["type2"]=="feu":
@@ -3530,14 +3539,15 @@ class MainWindow(QMainWindow):
                                 indexadv.remove(index)
                             elif sortedattack[index]["target"]=="Aléatoire":
                                 if sortedpkmon[index]["fightID"] in ["1","2","3"]:
-                                    alladv = [indexedpkmon[x]["index"] for x in listidteamA]
+                                    for i in range(0,len(randomlistA)):
+                                        indexadv = [indexedpkmon[randomlistA[i]]["index"]]
+                                        if sortedpkmon[indexadv[0]]["ko"]==False:
+                                            break
                                 elif sortedpkmon[index]["fightID"] in ["A","B","C"]:
-                                    alladv = [indexedpkmon[x]["index"] for x in listidteam1]
-                                for i in alladv:
-                                    if sortedpkmon[i]["ko"]:
-                                        alladv.remove(i)
-                                if alladv!=[]:
-                                    indexadv=random.choice(alladv)
+                                    for i in range(0,len(randomlist1)):
+                                        indexadv = [indexedpkmon[randomlist1[i]]["index"]]
+                                        if sortedpkmon[indexadv[0]]["ko"]==False:
+                                            break
                             elif sortedattack[index]["target"]=="Team":
                                 indexadv = None
                                 settarget = set(listid)
@@ -4324,6 +4334,9 @@ class MainWindow(QMainWindow):
             nb=self.ui.nbgen.value()
             c2.execute('SELECT Zone_id FROM SunnyData_zones WHERE Continent=? AND Region=? AND Zone=?',(continent,region,zone))
             zoneid=c2.fetchone()[0]
+            c2.execute('SELECT Level FROM SunnyData_pokemon WHERE Zone=? AND Place=?',(zoneid,methode))
+            zonelvl=c2.fetchone()[0]
+            self.ui.outputgen.append(str(zone)+" est une zone de niveau "+str(zonelvl))
             c2.execute('SELECT Rarity FROM SunnyData_pokemon WHERE Zone=? AND Place=?',(zoneid,methode))
             listrarity=c2.fetchall()
             listrarity2=self.unique(listrarity)
@@ -4332,43 +4345,102 @@ class MainWindow(QMainWindow):
                 listrarity3.append(x[0])
             advnames=list()
             advlvls=list()
+            scienti=self.ui.scienti.currentText()
+            if scienti=="Non":
+                scientipop=False
+            else:
+                scientipop=True
             for adv in list(range(0,nb)):
-                selectrarity=""
-                while selectrarity not in listrarity3:
-                    rarity=random.randint(1,100)
-                    #Courant (100 - 68), peu fréquent (67 - 43), assez rare (42 - 26), rare (25 - 13), très rare (12 - 5), extemement rare (4-1)
-                    if rarity<=4:
-                        selectrarity="Extrêmement rare"
-                    elif rarity<=12:
-                        selectrarity="Très rare"
-                    elif rarity<=25:
-                        selectrarity="Rare"
-                    elif rarity<=42:
-                        selectrarity="Assez rare"
-                    elif rarity<=67:
-                        selectrarity="Peu fréquent"
+                if scientipop==True and random.randint(1,10)==10:
+                    scientipop=False
+                    listrarityscienti=list()
+                    listrarityscienti.append("Courant")
+                    listrarityscienti.append("Peu fréquent")
+                    listrarityscienti.append("Assez rare")
+                    if scienti=="Scientifique Accompli" or scienti=="Scientifique Eminent":
+                        listrarityscienti.append("Rare")
+                    if scienti=="Scientifique Eminent":
+                        listrarityscienti.append("Très rare")
+                        listrarityscienti.append("Extrêmement rare")
+                    selectrarity=""
+                    while selectrarity not in listrarityscienti:
+                        rarity=random.randint(1,100)
+                        #Courant (100 - 68), peu fréquent (67 - 43), assez rare (42 - 26), rare (25 - 13), très rare (12 - 5), extemement rare (4-1)
+                        if rarity<=4:
+                            selectrarity="Extrêmement rare"
+                        elif rarity<=12:
+                            selectrarity="Très rare"
+                        elif rarity<=25:
+                            selectrarity="Rare"
+                        elif rarity<=42:
+                            selectrarity="Assez rare"
+                        elif rarity<=67:
+                            selectrarity="Peu fréquent"
+                        else:
+                            selectrarity="Courant"
+                    if scienti=="Scientifique Débutant":
+                        pokelist=""
+                        while len(pokelist)==0:
+                            c2.execute('SELECT Zone_id FROM SunnyData_zones WHERE Continent=? AND Pokemon=? ORDER BY random() LIMIT 1',(continent,'Oui'))
+                            randomzone=c2.fetchone()[0]
+                            c2.execute('SELECT * FROM SunnyData_pokemon WHERE Zone=? AND Rarity=?',(randomzone,selectrarity))
+                            pokelist=c2.fetchall()
+                        pknb=random.randint(0,len(pokelist)-1)
+                        advnames.append(pokelist[pknb][1])
+                        advlvls.append(lvl)
+                        self.ui.outputgen.append(str(advnames[adv])+" (Scientifique Débutant)")
                     else:
-                        selectrarity="Courant" 
-                c2.execute('SELECT * FROM SunnyData_pokemon WHERE Zone=? AND Place=? AND Rarity=?',(zoneid,methode,selectrarity))
-                pokelist=c2.fetchall()
-                pknb=random.randint(0,len(pokelist)-1)
-                minlvl=int(pokelist[pknb][4].split("-")[0])
-                maxlvl=int(pokelist[pknb][4].split("-")[1])
-
-                advnames.append(pokelist[pknb][1])
-                if lvl < minlvl:
-                    advlvls.append(minlvl)
-                elif lvl > maxlvl:
-                    advlvls.append(maxlvl)
+                        if scienti=="Scientifique Eminent" and random.randint(1,5)==5 :
+                            advnames.append("Pokémon unique")
+                            advlvls.append(lvl)
+                        else:
+                            pokelist=""
+                            while len(pokelist)==0:
+                                c2.execute('SELECT * FROM SunnyData_pokemon WHERE Rarity=?',(selectrarity,))
+                                pokelist=c2.fetchall()
+                            pknb=random.randint(0,len(pokelist)-1)
+                            advnames.append(pokelist[pknb][1])
+                            advlvls.append(lvl)
+                        self.ui.outputgen.append(str(advnames[adv])+" ("+str(scienti)+")")
                 else:
-                    advlvls.append(random.randint(lvl,lvl+2))
-                    if advlvls[adv]<minlvl:
-                        advlvls[adv]=minlvl
-                    if advlvls[adv]>maxlvl:
-                        advlvls[adv]=maxlvl
+                    selectrarity=""
+                    while selectrarity not in listrarity3:
+                        rarity=random.randint(1,100)
+                        #Courant (100 - 68), peu fréquent (67 - 43), assez rare (42 - 26), rare (25 - 13), très rare (12 - 5), extemement rare (4-1)
+                        if rarity<=4:
+                            selectrarity="Extrêmement rare"
+                        elif rarity<=12:
+                            selectrarity="Très rare"
+                        elif rarity<=25:
+                            selectrarity="Rare"
+                        elif rarity<=42:
+                            selectrarity="Assez rare"
+                        elif rarity<=67:
+                            selectrarity="Peu fréquent"
+                        else:
+                            selectrarity="Courant" 
+                    c2.execute('SELECT * FROM SunnyData_pokemon WHERE Zone=? AND Place=? AND Rarity=?',(zoneid,methode,selectrarity))
+                    pokelist=c2.fetchall()
+                    pknb=random.randint(0,len(pokelist)-1)
+                    minlvl=int(pokelist[pknb][4].split("-")[0])
+                    maxlvl=int(pokelist[pknb][4].split("-")[1])
 
-                self.ui.outputgen.append(str(advnames[adv])+" niveau "+str(advlvls[adv]))
+                    advnames.append(pokelist[pknb][1])
 
+                    if lvl==0:
+                        advlvls.append(random.randint(minlvl,maxlvl))
+                    elif lvl < minlvl:
+                        advlvls.append(minlvl)
+                    elif lvl > maxlvl:
+                        advlvls.append(maxlvl)
+                    else:
+                        advlvls.append(random.randint(lvl,lvl+2))
+                        if advlvls[adv]<minlvl:
+                            advlvls[adv]=minlvl
+                        if advlvls[adv]>maxlvl:
+                            advlvls[adv]=maxlvl
+
+                    self.ui.outputgen.append(str(advnames[adv])+" niveau "+str(advlvls[adv]))
         else:
              msgBox1 = QMessageBox()
              msgBox1.setText('Informations manquantes')
