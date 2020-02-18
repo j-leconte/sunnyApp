@@ -1501,21 +1501,22 @@ class MainWindow(QMainWindow):
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar.toPlainText()
         datasplit = re.split('/| - ',databar)
-        datasplit2 = re.split('x',datasplit[5])
-        if len(datasplit) == 7 and len(datasplit2) == 5:
-            #  ex : Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
+        datasplit2 = re.split('x',datasplit[6])
+        if len(datasplit) == 8 and len(datasplit2) == 5:
+            #  ex : 0000 - Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
-                correctname=self.attaque_match(datasplit[6],all_attaques)
+                correctname=self.attaque_match(datasplit[7],all_attaques)
             except KeyError:
                 correctname="error"
             try:
-                correctpkmon=self.attaque_match(datasplit[1],all_pokemon)
+                correctpkmon=self.attaque_match(datasplit[2],all_pokemon)
             except KeyError:
                 correctpkmon="error"
-            self.ui.pokename.setText(datasplit[0])
-            self.ui.pokelvl.setText(datasplit[2])
-            self.ui.pvcurrent.setText(datasplit[3])
-            self.ui.pvtotal.setText(datasplit[4])
+            self.ui.trainer.setText(datasplit[0])
+            self.ui.pokename.setText(datasplit[1])
+            self.ui.pokelvl.setText(datasplit[3])
+            self.ui.pvcurrent.setText(datasplit[4])
+            self.ui.pvtotal.setText(datasplit[5])
             self.ui.att.setText(datasplit2[0])
             self.ui.defen.setText(datasplit2[1])
             self.ui.atts.setText(datasplit2[2])
@@ -1524,11 +1525,11 @@ class MainWindow(QMainWindow):
             if correctname!="error":
                 self.ui.attaque.setText(correctname)
             else:
-                self.ui.attaque.setText(datasplit[6])
+                self.ui.attaque.setText(datasplit[7])
             if correctpkmon!="error":
                 self.ui.poke.setText(correctpkmon)
             else:
-                self.ui.poke.setText(datasplit[1])
+                self.ui.poke.setText(datasplit[2])
             # query poke to get type
             c.execute('SELECT * FROM pokemons WHERE nom=?',(correctpkmon,))
             pokedata = c.fetchone()
@@ -1606,11 +1607,11 @@ class MainWindow(QMainWindow):
                     attaque_nom=c.fetchone()[0]
                     self.ui.attackdex.addItem('CT- '+attaque_nom)
 
-        elif len(datasplit) < 7 or len(datasplit2) < 5:
+        elif len(datasplit) < 8 or len(datasplit2) < 5:
             msgBox1 = QMessageBox()
             msgBox1.setText("Attention, il manque des choses !")
             msgBox1.exec_()
-        elif len(datasplit) > 7 or len(datasplit2) > 5:
+        elif len(datasplit) > 8 or len(datasplit2) > 5:
             msgBox2 = QMessageBox()
             msgBox2.setText("Attention, il y a des choses en trop !")
             msgBox2.exec_()
@@ -1621,21 +1622,22 @@ class MainWindow(QMainWindow):
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar_2.toPlainText()
         datasplit = re.split('/| - ',databar)
-        datasplit2 = re.split('x',datasplit[5])
-        if len(datasplit) == 7 and len(datasplit2) == 5:
+        datasplit2 = re.split('x',datasplit[6])
+        if len(datasplit) == 8 and len(datasplit2) == 5:
             #  ex : Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
-                correctname=self.attaque_match(datasplit[6],all_attaques)
+                correctname=self.attaque_match(datasplit[7],all_attaques)
             except KeyError:
                 correctname="error"
             try:
-                correctpkmon=self.attaque_match(datasplit[1],all_pokemon)
+                correctpkmon=self.attaque_match(datasplit[2],all_pokemon)
             except KeyError:
                 correctpkmon="error"
-            self.ui.pokename_2.setText(datasplit[0])
-            self.ui.pokelvl_2.setText(datasplit[2])
-            self.ui.pvcurrent_2.setText(datasplit[3])
-            self.ui.pvtotal_2.setText(datasplit[4])
+            self.ui.trainer_2.setText(datasplit[0])
+            self.ui.pokename_2.setText(datasplit[1])
+            self.ui.pokelvl_2.setText(datasplit[3])
+            self.ui.pvcurrent_2.setText(datasplit[4])
+            self.ui.pvtotal_2.setText(datasplit[5])
             self.ui.att_2.setText(datasplit2[0])
             self.ui.defen_2.setText(datasplit2[1])
             self.ui.atts_2.setText(datasplit2[2])
@@ -1644,11 +1646,11 @@ class MainWindow(QMainWindow):
             if correctname!="error":
                 self.ui.attaque_2.setText(correctname)
             else:
-                self.ui.attaque_2.setText(datasplit[6])
+                self.ui.attaque_2.setText(datasplit[7])
             if correctpkmon!="error":
                 self.ui.poke_2.setText(correctpkmon)
             else:
-                self.ui.poke_2.setText(datasplit[1])
+                self.ui.poke_2.setText(datasplit[2])
 
             # query poke to get type
             c.execute('SELECT * FROM pokemons WHERE nom=?',(correctpkmon,))
@@ -1723,11 +1725,11 @@ class MainWindow(QMainWindow):
                     attaque_nom=c.fetchone()[0]
                     self.ui.attackdex_2.addItem('CT- '+attaque_nom)
 
-        elif len(datasplit) < 7 or len(datasplit2) < 5:
+        elif len(datasplit) < 8 or len(datasplit2) < 5:
             msgBox1 = QMessageBox()
             msgBox1.setText("Attention, il manque des choses !")
             msgBox1.exec_()
-        elif len(datasplit) > 7 or len(datasplit2) > 5:
+        elif len(datasplit) > 8 or len(datasplit2) > 5:
             msgBox2 = QMessageBox()
             msgBox2.setText("Attention, il y a des choses en trop !")
             msgBox2.exec_()
@@ -1737,21 +1739,22 @@ class MainWindow(QMainWindow):
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar_3.toPlainText()
         datasplit = re.split('/| - ',databar)
-        datasplit2 = re.split('x',datasplit[5])
-        if len(datasplit) == 7 and len(datasplit2) == 5:
+        datasplit2 = re.split('x',datasplit[6])
+        if len(datasplit) == 8 and len(datasplit2) == 5:
             #  ex : Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
-                correctname=self.attaque_match(datasplit[6],all_attaques)
+                correctname=self.attaque_match(datasplit[7],all_attaques)
             except KeyError:
                 correctname="error"
             try:
-                correctpkmon=self.attaque_match(datasplit[1],all_pokemon)
+                correctpkmon=self.attaque_match(datasplit[2],all_pokemon)
             except KeyError:
                 correctpkmon="error"
-            self.ui.pokename_3.setText(datasplit[0])
-            self.ui.pokelvl_3.setText(datasplit[2])
-            self.ui.pvcurrent_3.setText(datasplit[3])
-            self.ui.pvtotal_3.setText(datasplit[4])
+            self.ui.trainer_3.setText(datasplit[0])
+            self.ui.pokename_3.setText(datasplit[1])
+            self.ui.pokelvl_3.setText(datasplit[3])
+            self.ui.pvcurrent_3.setText(datasplit[4])
+            self.ui.pvtotal_3.setText(datasplit[5])
             self.ui.att_3.setText(datasplit2[0])
             self.ui.defen_3.setText(datasplit2[1])
             self.ui.atts_3.setText(datasplit2[2])
@@ -1760,11 +1763,11 @@ class MainWindow(QMainWindow):
             if correctname!="error":
                 self.ui.attaque_3.setText(correctname)
             else:
-                self.ui.attaque_3.setText(datasplit[6])
+                self.ui.attaque_3.setText(datasplit[7])
             if correctpkmon!="error":
                 self.ui.poke_3.setText(correctpkmon)
             else:
-                self.ui.poke_3.setText(datasplit[1])
+                self.ui.poke_3.setText(datasplit[2])
 
             # query poke to get type
             c.execute('SELECT * FROM pokemons WHERE nom=?',(correctpkmon,))
@@ -1839,11 +1842,11 @@ class MainWindow(QMainWindow):
                     attaque_nom=c.fetchone()[0]
                     self.ui.attackdex_3.addItem('CT- '+attaque_nom)
 
-        elif len(datasplit) < 7 or len(datasplit2) < 5:
+        elif len(datasplit) < 8 or len(datasplit2) < 5:
             msgBox1 = QMessageBox()
             msgBox1.setText("Attention, il manque des choses !")
             msgBox1.exec_()
-        elif len(datasplit) > 7 or len(datasplit2) > 5:
+        elif len(datasplit) > 8 or len(datasplit2) > 5:
             msgBox2 = QMessageBox()
             msgBox2.setText("Attention, il y a des choses en trop !")
             msgBox2.exec_()
@@ -1853,21 +1856,22 @@ class MainWindow(QMainWindow):
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar_4.toPlainText()
         datasplit = re.split('/| - ',databar)
-        datasplit2 = re.split('x',datasplit[5])
-        if len(datasplit) == 7 and len(datasplit2) == 5:
+        datasplit2 = re.split('x',datasplit[6])
+        if len(datasplit) == 8 and len(datasplit2) == 5:
             #  ex : Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
-                correctname=self.attaque_match(datasplit[6],all_attaques)
+                correctname=self.attaque_match(datasplit[7],all_attaques)
             except KeyError:
                 correctname="error"
             try:
-                correctpkmon=self.attaque_match(datasplit[1],all_pokemon)
+                correctpkmon=self.attaque_match(datasplit[2],all_pokemon)
             except KeyError:
                 correctpkmon="error"
-            self.ui.pokename_4.setText(datasplit[0])
-            self.ui.pokelvl_4.setText(datasplit[2])
-            self.ui.pvcurrent_4.setText(datasplit[3])
-            self.ui.pvtotal_4.setText(datasplit[4])
+            self.ui.trainer_4.setText(datasplit[0])
+            self.ui.pokename_4.setText(datasplit[1])
+            self.ui.pokelvl_4.setText(datasplit[3])
+            self.ui.pvcurrent_4.setText(datasplit[4])
+            self.ui.pvtotal_4.setText(datasplit[5])
             self.ui.att_4.setText(datasplit2[0])
             self.ui.defen_4.setText(datasplit2[1])
             self.ui.atts_4.setText(datasplit2[2])
@@ -1876,11 +1880,11 @@ class MainWindow(QMainWindow):
             if correctname!="error":
                 self.ui.attaque_4.setText(correctname)
             else:
-                self.ui.attaque_4.setText(datasplit[6])
+                self.ui.attaque_4.setText(datasplit[7])
             if correctpkmon!="error":
                 self.ui.poke_4.setText(correctpkmon)
             else:
-                self.ui.poke_4.setText(datasplit[1])
+                self.ui.poke_4.setText(datasplit[2])
 
             # query poke to get type
             c.execute('SELECT * FROM pokemons WHERE nom=?',(correctpkmon,))
@@ -1955,11 +1959,11 @@ class MainWindow(QMainWindow):
                     attaque_nom=c.fetchone()[0]
                     self.ui.attackdex_4.addItem('CT- '+attaque_nom)
 
-        elif len(datasplit) < 7 or len(datasplit2) < 5:
+        elif len(datasplit) < 8 or len(datasplit2) < 5:
             msgBox1 = QMessageBox()
             msgBox1.setText("Attention, il manque des choses !")
             msgBox1.exec_()
-        elif len(datasplit) > 7 or len(datasplit2) > 5:
+        elif len(datasplit) > 8 or len(datasplit2) > 5:
             msgBox2 = QMessageBox()
             msgBox2.setText("Attention, il y a des choses en trop !")
             msgBox2.exec_()
@@ -1969,21 +1973,22 @@ class MainWindow(QMainWindow):
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar_5.toPlainText()
         datasplit = re.split('/| - ',databar)
-        datasplit2 = re.split('x',datasplit[5])
-        if len(datasplit) == 7 and len(datasplit2) == 5:
+        datasplit2 = re.split('x',datasplit[6])
+        if len(datasplit) == 8 and len(datasplit2) == 5:
             #  ex : Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
-                correctname=self.attaque_match(datasplit[6],all_attaques)
+                correctname=self.attaque_match(datasplit[7],all_attaques)
             except KeyError:
                 correctname="error"
             try:
-                correctpkmon=self.attaque_match(datasplit[1],all_pokemon)
+                correctpkmon=self.attaque_match(datasplit[2],all_pokemon)
             except KeyError:
                 correctpkmon="error"
-            self.ui.pokename_5.setText(datasplit[0])
-            self.ui.pokelvl_5.setText(datasplit[2])
-            self.ui.pvcurrent_5.setText(datasplit[3])
-            self.ui.pvtotal_5.setText(datasplit[4])
+            self.ui.trainer_5.setText(datasplit[0])
+            self.ui.pokename_5.setText(datasplit[1])
+            self.ui.pokelvl_5.setText(datasplit[3])
+            self.ui.pvcurrent_5.setText(datasplit[4])
+            self.ui.pvtotal_5.setText(datasplit[5])
             self.ui.att_5.setText(datasplit2[0])
             self.ui.defen_5.setText(datasplit2[1])
             self.ui.atts_5.setText(datasplit2[2])
@@ -1992,11 +1997,11 @@ class MainWindow(QMainWindow):
             if correctname!="error":
                 self.ui.attaque_5.setText(correctname)
             else:
-                self.ui.attaque_5.setText(datasplit[6])
+                self.ui.attaque_5.setText(datasplit[7])
             if correctpkmon!="error":
                 self.ui.poke_5.setText(correctpkmon)
             else:
-                self.ui.poke_5.setText(datasplit[1])
+                self.ui.poke_5.setText(datasplit[2])
 
             # query poke to get type
             c.execute('SELECT * FROM pokemons WHERE nom=?',(correctpkmon,))
@@ -2070,11 +2075,11 @@ class MainWindow(QMainWindow):
                     attaque_nom=c.fetchone()[0]
                     self.ui.attackdex_5.addItem('CT- '+attaque_nom)
 
-        elif len(datasplit) < 7 or len(datasplit2) < 5:
+        elif len(datasplit) < 8 or len(datasplit2) < 5:
             msgBox1 = QMessageBox()
             msgBox1.setText("Attention, il manque des choses !")
             msgBox1.exec_()
-        elif len(datasplit) > 7 or len(datasplit2) > 5:
+        elif len(datasplit) > 8 or len(datasplit2) > 5:
             msgBox2 = QMessageBox()
             msgBox2.setText("Attention, il y a des choses en trop !")
             msgBox2.exec_()
@@ -2084,21 +2089,22 @@ class MainWindow(QMainWindow):
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar_6.toPlainText()
         datasplit = re.split('/| - ',databar)
-        datasplit2 = re.split('x',datasplit[5])
-        if len(datasplit) == 7 and len(datasplit2) == 5:
+        datasplit2 = re.split('x',datasplit[6])
+        if len(datasplit) == 8 and len(datasplit2) == 5:
             #  ex : Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
-                correctname=self.attaque_match(datasplit[6],all_attaques)
+                correctname=self.attaque_match(datasplit[7],all_attaques)
             except KeyError:
                 correctname="error"
             try:
-                correctpkmon=self.attaque_match(datasplit[1],all_pokemon)
+                correctpkmon=self.attaque_match(datasplit[2],all_pokemon)
             except KeyError:
                 correctpkmon="error"
-            self.ui.pokename_6.setText(datasplit[0])
-            self.ui.pokelvl_6.setText(datasplit[2])
-            self.ui.pvcurrent_6.setText(datasplit[3])
-            self.ui.pvtotal_6.setText(datasplit[4])
+            self.ui.trainer_6.setText(datasplit[0])
+            self.ui.pokename_6.setText(datasplit[1])
+            self.ui.pokelvl_6.setText(datasplit[3])
+            self.ui.pvcurrent_6.setText(datasplit[4])
+            self.ui.pvtotal_6.setText(datasplit[5])
             self.ui.att_6.setText(datasplit2[0])
             self.ui.defen_6.setText(datasplit2[1])
             self.ui.atts_6.setText(datasplit2[2])
@@ -2107,11 +2113,11 @@ class MainWindow(QMainWindow):
             if correctname!="error":
                 self.ui.attaque_6.setText(correctname)
             else:
-                self.ui.attaque_6.setText(datasplit[6])
+                self.ui.attaque_6.setText(datasplit[7])
             if correctpkmon!="error":
                 self.ui.poke_6.setText(correctpkmon)
             else:
-                self.ui.poke_6.setText(datasplit[1])
+                self.ui.poke_6.setText(datasplit[2])
 
             # query poke to get type
             c.execute('SELECT * FROM pokemons WHERE nom=?',(correctpkmon,))
@@ -2186,11 +2192,11 @@ class MainWindow(QMainWindow):
                     attaque_nom=c.fetchone()[0]
                     self.ui.attackdex_6.addItem('CT- '+attaque_nom)
 
-        elif len(datasplit) < 7 or len(datasplit2) < 5:
+        elif len(datasplit) < 8 or len(datasplit2) < 5:
             msgBox1 = QMessageBox()
             msgBox1.setText("Attention, il manque des choses !")
             msgBox1.exec_()
-        elif len(datasplit) > 7 or len(datasplit2) > 5:
+        elif len(datasplit) > 8 or len(datasplit2) > 5:
             msgBox2 = QMessageBox()
             msgBox2.setText("Attention, il y a des choses en trop !")
             msgBox2.exec_()
@@ -2249,6 +2255,7 @@ class MainWindow(QMainWindow):
             #upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl.value()
             #upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl.value()
 
+            self.ui.trainer.setText("0000")
             self.ui.pokename.setText(pokestat[1])
             self.ui.poke.setText(pokestat[1])
             self.ui.pokelvl.setText(str(self.ui.spinlvl.value()))
@@ -2317,6 +2324,7 @@ class MainWindow(QMainWindow):
             #upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl.value()
             #upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl.value()
 
+            self.ui.trainer_2.setText("0000")
             self.ui.pokename_2.setText(pokestat[1])
             self.ui.poke_2.setText(pokestat[1])
             self.ui.pokelvl_2.setText(str(self.ui.spinlvl_2.value()))
@@ -2385,6 +2393,7 @@ class MainWindow(QMainWindow):
             #upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl.value()
             #upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl.value()
 
+            self.ui.trainer_3.setText("0000")
             self.ui.pokename_3.setText(pokestat[1])
             self.ui.poke_3.setText(pokestat[1])
             self.ui.pokelvl_3.setText(str(self.ui.spinlvl_3.value()))
@@ -2453,6 +2462,7 @@ class MainWindow(QMainWindow):
             #upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl.value()
             #upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl.value()
 
+            self.ui.trainer_4.setText("0000")
             self.ui.pokename_4.setText(pokestat[1])
             self.ui.poke_4.setText(pokestat[1])
             self.ui.pokelvl_4.setText(str(self.ui.spinlvl_4.value()))
@@ -2521,6 +2531,7 @@ class MainWindow(QMainWindow):
             #upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl.value()
             #upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl.value()
 
+            self.ui.trainer_5.setText("0000")
             self.ui.pokename_5.setText(pokestat[1])
             self.ui.poke_5.setText(pokestat[1])
             self.ui.pokelvl_5.setText(str(self.ui.spinlvl_5.value()))
@@ -2589,6 +2600,7 @@ class MainWindow(QMainWindow):
             #upstats[maxindex]=upstats[maxindex]+self.ui.spinlvl.value()
             #upstats[secmaxindex]=upstats[secmaxindex]+self.ui.spinlvl.value()
 
+            self.ui.trainer_6.setText("0000")
             self.ui.pokename_6.setText(pokestat[1])
             self.ui.poke_6.setText(pokestat[1])
             self.ui.pokelvl_6.setText(str(self.ui.spinlvl_6.value()))
@@ -2925,7 +2937,7 @@ class MainWindow(QMainWindow):
                 self.ui.outputrp.append('[i]{'+str(pkmon1["name"])+" se blesse dans la confusion !}[/i]")
                 self.ui.outputrp.append('{[color=#ff0000][b]-'+str(round(dmg))+'[/b][/color]} PVs [color=#777777][size=10]« Nooooon ! »[/size][/color]\n[i]PVs de [b]'+pkmon1["name"]+'[/b][/i]: '+self.pvToColor(newpv2,pkmon1["pvtotal"])+str(newpv2)+'[/color]/'+str(pkmon1["pvtotal"]))
                 if pkmon1["ko"]:
-                    self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
+                    self.ui.outputrp.append("[center][img]"+str(pkmon1["sprite"])+"[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
                 pkmon1["pvcurrent"]=newpv2
             block=True
 
@@ -3062,7 +3074,7 @@ class MainWindow(QMainWindow):
                         pkmon1["pvcurrent"]=newpv3
                         self.ui.outputrp.append('{[color=#ff0000][b]'+str(round(selfdmg))+'[/b][/color]} PVs [color=#777777][size=10]« '+pkmon1["name"]+' sacrifie ses PVs ! »[/size][/color]\n[i]PVs de [b]'+pkmon1["name"]+'[/b][/i]: '+self.pvToColor(newpv3,pkmon1["pvtotal"])+str(newpv3)+'[/color]/'+str(pkmon1["pvtotal"]))
                         if pkmon1["ko"]:
-                            self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
+                            self.ui.outputrp.append("[center][img]"+str(pkmon1["sprite"])+"[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
 
                         statut2["maledi"]=True
                         self.ui.outputrp.append("[i]{"+pkmon2["name"]+" est maudit !}[/i]")
@@ -3118,14 +3130,14 @@ class MainWindow(QMainWindow):
                     self.ui.outputrp.insertPlainText(' PVs [color=#777777][size=10]« '+texttype+randomuptxt+' »[/size][/color]\n[i]PVs de [b]'+pkmon2["name"]+'[/b][/i]: '+self.pvToColor(newpv2,pkmon2["pvtotal"])+str(newpv2)+'[/color]/'+str(pkmon2["pvtotal"]))
                     pkmon2["pvcurrent"]=newpv2
                     if pkmon2["ko"]:
-                        self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon2["id"])+".png[/img]\n[i]{"+str(pkmon2["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
+                        self.ui.outputrp.append("[center][img]"+str(pkmon2["sprite"])+"[/img]\n[i]{"+str(pkmon2["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
 
 
                 else:
                     self.ui.outputrp.append('{[color=#ff0000][b]-'+str(round(dmg))+'[/b][/color]} PVs [color=#777777][size=10]« '+textcrit+texttype+randomuptxt+' »[/size][/color]\n[i]PVs de [b]'+pkmon2["name"]+'[/b][/i]: '+self.pvToColor(newpv2,pkmon2["pvtotal"])+str(newpv2)+'[/color]/'+str(pkmon2["pvtotal"]))
                     pkmon2["pvcurrent"]=newpv2
                     if pkmon2["ko"]:
-                        self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon2["id"])+".png[/img]\n[i]{"+str(pkmon2["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
+                        self.ui.outputrp.append("[center][img]"+str(pkmon2["sprite"])+"[/img]\n[i]{"+str(pkmon2["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
 
                     elif statut2["freeze"] and attck1["type"]=="feu":
                         statut2["freeze"]=False
@@ -3142,7 +3154,7 @@ class MainWindow(QMainWindow):
                     if attck1["percenthpdrain"]<0:
                         self.ui.outputrp.append('\n{[color=#ff0000][b]'+str(round(selfdmg))+'[/b][/color]} PVs [color=#777777][size=10]« '+pkmon1["name"]+' se blesse en frappant ! »[/size][/color]\n[i]PVs de [b]'+pkmon1["name"]+'[/b][/i]: '+self.pvToColor(newpv3,pkmon1["pvtotal"])+str(newpv3)+'[/color]/'+str(pkmon1["pvtotal"]))
                         if pkmon1["ko"]:
-                            self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(pkmon1["id"])+".png[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
+                            self.ui.outputrp.append("[center][img]"+str(pkmon2["sprite"])+"[/img]\n[i]{"+str(pkmon1["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
                     else:
                         self.ui.outputrp.append('\n{[color=#669900][b]+'+str(round(selfdmg))+'[/b][/color]} PVs [color=#777777][size=10]« '+pkmon1["name"]+' se sent mieux. »[/size][/color]\n[i]PVs de [b]'+pkmon1["name"]+'[/b][/i]: '+self.pvToColor(newpv3,pkmon1["pvtotal"])+str(newpv3)+'[/color]/'+str(pkmon1["pvtotal"]))
                     pkmon1["pvcurrent"]=newpv3
@@ -3286,8 +3298,13 @@ class MainWindow(QMainWindow):
                 vit1 = int(self.ui.vit.toPlainText())*self.translateModifStat(self.ui.modifvit.value())
                 if self.ui.effetpara.isChecked():
                     vit1=vit1/2
+                if self.ui.trainer.toPlainText()=="0000":
+                    sprite="http://sunrise-db.yo.fr/Sprites/"+str(idpkmon1[0])+".png"
+                else:
+                    surnom=''.join(e for e in self.ui.pokename.toPlainText() if e.isalnum())
+                    sprite="http://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer.toPlainText()+"/"+surnom+".png"
 
-                pkmn1 = {"id": idpkmon1[0], "lvl": int(self.ui.pokelvl.toPlainText()),"name": self.ui.pokename.toPlainText() ,"realname": self.ui.poke.toPlainText(),"pvcurrent": int(self.ui.pvcurrent.toPlainText()) ,"pvtotal": int(self.ui.pvtotal.toPlainText()),"att": int(self.ui.att.toPlainText()),"def": int(self.ui.defen.toPlainText()),"atts": int(self.ui.atts.toPlainText()),"defs": int(self.ui.defs.toPlainText()),"vit": vit1, "type1": self.ui.poketype1.toPlainText(),"type2": self.ui.poketype2.toPlainText(),"modifatt": self.ui.modifatt.value(),"modifdef": self.ui.modifdefen.value(), "modifatts": self.ui.modifatts.value(), "modifdefs": self.ui.modifdefs.value(),"modifvit": self.ui.modifvit.value(), "modifesquive": self.ui.modifesquive.value(), "modifprec": self.ui.modifprec.value(), "prio": int(self.ui.attaqueprio.toPlainText()),"ko": False, "fightID": "1","side": "listL", "truevit": self.ui.vit.toPlainText()}
+                pkmn1 = {"sprite": sprite, "trainer": self.ui.trainer.toPlainText(),"id": idpkmon1[0], "lvl": int(self.ui.pokelvl.toPlainText()),"name": self.ui.pokename.toPlainText() ,"realname": self.ui.poke.toPlainText(),"pvcurrent": int(self.ui.pvcurrent.toPlainText()) ,"pvtotal": int(self.ui.pvtotal.toPlainText()),"att": int(self.ui.att.toPlainText()),"def": int(self.ui.defen.toPlainText()),"atts": int(self.ui.atts.toPlainText()),"defs": int(self.ui.defs.toPlainText()),"vit": vit1, "type1": self.ui.poketype1.toPlainText(),"type2": self.ui.poketype2.toPlainText(),"modifatt": self.ui.modifatt.value(),"modifdef": self.ui.modifdefen.value(), "modifatts": self.ui.modifatts.value(), "modifdefs": self.ui.modifdefs.value(),"modifvit": self.ui.modifvit.value(), "modifesquive": self.ui.modifesquive.value(), "modifprec": self.ui.modifprec.value(), "prio": int(self.ui.attaqueprio.toPlainText()),"ko": False, "fightID": "1","side": "listL", "truevit": self.ui.vit.toPlainText()}
 
                 attck1 = {"name": self.ui.attaque.toPlainText(),"type": self.ui.attaquetype.toPlainText(), "classe": self.ui.attaqueclasse.toPlainText(), "puiss": self.ui.attaquepuiss.toPlainText(), "prec": self.ui.attaqueprec.toPlainText(), "critchance": self.translateCrit(attackdata[14]), "fearchance": attackdata[13], "percenthpheal": attackdata[11], "percenthpdrain": attackdata[12], "statutchance": attackdata[10], "statut": attackdata[9], "effectchance": attackdata[8], "effet_txt": attackdata[7],"prio": int(self.ui.attaqueprio.toPlainText()), "vit": vit1,"target": self.ui.cible.currentText(), "dmgfixe": attackdata[16], "dmgpercent": attackdata[17], "catchiante": attackdata[18], "soinfixe": attackdata[19]}
 
@@ -3308,8 +3325,13 @@ class MainWindow(QMainWindow):
                 vit2 = int(self.ui.vit_2.toPlainText())*self.translateModifStat(self.ui.modifvit_2.value())
                 if self.ui.effetpara_2.isChecked():
                     vit2=vit2/2
+                if self.ui.trainer_2.toPlainText()=="0000":
+                    sprite="http://sunrise-db.yo.fr/Sprites/"+str(idpkmon2[0])+".png"
+                else:
+                    surnom=''.join(e for e in self.ui.pokename_2.toPlainText() if e.isalnum())
+                    sprite="http://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_2.toPlainText()+"/"+surnom+".png"
 
-                pkmn2 = {"id": idpkmon2[0], "lvl": int(self.ui.pokelvl_2.toPlainText()),"name": self.ui.pokename_2.toPlainText() ,"realname": self.ui.poke_2.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_2.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_2.toPlainText()),"att": int(self.ui.att_2.toPlainText()),"def": int(self.ui.defen_2.toPlainText()),"atts": int(self.ui.atts_2.toPlainText()),"defs": int(self.ui.defs_2.toPlainText()),"type1": self.ui.poketype1_2.toPlainText(),"type2": self.ui.poketype2_2.toPlainText(),"modifatt": self.ui.modifatt_2.value(),"modifdef": self.ui.modifdefen_2.value(), "modifatts": self.ui.modifatts_2.value(), "modifdefs": self.ui.modifdefs_2.value(),"modifvit": self.ui.modifvit_2.value(), "modifesquive": self.ui.modifesquive_2.value(), "modifprec": self.ui.modifprec_2.value(),"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2,"ko": False, "fightID": "A","side": "listR", "truevit": self.ui.vit_2.toPlainText()}
+                pkmn2 = {"sprite": sprite, "trainer": self.ui.trainer_2.toPlainText(), "id": idpkmon2[0], "lvl": int(self.ui.pokelvl_2.toPlainText()),"name": self.ui.pokename_2.toPlainText() ,"realname": self.ui.poke_2.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_2.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_2.toPlainText()),"att": int(self.ui.att_2.toPlainText()),"def": int(self.ui.defen_2.toPlainText()),"atts": int(self.ui.atts_2.toPlainText()),"defs": int(self.ui.defs_2.toPlainText()),"type1": self.ui.poketype1_2.toPlainText(),"type2": self.ui.poketype2_2.toPlainText(),"modifatt": self.ui.modifatt_2.value(),"modifdef": self.ui.modifdefen_2.value(), "modifatts": self.ui.modifatts_2.value(), "modifdefs": self.ui.modifdefs_2.value(),"modifvit": self.ui.modifvit_2.value(), "modifesquive": self.ui.modifesquive_2.value(), "modifprec": self.ui.modifprec_2.value(),"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2,"ko": False, "fightID": "A","side": "listR", "truevit": self.ui.vit_2.toPlainText()}
 
                 attck2 = {"name": self.ui.attaque_2.toPlainText(),"type": self.ui.attaquetype_2.toPlainText(), "classe": self.ui.attaqueclasse_2.toPlainText(), "puiss": self.ui.attaquepuiss_2.toPlainText(), "prec": self.ui.attaqueprec_2.toPlainText(), "critchance": self.translateCrit(attackdata2[14]), "fearchance": attackdata2[13], "percenthpheal": attackdata2[11], "percenthpdrain": attackdata2[12], "statutchance": attackdata2[10], "statut": attackdata2[9], "effectchance": attackdata2[8], "effet_txt": attackdata2[7],"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2,"target": self.ui.cible_2.currentText(), "dmgfixe": attackdata2[16], "dmgpercent": attackdata2[17], "catchiante": attackdata2[18], "soinfixe": attackdata2[19]}
 
@@ -3331,7 +3353,13 @@ class MainWindow(QMainWindow):
                 if self.ui.effetpara_3.isChecked():
                     vit3=vit3/2
 
-                pkmn3 = {"id": idpkmon3[0], "lvl": int(self.ui.pokelvl_3.toPlainText()),"name": self.ui.pokename_3.toPlainText() ,"realname": self.ui.poke_3.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_3.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_3.toPlainText()),"att": int(self.ui.att_3.toPlainText()),"def": int(self.ui.defen_3.toPlainText()),"atts": int(self.ui.atts_3.toPlainText()),"defs": int(self.ui.defs_3.toPlainText()),"vit": vit3,"type1": self.ui.poketype1_3.toPlainText(),"type2": self.ui.poketype2_3.toPlainText(),"modifatt": self.ui.modifatt_3.value(),"modifdef": self.ui.modifdefen_3.value(), "modifatts": self.ui.modifatts_3.value(), "modifdefs": self.ui.modifdefs_3.value(),"modifvit": self.ui.modifvit_3.value(), "modifesquive": self.ui.modifesquive_3.value(), "modifprec": self.ui.modifprec_3.value(),"prio":  int(self.ui.attaqueprio_3.toPlainText()),"ko": False, "fightID": "2","side": "listL", "truevit": self.ui.vit_3.toPlainText()}
+                if self.ui.trainer_3.toPlainText()=="0000":
+                    sprite="http://sunrise-db.yo.fr/Sprites/"+str(idpkmon3[0])+".png"
+                else:
+                    surnom=''.join(e for e in self.ui.pokename_3.toPlainText() if e.isalnum())
+                    sprite="http://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_3.toPlainText()+"/"+surnom+".png"
+
+                pkmn3 = {"sprite": sprite, "id": idpkmon3[0], "trainer": self.ui.trainer_3.toPlainText(), "lvl": int(self.ui.pokelvl_3.toPlainText()),"name": self.ui.pokename_3.toPlainText() ,"realname": self.ui.poke_3.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_3.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_3.toPlainText()),"att": int(self.ui.att_3.toPlainText()),"def": int(self.ui.defen_3.toPlainText()),"atts": int(self.ui.atts_3.toPlainText()),"defs": int(self.ui.defs_3.toPlainText()),"vit": vit3,"type1": self.ui.poketype1_3.toPlainText(),"type2": self.ui.poketype2_3.toPlainText(),"modifatt": self.ui.modifatt_3.value(),"modifdef": self.ui.modifdefen_3.value(), "modifatts": self.ui.modifatts_3.value(), "modifdefs": self.ui.modifdefs_3.value(),"modifvit": self.ui.modifvit_3.value(), "modifesquive": self.ui.modifesquive_3.value(), "modifprec": self.ui.modifprec_3.value(),"prio":  int(self.ui.attaqueprio_3.toPlainText()),"ko": False, "fightID": "2","side": "listL", "truevit": self.ui.vit_3.toPlainText()}
 
                 attck3 = {"name": self.ui.attaque_3.toPlainText(),"type": self.ui.attaquetype_3.toPlainText(), "classe": self.ui.attaqueclasse_3.toPlainText(), "puiss": self.ui.attaquepuiss_3.toPlainText(), "prec": self.ui.attaqueprec_3.toPlainText(), "critchance": self.translateCrit(attackdata3[14]), "fearchance": attackdata3[13], "percenthpheal": attackdata3[11], "percenthpdrain": attackdata3[12], "statutchance": attackdata3[10], "statut": attackdata3[9], "effectchance": attackdata3[8], "effet_txt": attackdata3[7],"prio": int(self.ui.attaqueprio_3.toPlainText()), "vit": vit3 ,"target": self.ui.cible_3.currentText(), "dmgfixe": attackdata3[16], "dmgpercent": attackdata3[17], "catchiante": attackdata3[18], "soinfixe": attackdata3[19]}
 
@@ -3353,7 +3381,13 @@ class MainWindow(QMainWindow):
                 if self.ui.effetpara_4.isChecked():
                     vit4=vit4/2
 
-                pkmn4 = {"id": idpkmon4[0], "lvl": int(self.ui.pokelvl_4.toPlainText()),"name": self.ui.pokename_4.toPlainText() ,"realname": self.ui.poke_4.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_4.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_4.toPlainText()),"att": int(self.ui.att_4.toPlainText()),"def": int(self.ui.defen_4.toPlainText()),"atts": int(self.ui.atts_4.toPlainText()),"defs": int(self.ui.defs_4.toPlainText()),"vit": vit4,"type1": self.ui.poketype1_4.toPlainText(),"type2": self.ui.poketype2_4.toPlainText(),"modifatt": self.ui.modifatt_4.value(),"modifdef": self.ui.modifdefen_4.value(), "modifatts": self.ui.modifatts_4.value(), "modifdefs": self.ui.modifdefs_4.value(),"modifvit": self.ui.modifvit_4.value(), "modifesquive": self.ui.modifesquive_4.value(), "modifprec": self.ui.modifprec_4.value(),"prio": int(self.ui.attaqueprio_4.toPlainText()),"ko": False, "fightID": "B","side": "listR", "truevit": self.ui.vit_4.toPlainText()}
+                if self.ui.trainer_4.toPlainText()=="0000":
+                    sprite="http://sunrise-db.yo.fr/Sprites/"+str(idpkmon4[0])+".png"
+                else:
+                    surnom=''.join(e for e in self.ui.pokename_4.toPlainText() if e.isalnum())
+                    sprite="http://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_4.toPlainText()+"/"+surnom+".png"
+
+                pkmn4 = {"sprite": sprite, "id": idpkmon4[0], "trainer": self.ui.trainer_4.toPlainText(), "lvl": int(self.ui.pokelvl_4.toPlainText()),"name": self.ui.pokename_4.toPlainText() ,"realname": self.ui.poke_4.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_4.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_4.toPlainText()),"att": int(self.ui.att_4.toPlainText()),"def": int(self.ui.defen_4.toPlainText()),"atts": int(self.ui.atts_4.toPlainText()),"defs": int(self.ui.defs_4.toPlainText()),"vit": vit4,"type1": self.ui.poketype1_4.toPlainText(),"type2": self.ui.poketype2_4.toPlainText(),"modifatt": self.ui.modifatt_4.value(),"modifdef": self.ui.modifdefen_4.value(), "modifatts": self.ui.modifatts_4.value(), "modifdefs": self.ui.modifdefs_4.value(),"modifvit": self.ui.modifvit_4.value(), "modifesquive": self.ui.modifesquive_4.value(), "modifprec": self.ui.modifprec_4.value(),"prio": int(self.ui.attaqueprio_4.toPlainText()),"ko": False, "fightID": "B","side": "listR", "truevit": self.ui.vit_4.toPlainText()}
 
                 attck4 = {"name": self.ui.attaque_4.toPlainText(),"type": self.ui.attaquetype_4.toPlainText(), "classe": self.ui.attaqueclasse_4.toPlainText(), "puiss": self.ui.attaquepuiss_4.toPlainText(), "prec": self.ui.attaqueprec_4.toPlainText(), "critchance": self.translateCrit(attackdata4[14]), "fearchance": attackdata4[13], "percenthpheal": attackdata4[11], "percenthpdrain": attackdata4[12], "statutchance": attackdata4[10], "statut": attackdata4[9], "effectchance": attackdata4[8], "effet_txt": attackdata4[7], "prio": int(self.ui.attaqueprio_4.toPlainText()), "vit": vit4 ,"target": self.ui.cible_4.currentText(), "dmgfixe": attackdata4[16], "dmgpercent": attackdata4[17], "catchiante": attackdata4[18], "soinfixe": attackdata4[19]}
 
@@ -3376,7 +3410,13 @@ class MainWindow(QMainWindow):
                 if self.ui.effetpara_5.isChecked():
                     vit5=vit5/2
 
-                pkmn5 = {"id": idpkmon5[0], "lvl": int(self.ui.pokelvl_5.toPlainText()),"name": self.ui.pokename_5.toPlainText() ,"realname": self.ui.poke_5.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_5.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_5.toPlainText()),"att": int(self.ui.att_5.toPlainText()),"def": int(self.ui.defen_5.toPlainText()),"atts": int(self.ui.atts_5.toPlainText()),"defs": int(self.ui.defs_5.toPlainText()),"vit": vit5,"type1": self.ui.poketype1_5.toPlainText(),"type2": self.ui.poketype2_5.toPlainText(),"modifatt": self.ui.modifatt_5.value(),"modifdef": self.ui.modifdefen_5.value(), "modifatts": self.ui.modifatts_5.value(), "modifdefs": self.ui.modifdefs_5.value(),"modifvit": self.ui.modifvit_5.value(), "modifesquive": self.ui.modifesquive_5.value(), "modifprec": self.ui.modifprec_5.value(), "prio": int(self.ui.attaqueprio_5.toPlainText()),"ko": False, "fightID": "3","side": "listL", "truevit": self.ui.vit_5.toPlainText()}
+                if self.ui.trainer_5.toPlainText()=="0000":
+                    sprite="http://sunrise-db.yo.fr/Sprites/"+str(idpkmon5[0])+".png"
+                else:
+                    surnom=''.join(e for e in self.ui.pokename_5.toPlainText() if e.isalnum())
+                    sprite="http://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_5.toPlainText()+"/"+surnom+".png"
+
+                pkmn5 = {"sprite": sprite, "id": idpkmon5[0], "trainer": self.ui.trainer_5.toPlainText(), "lvl": int(self.ui.pokelvl_5.toPlainText()),"name": self.ui.pokename_5.toPlainText() ,"realname": self.ui.poke_5.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_5.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_5.toPlainText()),"att": int(self.ui.att_5.toPlainText()),"def": int(self.ui.defen_5.toPlainText()),"atts": int(self.ui.atts_5.toPlainText()),"defs": int(self.ui.defs_5.toPlainText()),"vit": vit5,"type1": self.ui.poketype1_5.toPlainText(),"type2": self.ui.poketype2_5.toPlainText(),"modifatt": self.ui.modifatt_5.value(),"modifdef": self.ui.modifdefen_5.value(), "modifatts": self.ui.modifatts_5.value(), "modifdefs": self.ui.modifdefs_5.value(),"modifvit": self.ui.modifvit_5.value(), "modifesquive": self.ui.modifesquive_5.value(), "modifprec": self.ui.modifprec_5.value(), "prio": int(self.ui.attaqueprio_5.toPlainText()),"ko": False, "fightID": "3","side": "listL", "truevit": self.ui.vit_5.toPlainText()}
 
                 attck5 = {"name": self.ui.attaque_5.toPlainText(),"type": self.ui.attaquetype_5.toPlainText(), "classe": self.ui.attaqueclasse_5.toPlainText(), "puiss": self.ui.attaquepuiss_5.toPlainText(), "prec": self.ui.attaqueprec_5.toPlainText(), "critchance": self.translateCrit(attackdata5[14]), "fearchance": attackdata5[13], "percenthpheal": attackdata5[11], "percenthpdrain": attackdata5[12], "statutchance": attackdata5[10], "statut": attackdata5[9], "effectchance": attackdata5[8], "effet_txt": attackdata5[7], "prio": int(self.ui.attaqueprio_5.toPlainText()), "vit": vit5,"target": self.ui.cible_5.currentText(), "dmgfixe": attackdata5[16], "dmgpercent": attackdata5[17], "catchiante": attackdata5[18], "soinfixe": attackdata5[19]}
 
@@ -3398,7 +3438,13 @@ class MainWindow(QMainWindow):
                 if self.ui.effetpara_6.isChecked():
                     vit6=vit6/2
 
-                pkmn6 = {"id": idpkmon6[0], "lvl": int(self.ui.pokelvl_6.toPlainText()),"name": self.ui.pokename_6.toPlainText() ,"realname": self.ui.poke_6.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_6.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_6.toPlainText()),"att": int(self.ui.att_6.toPlainText()),"def": int(self.ui.defen_6.toPlainText()),"atts": int(self.ui.atts_6.toPlainText()),"defs": int(self.ui.defs_6.toPlainText()),"vit": vit6,"type1": self.ui.poketype1_6.toPlainText(),"type2": self.ui.poketype2_6.toPlainText(),"modifatt": self.ui.modifatt_6.value(),"modifdef": self.ui.modifdefen_6.value(), "modifatts": self.ui.modifatts_6.value(), "modifdefs": self.ui.modifdefs_6.value(),"modifvit": self.ui.modifvit_6.value(), "modifesquive": self.ui.modifesquive_6.value(), "modifprec": self.ui.modifprec_6.value(),"prio": int(self.ui.attaqueprio_6.toPlainText()),"ko": False, "fightID": "C","side": "listR", "truevit": self.ui.vit_6.toPlainText()}
+                if self.ui.trainer_6.toPlainText()=="0000":
+                    sprite="http://sunrise-db.yo.fr/Sprites/"+str(idpkmon6[0])+".png"
+                else:
+                    surnom=''.join(e for e in self.ui.pokename_6.toPlainText() if e.isalnum())
+                    sprite="http://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_6.toPlainText()+"/"+surnom+".png"
+
+                pkmn6 = {"sprite": sprite, "id": idpkmon6[0], "trainer": self.ui.trainer_6.toPlainText(), "lvl": int(self.ui.pokelvl_6.toPlainText()),"name": self.ui.pokename_6.toPlainText() ,"realname": self.ui.poke_6.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_6.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_6.toPlainText()),"att": int(self.ui.att_6.toPlainText()),"def": int(self.ui.defen_6.toPlainText()),"atts": int(self.ui.atts_6.toPlainText()),"defs": int(self.ui.defs_6.toPlainText()),"vit": vit6,"type1": self.ui.poketype1_6.toPlainText(),"type2": self.ui.poketype2_6.toPlainText(),"modifatt": self.ui.modifatt_6.value(),"modifdef": self.ui.modifdefen_6.value(), "modifatts": self.ui.modifatts_6.value(), "modifdefs": self.ui.modifdefs_6.value(),"modifvit": self.ui.modifvit_6.value(), "modifesquive": self.ui.modifesquive_6.value(), "modifprec": self.ui.modifprec_6.value(),"prio": int(self.ui.attaqueprio_6.toPlainText()),"ko": False, "fightID": "C","side": "listR", "truevit": self.ui.vit_6.toPlainText()}
 
                 attck6 = {"name": self.ui.attaque_6.toPlainText(),"type": self.ui.attaquetype_6.toPlainText(), "classe": self.ui.attaqueclasse_6.toPlainText(), "puiss": self.ui.attaquepuiss_6.toPlainText(), "prec": self.ui.attaqueprec_6.toPlainText(), "critchance": self.translateCrit(attackdata6[14]), "fearchance": attackdata6[13], "percenthpheal": attackdata6[11], "percenthpdrain": attackdata6[12], "statutchance": attackdata6[10], "statut": attackdata6[9], "effectchance": attackdata6[8], "effet_txt": attackdata6[7],"prio": int(self.ui.attaqueprio_6.toPlainText()), "vit": vit6,"target": self.ui.cible_6.currentText(), "dmgfixe": attackdata6[16], "dmgpercent": attackdata6[17], "catchiante": attackdata6[18], "soinfixe": attackdata6[19]}
 
@@ -3556,7 +3602,7 @@ class MainWindow(QMainWindow):
                                 elif sortedpkmon[index]["fightID"] in ["A","B","C"]:
                                     list1=["A","B","C"]
                                 indexteam=[indexedpkmon[x]["index"] for x in [x for x in list1 if x in settarget]]
-                                self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"][img]http://sunrise-db.yo.fr/Sprites/"+str(sortedpkmon[index]["id"])+".png[/img]")
+                                self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"][img]"+str(sortedpkmon[index]["sprite"])+"[/img]")
                                 self.ui.outputrp.append("[b]"+sortedpkmon[index]["name"]+"[/b] utilise [u]"+sortedattack[index]["name"]+"[/u] !")
                                 for team in indexteam:
                                     if sortedstatut[team]["sleep"]:
@@ -3579,14 +3625,14 @@ class MainWindow(QMainWindow):
 
                             elif sortedattack[index]["target"]=="/":
                                 indexadv = None
-                                self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"][img]http://sunrise-db.yo.fr/Sprites/"+str(sortedpkmon[index]["id"])+".png[/img]")
+                                self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"][img]"+str(sortedpkmon[index]["sprite"])+"[/img]")
                                 self.ui.outputrp.append("[b]"+sortedpkmon[index]["name"]+"[/b] utilise [u]"+sortedattack[index]["name"]+"[/u] !")
                                 self.ui.outputrp.append("Attaque avec des effets particuliers à gérer à la main")
                             if indexadv==[]:
                                 indexadv=None
                             if indexadv != None:
                                 i=0
-                                self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"][img]http://sunrise-db.yo.fr/Sprites/"+str(sortedpkmon[index]["id"])+".png[/img]")
+                                self.ui.outputrp.append("["+sortedpkmon[index]["side"]+"][img]"+str(sortedpkmon[index]["sprite"])+"[/img]")
                                 block=False
                                 for adv in indexadv:
                                     if sortedpkmon[adv]["ko"]==False:
@@ -3727,7 +3773,7 @@ class MainWindow(QMainWindow):
                         self.ui.outputrp.append("[/"+sortedpkmon[index]["side"]+"]")
 
                     if koinit==False and sortedpkmon[index]["ko"] and sortedpkmon[index]["fightID"] in ["A","B","C"]:
-                        self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(sortedpkmon[index]["id"])+".png[/img]\n[i]{"+str(sortedpkmon[index]["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
+                        self.ui.outputrp.append("[center][img]"+str(sortedpkmon[index]["sprite"])+"[/img]\n[i]{"+str(sortedpkmon[index]["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
                         for j in range(0,len(sortedpkmon)):
                             if sortedpkmon[j]["fightID"] in ["1","2","3"]:
                                 difflvl=sortedpkmon[index]["lvl"]-sortedpkmon[j]["lvl"]
@@ -3742,7 +3788,7 @@ class MainWindow(QMainWindow):
                                     xp=0
                                 self.ui.outputrp.append("[center][b]"+sortedpkmon[j]["name"]+"[/b] gagne [u]"+str(xp)+"[/u] points d'XP ![/center]")
                     elif koinit==False and sortedpkmon[index]["ko"] and sortedpkmon[index]["fightID"] in ["1","2","3"]:
-                        self.ui.outputrp.append("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(sortedpkmon[index]["id"])+".png[/img]\n[i]{"+str(sortedpkmon[index]["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
+                        self.ui.outputrp.append("[center][img]"+str(sortedpkmon[index]["sprite"])+"[/img]\n[i]{"+str(sortedpkmon[index]["name"])+" est K.O !}[/i]\n[color=#777777][size=10]Mise à jour des informations de statistiques en cours... ... ...[/size][/color][/center]")
                         for j in range(0,len(sortedpkmon)):
                             if sortedpkmon[j]["fightID"] in ["A","B","C"]:
                                 difflvl=sortedpkmon[index]["lvl"]-sortedpkmon[j]["lvl"]
@@ -3762,7 +3808,7 @@ class MainWindow(QMainWindow):
                 globalstatutcode=[]
                 idlist=[]
                 for p in range(0,len(resortedpkmon)):
-                    self.ui.outputmodo.append("Code "+resortedpkmon[p]["fightID"]+" : "+resortedpkmon[p]["name"]+" - "+resortedpkmon[p]["realname"]+" - "+str(resortedpkmon[p]["lvl"])+" - "+str(resortedpkmon[p]["pvcurrent"])+"/"+str(resortedpkmon[p]["pvtotal"])+" - "+str(resortedpkmon[p]["att"])+"x"+str(resortedpkmon[p]["def"])+"x"+str(resortedpkmon[p]["atts"])+"x"+str(resortedpkmon[p]["defs"])+"x"+str(resortedpkmon[p]["truevit"])+" - Attaque")
+                    self.ui.outputmodo.append("Code "+resortedpkmon[p]["fightID"]+" : "+resortedpkmon[p]["trainer"]+" - "+resortedpkmon[p]["name"]+" - "+resortedpkmon[p]["realname"]+" - "+str(resortedpkmon[p]["lvl"])+" - "+str(resortedpkmon[p]["pvcurrent"])+"/"+str(resortedpkmon[p]["pvtotal"])+" - "+str(resortedpkmon[p]["att"])+"x"+str(resortedpkmon[p]["def"])+"x"+str(resortedpkmon[p]["atts"])+"x"+str(resortedpkmon[p]["defs"])+"x"+str(resortedpkmon[p]["truevit"])+" - Attaque")
                     statstxt=resortedpkmon[p]["name"]+" :"
                     statutcodetxt=""
                     idlist.append(resortedpkmon[p]["fightID"])
@@ -4051,6 +4097,7 @@ class MainWindow(QMainWindow):
 
     def clearFun(self):
         self.ui.pokedex.setCurrentIndex(0)
+        self.ui.trainer.clear()
         self.ui.attackdex.clear()
         self.ui.customdatabar.clear()
         self.ui.poke.clear()
@@ -4094,6 +4141,7 @@ class MainWindow(QMainWindow):
         self.ui.vampicible.setCurrentIndex(-1)
 
         self.ui.pokedex_2.setCurrentIndex(0)
+        self.ui.trainer_2.clear()
         self.ui.attackdex_2.clear()
         self.ui.customdatabar_2.clear()
         self.ui.poke_2.clear()
@@ -4137,6 +4185,7 @@ class MainWindow(QMainWindow):
         self.ui.vampicible_2.setCurrentIndex(-1)
 
         self.ui.pokedex_3.setCurrentIndex(0)
+        self.ui.trainer_3.clear()
         self.ui.attackdex_3.clear()
         self.ui.customdatabar_3.clear()
         self.ui.poke_3.clear()
@@ -4180,6 +4229,7 @@ class MainWindow(QMainWindow):
         self.ui.vampicible_3.setCurrentIndex(-1)
 
         self.ui.pokedex_4.setCurrentIndex(0)
+        self.ui.trainer_4.clear()
         self.ui.attackdex_4.clear()
         self.ui.customdatabar_4.clear()
         self.ui.poke_4.clear()
@@ -4223,6 +4273,7 @@ class MainWindow(QMainWindow):
         self.ui.vampicible_4.setCurrentIndex(-1)
 
         self.ui.pokedex_5.setCurrentIndex(0)
+        self.ui.trainer_5.clear()
         self.ui.attackdex_5.clear()
         self.ui.customdatabar_5.clear()
         self.ui.poke_5.clear()
@@ -4266,6 +4317,7 @@ class MainWindow(QMainWindow):
         self.ui.vampicible_5.setCurrentIndex(-1)
 
         self.ui.pokedex_6.setCurrentIndex(0)
+        self.ui.trainer_6.clear()
         self.ui.attackdex_6.clear()
         self.ui.customdatabar_6.clear()
         self.ui.poke_6.clear()
