@@ -1501,7 +1501,8 @@ class MainWindow(QMainWindow):
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar.toPlainText()
         datasplit = re.split('/| - ',databar)
-        datasplit2 = re.split('x',datasplit[6])
+        if len(datasplit) >= 6:
+            datasplit2 = re.split('x',datasplit[6])
         if len(datasplit) == 8 and len(datasplit2) == 5:
             #  ex : 0000 - Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
@@ -1622,7 +1623,8 @@ class MainWindow(QMainWindow):
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar_2.toPlainText()
         datasplit = re.split('/| - ',databar)
-        datasplit2 = re.split('x',datasplit[6])
+        if len(datasplit) >= 6:
+            datasplit2 = re.split('x',datasplit[6])
         if len(datasplit) == 8 and len(datasplit2) == 5:
             #  ex : Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
@@ -1739,7 +1741,8 @@ class MainWindow(QMainWindow):
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar_3.toPlainText()
         datasplit = re.split('/| - ',databar)
-        datasplit2 = re.split('x',datasplit[6])
+        if len(datasplit) >= 6:
+            datasplit2 = re.split('x',datasplit[6])
         if len(datasplit) == 8 and len(datasplit2) == 5:
             #  ex : Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
@@ -1856,7 +1859,8 @@ class MainWindow(QMainWindow):
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar_4.toPlainText()
         datasplit = re.split('/| - ',databar)
-        datasplit2 = re.split('x',datasplit[6])
+        if len(datasplit) >= 6:
+            datasplit2 = re.split('x',datasplit[6])
         if len(datasplit) == 8 and len(datasplit2) == 5:
             #  ex : Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
@@ -1973,7 +1977,8 @@ class MainWindow(QMainWindow):
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar_5.toPlainText()
         datasplit = re.split('/| - ',databar)
-        datasplit2 = re.split('x',datasplit[6])
+        if len(datasplit) >= 6:
+            datasplit2 = re.split('x',datasplit[6])
         if len(datasplit) == 8 and len(datasplit2) == 5:
             #  ex : Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
@@ -2089,7 +2094,8 @@ class MainWindow(QMainWindow):
         all_pokemon=self.init_index_pkmon()
         databar = self.ui.customdatabar_6.toPlainText()
         datasplit = re.split('/| - ',databar)
-        datasplit2 = re.split('x',datasplit[6])
+        if len(datasplit) >= 6:
+            datasplit2 = re.split('x',datasplit[6])
         if len(datasplit) == 8 and len(datasplit2) == 5:
             #  ex : Patate - Salamèche - 30 - 20/40 - 10x20x10x20x8 - Charge
             try:
@@ -2910,10 +2916,13 @@ class MainWindow(QMainWindow):
         if statut1["fear"]:
             if advnb==1:
                 self.ui.outputrp.appendPlainText("[i]{"+str(pkmon1["name"])+" est apeuré ! Il ne peut pas attaquer !}[/i]")
-        elif statut1["freeze"] and ((random.randint(1,100) <= 80 and attck1["name"] not in unfreeze) or block):
-            if advnb==1:
+        elif statut1["freeze"] and advnb==1:
+            if (random.randint(1,100) <= 80 and attck1["name"] not in unfreeze) or block:
                 self.ui.outputrp.appendPlainText('[i]{Le gel empêche '+str(pkmon1["name"])+" d'attaquer !}[/i][/")
-            block=True
+                block=True
+            else:
+                self.ui.outputrp.appendPlainText('[i]{'+str(pkmon1["name"])+"n'est plus gelé !}[/i][/")
+
         elif statut1["para"] and (random.randint(1,100) <= 25 or block):
             if advnb==1:
                 self.ui.outputrp.appendPlainText('[i]{'+str(pkmon1["name"])+" est paralysé ! Il ne peut pas attaquer !}[/i]")
@@ -3303,14 +3312,14 @@ class MainWindow(QMainWindow):
                 if self.ui.effetpara.isChecked():
                     vit1=vit1/2
                 if self.ui.trainer.toPlainText()=="0000":
-                    sprite="http://sunrise-db.yo.fr/Sprites/"+str(idpkmon1[0])+".png"
+                    sprite="https://sunrise-db.yo.fr/Sprites/"+str(idpkmon1[0])+".png"
                 else:
                     surnom=""
                     for character in self.ui.pokename.toPlainText():
                         if character.isalnum() and ord(character) < 128:
                             surnom += character
 
-                    sprite="http://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer.toPlainText()+"/"+surnom+".png"
+                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer.toPlainText()+"/"+surnom+".png"
 
                 pkmn1 = {"sprite": sprite, "trainer": self.ui.trainer.toPlainText(),"id": idpkmon1[0], "lvl": int(self.ui.pokelvl.toPlainText()),"name": self.ui.pokename.toPlainText() ,"realname": self.ui.poke.toPlainText(),"pvcurrent": int(self.ui.pvcurrent.toPlainText()) ,"pvtotal": int(self.ui.pvtotal.toPlainText()),"att": int(self.ui.att.toPlainText()),"def": int(self.ui.defen.toPlainText()),"atts": int(self.ui.atts.toPlainText()),"defs": int(self.ui.defs.toPlainText()),"vit": vit1, "type1": self.ui.poketype1.toPlainText(),"type2": self.ui.poketype2.toPlainText(),"modifatt": self.ui.modifatt.value(),"modifdef": self.ui.modifdefen.value(), "modifatts": self.ui.modifatts.value(), "modifdefs": self.ui.modifdefs.value(),"modifvit": self.ui.modifvit.value(), "modifesquive": self.ui.modifesquive.value(), "modifprec": self.ui.modifprec.value(), "prio": int(self.ui.attaqueprio.toPlainText()),"ko": False, "fightID": "1","side": "listL", "truevit": self.ui.vit.toPlainText()}
 
@@ -3334,10 +3343,10 @@ class MainWindow(QMainWindow):
                 if self.ui.effetpara_2.isChecked():
                     vit2=vit2/2
                 if self.ui.trainer_2.toPlainText()=="0000":
-                    sprite="http://sunrise-db.yo.fr/Sprites/"+str(idpkmon2[0])+".png"
+                    sprite="https://sunrise-db.yo.fr/Sprites/"+str(idpkmon2[0])+".png"
                 else:
                     surnom=''.join(e for e in self.ui.pokename_2.toPlainText() if e.isalnum())
-                    sprite="http://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_2.toPlainText()+"/"+surnom+".png"
+                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_2.toPlainText()+"/"+surnom+".png"
 
                 pkmn2 = {"sprite": sprite, "trainer": self.ui.trainer_2.toPlainText(), "id": idpkmon2[0], "lvl": int(self.ui.pokelvl_2.toPlainText()),"name": self.ui.pokename_2.toPlainText() ,"realname": self.ui.poke_2.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_2.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_2.toPlainText()),"att": int(self.ui.att_2.toPlainText()),"def": int(self.ui.defen_2.toPlainText()),"atts": int(self.ui.atts_2.toPlainText()),"defs": int(self.ui.defs_2.toPlainText()),"type1": self.ui.poketype1_2.toPlainText(),"type2": self.ui.poketype2_2.toPlainText(),"modifatt": self.ui.modifatt_2.value(),"modifdef": self.ui.modifdefen_2.value(), "modifatts": self.ui.modifatts_2.value(), "modifdefs": self.ui.modifdefs_2.value(),"modifvit": self.ui.modifvit_2.value(), "modifesquive": self.ui.modifesquive_2.value(), "modifprec": self.ui.modifprec_2.value(),"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2,"ko": False, "fightID": "A","side": "listR", "truevit": self.ui.vit_2.toPlainText()}
 
@@ -3362,10 +3371,10 @@ class MainWindow(QMainWindow):
                     vit3=vit3/2
 
                 if self.ui.trainer_3.toPlainText()=="0000":
-                    sprite="http://sunrise-db.yo.fr/Sprites/"+str(idpkmon3[0])+".png"
+                    sprite="https://sunrise-db.yo.fr/Sprites/"+str(idpkmon3[0])+".png"
                 else:
                     surnom=''.join(e for e in self.ui.pokename_3.toPlainText() if e.isalnum())
-                    sprite="http://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_3.toPlainText()+"/"+surnom+".png"
+                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_3.toPlainText()+"/"+surnom+".png"
 
                 pkmn3 = {"sprite": sprite, "id": idpkmon3[0], "trainer": self.ui.trainer_3.toPlainText(), "lvl": int(self.ui.pokelvl_3.toPlainText()),"name": self.ui.pokename_3.toPlainText() ,"realname": self.ui.poke_3.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_3.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_3.toPlainText()),"att": int(self.ui.att_3.toPlainText()),"def": int(self.ui.defen_3.toPlainText()),"atts": int(self.ui.atts_3.toPlainText()),"defs": int(self.ui.defs_3.toPlainText()),"vit": vit3,"type1": self.ui.poketype1_3.toPlainText(),"type2": self.ui.poketype2_3.toPlainText(),"modifatt": self.ui.modifatt_3.value(),"modifdef": self.ui.modifdefen_3.value(), "modifatts": self.ui.modifatts_3.value(), "modifdefs": self.ui.modifdefs_3.value(),"modifvit": self.ui.modifvit_3.value(), "modifesquive": self.ui.modifesquive_3.value(), "modifprec": self.ui.modifprec_3.value(),"prio":  int(self.ui.attaqueprio_3.toPlainText()),"ko": False, "fightID": "2","side": "listL", "truevit": self.ui.vit_3.toPlainText()}
 
@@ -3390,10 +3399,10 @@ class MainWindow(QMainWindow):
                     vit4=vit4/2
 
                 if self.ui.trainer_4.toPlainText()=="0000":
-                    sprite="http://sunrise-db.yo.fr/Sprites/"+str(idpkmon4[0])+".png"
+                    sprite="https://sunrise-db.yo.fr/Sprites/"+str(idpkmon4[0])+".png"
                 else:
                     surnom=''.join(e for e in self.ui.pokename_4.toPlainText() if e.isalnum())
-                    sprite="http://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_4.toPlainText()+"/"+surnom+".png"
+                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_4.toPlainText()+"/"+surnom+".png"
 
                 pkmn4 = {"sprite": sprite, "id": idpkmon4[0], "trainer": self.ui.trainer_4.toPlainText(), "lvl": int(self.ui.pokelvl_4.toPlainText()),"name": self.ui.pokename_4.toPlainText() ,"realname": self.ui.poke_4.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_4.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_4.toPlainText()),"att": int(self.ui.att_4.toPlainText()),"def": int(self.ui.defen_4.toPlainText()),"atts": int(self.ui.atts_4.toPlainText()),"defs": int(self.ui.defs_4.toPlainText()),"vit": vit4,"type1": self.ui.poketype1_4.toPlainText(),"type2": self.ui.poketype2_4.toPlainText(),"modifatt": self.ui.modifatt_4.value(),"modifdef": self.ui.modifdefen_4.value(), "modifatts": self.ui.modifatts_4.value(), "modifdefs": self.ui.modifdefs_4.value(),"modifvit": self.ui.modifvit_4.value(), "modifesquive": self.ui.modifesquive_4.value(), "modifprec": self.ui.modifprec_4.value(),"prio": int(self.ui.attaqueprio_4.toPlainText()),"ko": False, "fightID": "B","side": "listR", "truevit": self.ui.vit_4.toPlainText()}
 
@@ -3419,10 +3428,10 @@ class MainWindow(QMainWindow):
                     vit5=vit5/2
 
                 if self.ui.trainer_5.toPlainText()=="0000":
-                    sprite="http://sunrise-db.yo.fr/Sprites/"+str(idpkmon5[0])+".png"
+                    sprite="https://sunrise-db.yo.fr/Sprites/"+str(idpkmon5[0])+".png"
                 else:
                     surnom=''.join(e for e in self.ui.pokename_5.toPlainText() if e.isalnum())
-                    sprite="http://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_5.toPlainText()+"/"+surnom+".png"
+                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_5.toPlainText()+"/"+surnom+".png"
 
                 pkmn5 = {"sprite": sprite, "id": idpkmon5[0], "trainer": self.ui.trainer_5.toPlainText(), "lvl": int(self.ui.pokelvl_5.toPlainText()),"name": self.ui.pokename_5.toPlainText() ,"realname": self.ui.poke_5.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_5.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_5.toPlainText()),"att": int(self.ui.att_5.toPlainText()),"def": int(self.ui.defen_5.toPlainText()),"atts": int(self.ui.atts_5.toPlainText()),"defs": int(self.ui.defs_5.toPlainText()),"vit": vit5,"type1": self.ui.poketype1_5.toPlainText(),"type2": self.ui.poketype2_5.toPlainText(),"modifatt": self.ui.modifatt_5.value(),"modifdef": self.ui.modifdefen_5.value(), "modifatts": self.ui.modifatts_5.value(), "modifdefs": self.ui.modifdefs_5.value(),"modifvit": self.ui.modifvit_5.value(), "modifesquive": self.ui.modifesquive_5.value(), "modifprec": self.ui.modifprec_5.value(), "prio": int(self.ui.attaqueprio_5.toPlainText()),"ko": False, "fightID": "3","side": "listL", "truevit": self.ui.vit_5.toPlainText()}
 
@@ -3447,10 +3456,10 @@ class MainWindow(QMainWindow):
                     vit6=vit6/2
 
                 if self.ui.trainer_6.toPlainText()=="0000":
-                    sprite="http://sunrise-db.yo.fr/Sprites/"+str(idpkmon6[0])+".png"
+                    sprite="https://sunrise-db.yo.fr/Sprites/"+str(idpkmon6[0])+".png"
                 else:
                     surnom=''.join(e for e in self.ui.pokename_6.toPlainText() if e.isalnum())
-                    sprite="http://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_6.toPlainText()+"/"+surnom+".png"
+                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_6.toPlainText()+"/"+surnom+".png"
 
                 pkmn6 = {"sprite": sprite, "id": idpkmon6[0], "trainer": self.ui.trainer_6.toPlainText(), "lvl": int(self.ui.pokelvl_6.toPlainText()),"name": self.ui.pokename_6.toPlainText() ,"realname": self.ui.poke_6.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_6.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_6.toPlainText()),"att": int(self.ui.att_6.toPlainText()),"def": int(self.ui.defen_6.toPlainText()),"atts": int(self.ui.atts_6.toPlainText()),"defs": int(self.ui.defs_6.toPlainText()),"vit": vit6,"type1": self.ui.poketype1_6.toPlainText(),"type2": self.ui.poketype2_6.toPlainText(),"modifatt": self.ui.modifatt_6.value(),"modifdef": self.ui.modifdefen_6.value(), "modifatts": self.ui.modifatts_6.value(), "modifdefs": self.ui.modifdefs_6.value(),"modifvit": self.ui.modifvit_6.value(), "modifesquive": self.ui.modifesquive_6.value(), "modifprec": self.ui.modifprec_6.value(),"prio": int(self.ui.attaqueprio_6.toPlainText()),"ko": False, "fightID": "C","side": "listR", "truevit": self.ui.vit_6.toPlainText()}
 
@@ -3476,11 +3485,11 @@ class MainWindow(QMainWindow):
                         self.ui.outputrp.appendPlainText("SATURDAY 2.45 correctement initialisée.")
                     self.ui.outputrp.appendPlainText("\nPrésence détectée. Estimation en cours.[/color][/i][/listL]")
                     if len(advteam)==1:
-                        self.ui.outputrp.appendPlainText("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img]\nUn [b]"+advteam[0]["name"]+"[/b] sauvage vous attaque !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+"[/u])[/i][/size][/center]")
+                        self.ui.outputrp.appendPlainText("[center][img]https://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img]\nUn [b]"+advteam[0]["name"]+"[/b] sauvage vous attaque !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+"[/u])[/i][/size][/center]")
                     elif len(advteam)==2:
-                        self.ui.outputrp.appendPlainText("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[1]["id"])+".png[/img]\nUn [b]"+advteam[0]["name"]+"[/b] et un [b]"+advteam[1]["name"]+"[/b] sauvages vous attaquent !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+" et "+str(advteam[1]["lvl"])+"[/u])[/i][/size][/center]")
+                        self.ui.outputrp.appendPlainText("[center][img]https://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img][img]https://sunrise-db.yo.fr/Sprites/"+str(advteam[1]["id"])+".png[/img]\nUn [b]"+advteam[0]["name"]+"[/b] et un [b]"+advteam[1]["name"]+"[/b] sauvages vous attaquent !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+" et "+str(advteam[1]["lvl"])+"[/u])[/i][/size][/center]")
                     elif len(advteam)==3:
-                        self.ui.outputrp.appendPlainText("[center][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[1]["id"])+".png[/img][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[2]["id"])+".png[/img]\nUn [b]"+advteam[0]["name"]+"[/b], un [b]"+advteam[1]["name"]+"[/b] et un [b]"+advteam[2]["name"]+"[/b] sauvages vous attaquent !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+", "+str(advteam[1]["lvl"])+" et "+str(advteam[2]["lvl"])+"[/u])[/i][/size][/center]")
+                        self.ui.outputrp.appendPlainText("[center][img]https://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img][img]https://sunrise-db.yo.fr/Sprites/"+str(advteam[1]["id"])+".png[/img][img]https://sunrise-db.yo.fr/Sprites/"+str(advteam[2]["id"])+".png[/img]\nUn [b]"+advteam[0]["name"]+"[/b], un [b]"+advteam[1]["name"]+"[/b] et un [b]"+advteam[2]["name"]+"[/b] sauvages vous attaquent !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+", "+str(advteam[1]["lvl"])+" et "+str(advteam[2]["lvl"])+"[/u])[/i][/size][/center]")
                     self.ui.outputrp.appendPlainText("\n[hr]")
 
                 if self.ui.fighttrainer.isChecked():
@@ -3493,13 +3502,13 @@ class MainWindow(QMainWindow):
                         self.ui.outputrp.appendPlainText("FRIDAY 1.97 correctement initialisée.")
                     if self.ui.saturday.isChecked():
                         self.ui.outputrp.appendPlainText("SATURDAY 2.45 correctement initialisée.")
-                    self.ui.outputrp.appendPlainText("\nCombat inter-dresseur détecté. Calcul en cours.[/color][/i][/listL][center][img]http://sunrise-db.yo.fr/Sprites/0.png[/img]\n[b]???[/b] veut se battre !\n[size=10]« J'vais t'casser en deux minable. Ta maman te reconnaîtra qu'à la couleur de ton p'tit cartable ! »[/size]\n")
+                    self.ui.outputrp.appendPlainText("\nCombat inter-dresseur détecté. Calcul en cours.[/color][/i][/listL][center][img]https://sunrise-db.yo.fr/Sprites/0.png[/img]\n[b]???[/b] veut se battre !\n[size=10]« J'vais t'casser en deux minable. Ta maman te reconnaîtra qu'à la couleur de ton p'tit cartable ! »[/size]\n")
                     if len(advteam)==1:
-                        self.ui.outputrp.appendPlainText("[img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img]\n[b]???[/b] envoie au combat un [b]"+advteam[0]["name"]+"[/b] !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+"[/u])[/i][/size][/center]")
+                        self.ui.outputrp.appendPlainText("[img]https://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img]\n[b]???[/b] envoie au combat un [b]"+advteam[0]["name"]+"[/b] !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+"[/u])[/i][/size][/center]")
                     elif len(advteam)==2:
-                        self.ui.outputrp.appendPlainText("[img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[1]["id"])+".png[/img]\n[b]???[/b] envoie au combat un [b]"+advteam[0]["name"]+"[/b] et un [b]"+advteam[1]["name"]+"[/b] !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+" et "+str(advteam[1]["lvl"])+"[/u])[/i][/size][/center]")
+                        self.ui.outputrp.appendPlainText("[img]https://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img][img]https://sunrise-db.yo.fr/Sprites/"+str(advteam[1]["id"])+".png[/img]\n[b]???[/b] envoie au combat un [b]"+advteam[0]["name"]+"[/b] et un [b]"+advteam[1]["name"]+"[/b] !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+" et "+str(advteam[1]["lvl"])+"[/u])[/i][/size][/center]")
                     elif len(advteam)==3:
-                        self.ui.outputrp.appendPlainText("[img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[1]["id"])+".png[/img][img]http://sunrise-db.yo.fr/Sprites/"+str(advteam[2]["id"])+".png[/img]\n[b]???[/b] Envoie au combat un [b]"+advteam[0]["name"]+"[/b], un [b]"+advteam[1]["name"]+"[/b] et un [b]"+advteam[2]["name"]+"[/b] !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+", "+str(advteam[1]["lvl"])+" et "+str(advteam[2]["lvl"])+"[/u])[/i][/size][/center]")
+                        self.ui.outputrp.appendPlainText("[img]https://sunrise-db.yo.fr/Sprites/"+str(advteam[0]["id"])+".png[/img][img]https://sunrise-db.yo.fr/Sprites/"+str(advteam[1]["id"])+".png[/img][img]https://sunrise-db.yo.fr/Sprites/"+str(advteam[2]["id"])+".png[/img]\n[b]???[/b] Envoie au combat un [b]"+advteam[0]["name"]+"[/b], un [b]"+advteam[1]["name"]+"[/b] et un [b]"+advteam[2]["name"]+"[/b] !\n[size=10][i](Estimation de niveau : [u]"+str(advteam[0]["lvl"])+", "+str(advteam[1]["lvl"])+" et "+str(advteam[2]["lvl"])+"[/u])[/i][/size][/center]")
                     self.ui.outputrp.appendPlainText("\n[hr]")
 
             randomlist=[i for i in range(6)]
@@ -4042,7 +4051,7 @@ class MainWindow(QMainWindow):
 
                         a=((((3*pvmax) - (2*pv)) * taux_capture * ballbonus)/(3*pvmax)) * (st1bonus*st2bonus)
                         b = 65536 / ((255/a)**0.1875)
-                        resultcapture="[center][img]http://sunrise-db.yo.fr/Sunrise_Champions/Secretchamp.png[/img]\n[spoiler=??? utilise une "+ball+" !]"
+                        resultcapture="[center][img]https://sunrise-db.yo.fr/Sunrise_Champions/Secretchamp.png[/img]\n[spoiler=??? utilise une "+ball+" !]"
                         j=0
                         for i in [0,1,2,3]:
                             j=j+1
@@ -4055,16 +4064,16 @@ class MainWindow(QMainWindow):
                                 elif j==3:
                                     resultcapture=resultcapture+"\n[spoiler=... ... ...]"
                                 else:
-                                    resultcapture=resultcapture+"\n[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nFélicitations ! "+pokename+" est capturé !\nIl est [u]niveau "+str(lvl)+"[/u] et prêt à se battre ![/spoiler][/spoiler][/spoiler][/spoiler][/center]"
+                                    resultcapture=resultcapture+"\n[img]https://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nFélicitations ! "+pokename+" est capturé !\nIl est [u]niveau "+str(lvl)+"[/u] et prêt à se battre ![/spoiler][/spoiler][/spoiler][/spoiler][/center]"
                             else:
                                 if j==1:
-                                    resultcapture=resultcapture+"\n[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nOh, non ! "+pokename+" s'est libéré ![/spoiler][/center]"
+                                    resultcapture=resultcapture+"\n[img]https://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nOh, non ! "+pokename+" s'est libéré ![/spoiler][/center]"
                                 if j==2:
-                                    resultcapture=resultcapture+"\n[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nRaaah ! Ça y était presque ![/spoiler][/spoiler][/center]"
+                                    resultcapture=resultcapture+"\n[img]https://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nRaaah ! Ça y était presque ![/spoiler][/spoiler][/center]"
                                 if j==3:
-                                    resultcapture=resultcapture+"\n[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nAaaaah ! Presque ![/spoiler][/spoiler][/spoiler][/center]"
+                                    resultcapture=resultcapture+"\n[img]https://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nAaaaah ! Presque ![/spoiler][/spoiler][/spoiler][/center]"
                                 if j==4:
-                                    resultcapture=resultcapture+"\n[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nMince ! Ça y était presque ![/spoiler][/spoiler][/spoiler][/spoiler][/center]"
+                                    resultcapture=resultcapture+"\n[img]https://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nMince ! Ça y était presque ![/spoiler][/spoiler][/spoiler][/spoiler][/center]"
                                 break
 
                         if "est capturé" in resultcapture:
@@ -4093,7 +4102,7 @@ class MainWindow(QMainWindow):
                         allko=allko+p["ko"]
                         howmany=howmany+1
                 if self.ui.fighttrainer.isChecked() and allko==howmany:
-                    self.ui.outputrp.appendPlainText("[hr]\n[listL][center][img]http://sunrise-db.yo.fr/Sprites/0.png[/img]\nVous avez battu [b]???[/b] !\n[size=10]« Noooooooooon »[/size]\nVous gagnez ???[img]https://i93.servimg.com/u/f93/20/08/72/05/pok-do10.png[/img] pour ce combat ![/center][/listL]")
+                    self.ui.outputrp.appendPlainText("[hr]\n[listL][center][img]https://sunrise-db.yo.fr/Sprites/0.png[/img]\nVous avez battu [b]???[/b] !\n[size=10]« Noooooooooon »[/size]\nVous gagnez ???[img]https://i93.servimg.com/u/f93/20/08/72/05/pok-do10.png[/img] pour ce combat ![/center][/listL]")
                 self.ui.outputrp.appendPlainText("[hr]")
                 self.ui.outputrp.appendPlainText("[color=#999999][i]Et maintenant, [b]Dresseur[/b], quelle est la prochaine étape ?[/i][/color]")
                 self.ui.outputmodo.append('[/code][/spoiler][/modo]')
@@ -4411,7 +4420,7 @@ class MainWindow(QMainWindow):
             else:
                 scientipop=True
             for adv in list(range(0,nb)):
-                if scientipop==True and random.randint(1,10)==10:
+                if scientipop==True and random.randint(1,15)==15:
                     scientipop=False
                     listrarityscienti=list()
                     listrarityscienti.append("Courant")
@@ -4425,16 +4434,16 @@ class MainWindow(QMainWindow):
                     selectrarity=""
                     while selectrarity not in listrarityscienti:
                         rarity=random.randint(1,100)
-                        #Courant (100 - 68), peu fréquent (67 - 43), assez rare (42 - 26), rare (25 - 13), très rare (12 - 5), extemement rare (4-1)
-                        if rarity<=4:
+                        #Courant (100 - 43), peu fréquent (42 - 23), assez rare (22 - 13), rare (12 - 7), très rare (6 - 3), extemement rare (2-1)
+                        if rarity<=2:
                             selectrarity="Extrêmement rare"
-                        elif rarity<=12:
+                        elif rarity<=6:
                             selectrarity="Très rare"
-                        elif rarity<=25:
+                        elif rarity<=12:
                             selectrarity="Rare"
-                        elif rarity<=42:
+                        elif rarity<=22:
                             selectrarity="Assez rare"
-                        elif rarity<=67:
+                        elif rarity<=42:
                             selectrarity="Peu fréquent"
                         else:
                             selectrarity="Courant"
@@ -4466,16 +4475,16 @@ class MainWindow(QMainWindow):
                     selectrarity=""
                     while selectrarity not in listrarity3:
                         rarity=random.randint(1,100)
-                        #Courant (100 - 68), peu fréquent (67 - 43), assez rare (42 - 26), rare (25 - 13), très rare (12 - 5), extemement rare (4-1)
-                        if rarity<=4:
+                        #Courant (100 - 43), peu fréquent (42 - 23), assez rare (22 - 13), rare (12 - 7), très rare (6 - 3), extemement rare (2-1)
+                        if rarity<=2:
                             selectrarity="Extrêmement rare"
-                        elif rarity<=12:
+                        elif rarity<=6:
                             selectrarity="Très rare"
-                        elif rarity<=25:
+                        elif rarity<=12:
                             selectrarity="Rare"
-                        elif rarity<=42:
+                        elif rarity<=22:
                             selectrarity="Assez rare"
-                        elif rarity<=67:
+                        elif rarity<=42:
                             selectrarity="Peu fréquent"
                         else:
                             selectrarity="Courant" 
@@ -4574,7 +4583,7 @@ class MainWindow(QMainWindow):
 
             a=((((3*pvmax) - (2*pv)) * taux_capture * ballbonus)/(3*pvmax)) * (st1bonus*st2bonus)
             b = 65536 / ((255/a)**0.1875)
-            self.ui.outputcapture.append("[center][img]http://sunrise-db.yo.fr/Sunrise_Champions/Secretchamp.png[/img]\n[spoiler=??? utilise une "+ball+" !]")
+            self.ui.outputcapture.append("[center][img]https://sunrise-db.yo.fr/Sunrise_Champions/Secretchamp.png[/img]\n[spoiler=??? utilise une "+ball+" !]")
             j=0
             for i in [0,1,2,3]:
                 j=j+1
@@ -4587,16 +4596,16 @@ class MainWindow(QMainWindow):
                     elif j==3:
                         self.ui.outputcapture.append("[spoiler=... ... ...]")
                     else:
-                        self.ui.outputcapture.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nFélicitations ! "+pokename+" est capturé !\nIl est [u]niveau "+str(lvl)+"[/u] et prêt à se battre ![/spoiler][/spoiler][/spoiler][/spoiler][/center]")
+                        self.ui.outputcapture.append("[img]https://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nFélicitations ! "+pokename+" est capturé !\nIl est [u]niveau "+str(lvl)+"[/u] et prêt à se battre ![/spoiler][/spoiler][/spoiler][/spoiler][/center]")
                 else:
                     if j==1:
-                        self.ui.outputcapture.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nOh, non ! "+pokename+" s'est libéré ![/spoiler][/center]")
+                        self.ui.outputcapture.append("[img]https://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nOh, non ! "+pokename+" s'est libéré ![/spoiler][/center]")
                     if j==2:
-                        self.ui.outputcapture.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nRaaah ! Ça y était presque ![/spoiler][/spoiler][/center]")
+                        self.ui.outputcapture.append("[img]https://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nRaaah ! Ça y était presque ![/spoiler][/spoiler][/center]")
                     if j==3:
-                        self.ui.outputcapture.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nAaaaah ! Presque ![/spoiler][/spoiler][/spoiler][/center]")
+                        self.ui.outputcapture.append("[img]https://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nAaaaah ! Presque ![/spoiler][/spoiler][/spoiler][/center]")
                     if j==4:
-                        self.ui.outputcapture.append("[img]http://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nMince ! Ça y était presque ![/spoiler][/spoiler][/spoiler][/spoiler][/center]")
+                        self.ui.outputcapture.append("[img]https://sunrise-db.yo.fr/Sprites/"+str(pokeid)+".png[/img]\nMince ! Ça y était presque ![/spoiler][/spoiler][/spoiler][/spoiler][/center]")
                     break
                 
         else:
