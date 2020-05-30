@@ -3318,8 +3318,12 @@ class MainWindow(QMainWindow):
                     for character in self.ui.pokename.toPlainText():
                         if character.isalnum() and ord(character) < 128:
                             surnom += character
+                    species=""
+                    for character in self.ui.poke.toPlainText():
+                        if character.isalnum() and ord(character) < 128:
+                            species += character
 
-                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer.toPlainText()+"/"+surnom+".png"
+                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer.toPlainText()+"/"+surnom+species+".png"
 
                 pkmn1 = {"sprite": sprite, "trainer": self.ui.trainer.toPlainText(),"id": idpkmon1[0], "lvl": int(self.ui.pokelvl.toPlainText()),"name": self.ui.pokename.toPlainText() ,"realname": self.ui.poke.toPlainText(),"pvcurrent": int(self.ui.pvcurrent.toPlainText()) ,"pvtotal": int(self.ui.pvtotal.toPlainText()),"att": int(self.ui.att.toPlainText()),"def": int(self.ui.defen.toPlainText()),"atts": int(self.ui.atts.toPlainText()),"defs": int(self.ui.defs.toPlainText()),"vit": vit1, "type1": self.ui.poketype1.toPlainText(),"type2": self.ui.poketype2.toPlainText(),"modifatt": self.ui.modifatt.value(),"modifdef": self.ui.modifdefen.value(), "modifatts": self.ui.modifatts.value(), "modifdefs": self.ui.modifdefs.value(),"modifvit": self.ui.modifvit.value(), "modifesquive": self.ui.modifesquive.value(), "modifprec": self.ui.modifprec.value(), "prio": int(self.ui.attaqueprio.toPlainText()),"ko": False, "fightID": "1","side": "listL", "truevit": self.ui.vit.toPlainText()}
 
@@ -3345,8 +3349,17 @@ class MainWindow(QMainWindow):
                 if self.ui.trainer_2.toPlainText()=="0000":
                     sprite="https://sunrise-db.yo.fr/Sprites/"+str(idpkmon2[0])+".png"
                 else:
-                    surnom=''.join(e for e in self.ui.pokename_2.toPlainText() if e.isalnum())
-                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_2.toPlainText()+"/"+surnom+".png"
+                    surnom=""
+                    for character in self.ui.pokename_2.toPlainText():
+                        if character.isalnum() and ord(character) < 128:
+                            surnom += character
+
+                    species=""
+                    for character in self.ui.poke_2.toPlainText():
+                        if character.isalnum() and ord(character) < 128:
+                            species += character
+
+                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_2.toPlainText()+"/"+surnom+species+".png"
 
                 pkmn2 = {"sprite": sprite, "trainer": self.ui.trainer_2.toPlainText(), "id": idpkmon2[0], "lvl": int(self.ui.pokelvl_2.toPlainText()),"name": self.ui.pokename_2.toPlainText() ,"realname": self.ui.poke_2.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_2.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_2.toPlainText()),"att": int(self.ui.att_2.toPlainText()),"def": int(self.ui.defen_2.toPlainText()),"atts": int(self.ui.atts_2.toPlainText()),"defs": int(self.ui.defs_2.toPlainText()),"type1": self.ui.poketype1_2.toPlainText(),"type2": self.ui.poketype2_2.toPlainText(),"modifatt": self.ui.modifatt_2.value(),"modifdef": self.ui.modifdefen_2.value(), "modifatts": self.ui.modifatts_2.value(), "modifdefs": self.ui.modifdefs_2.value(),"modifvit": self.ui.modifvit_2.value(), "modifesquive": self.ui.modifesquive_2.value(), "modifprec": self.ui.modifprec_2.value(),"prio": int(self.ui.attaqueprio_2.toPlainText()), "vit": vit2,"ko": False, "fightID": "A","side": "listR", "truevit": self.ui.vit_2.toPlainText()}
 
@@ -3373,8 +3386,15 @@ class MainWindow(QMainWindow):
                 if self.ui.trainer_3.toPlainText()=="0000":
                     sprite="https://sunrise-db.yo.fr/Sprites/"+str(idpkmon3[0])+".png"
                 else:
-                    surnom=''.join(e for e in self.ui.pokename_3.toPlainText() if e.isalnum())
-                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_3.toPlainText()+"/"+surnom+".png"
+                    surnom=""
+                    for character in self.ui.pokename_3.toPlainText():
+                        if character.isalnum() and ord(character) < 128:
+                            surnom += character
+                    species=""
+                    for character in self.ui.poke_3.toPlainText():
+                        if character.isalnum() and ord(character) < 128:
+                            species += character
+                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_3.toPlainText()+"/"+surnom+species+".png"
 
                 pkmn3 = {"sprite": sprite, "id": idpkmon3[0], "trainer": self.ui.trainer_3.toPlainText(), "lvl": int(self.ui.pokelvl_3.toPlainText()),"name": self.ui.pokename_3.toPlainText() ,"realname": self.ui.poke_3.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_3.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_3.toPlainText()),"att": int(self.ui.att_3.toPlainText()),"def": int(self.ui.defen_3.toPlainText()),"atts": int(self.ui.atts_3.toPlainText()),"defs": int(self.ui.defs_3.toPlainText()),"vit": vit3,"type1": self.ui.poketype1_3.toPlainText(),"type2": self.ui.poketype2_3.toPlainText(),"modifatt": self.ui.modifatt_3.value(),"modifdef": self.ui.modifdefen_3.value(), "modifatts": self.ui.modifatts_3.value(), "modifdefs": self.ui.modifdefs_3.value(),"modifvit": self.ui.modifvit_3.value(), "modifesquive": self.ui.modifesquive_3.value(), "modifprec": self.ui.modifprec_3.value(),"prio":  int(self.ui.attaqueprio_3.toPlainText()),"ko": False, "fightID": "2","side": "listL", "truevit": self.ui.vit_3.toPlainText()}
 
@@ -3401,8 +3421,16 @@ class MainWindow(QMainWindow):
                 if self.ui.trainer_4.toPlainText()=="0000":
                     sprite="https://sunrise-db.yo.fr/Sprites/"+str(idpkmon4[0])+".png"
                 else:
-                    surnom=''.join(e for e in self.ui.pokename_4.toPlainText() if e.isalnum())
-                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_4.toPlainText()+"/"+surnom+".png"
+                    surnom=""
+                    for character in self.ui.pokename_4.toPlainText():
+                        if character.isalnum() and ord(character) < 128:
+                            surnom += character
+                    species=""
+                    for character in self.ui.poke_4.toPlainText():
+                        if character.isalnum() and ord(character) < 128:
+                            species += character
+
+                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_4.toPlainText()+"/"+surnom+species+".png"
 
                 pkmn4 = {"sprite": sprite, "id": idpkmon4[0], "trainer": self.ui.trainer_4.toPlainText(), "lvl": int(self.ui.pokelvl_4.toPlainText()),"name": self.ui.pokename_4.toPlainText() ,"realname": self.ui.poke_4.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_4.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_4.toPlainText()),"att": int(self.ui.att_4.toPlainText()),"def": int(self.ui.defen_4.toPlainText()),"atts": int(self.ui.atts_4.toPlainText()),"defs": int(self.ui.defs_4.toPlainText()),"vit": vit4,"type1": self.ui.poketype1_4.toPlainText(),"type2": self.ui.poketype2_4.toPlainText(),"modifatt": self.ui.modifatt_4.value(),"modifdef": self.ui.modifdefen_4.value(), "modifatts": self.ui.modifatts_4.value(), "modifdefs": self.ui.modifdefs_4.value(),"modifvit": self.ui.modifvit_4.value(), "modifesquive": self.ui.modifesquive_4.value(), "modifprec": self.ui.modifprec_4.value(),"prio": int(self.ui.attaqueprio_4.toPlainText()),"ko": False, "fightID": "B","side": "listR", "truevit": self.ui.vit_4.toPlainText()}
 
@@ -3430,8 +3458,16 @@ class MainWindow(QMainWindow):
                 if self.ui.trainer_5.toPlainText()=="0000":
                     sprite="https://sunrise-db.yo.fr/Sprites/"+str(idpkmon5[0])+".png"
                 else:
-                    surnom=''.join(e for e in self.ui.pokename_5.toPlainText() if e.isalnum())
-                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_5.toPlainText()+"/"+surnom+".png"
+                    surnom=""
+                    for character in self.ui.pokename_5.toPlainText():
+                        if character.isalnum() and ord(character) < 128:
+                            surnom += character
+                    species=""
+                    for character in self.ui.poke_5.toPlainText():
+                        if character.isalnum() and ord(character) < 128:
+                            species += character
+
+                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_5.toPlainText()+"/"+surnom+species+".png"
 
                 pkmn5 = {"sprite": sprite, "id": idpkmon5[0], "trainer": self.ui.trainer_5.toPlainText(), "lvl": int(self.ui.pokelvl_5.toPlainText()),"name": self.ui.pokename_5.toPlainText() ,"realname": self.ui.poke_5.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_5.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_5.toPlainText()),"att": int(self.ui.att_5.toPlainText()),"def": int(self.ui.defen_5.toPlainText()),"atts": int(self.ui.atts_5.toPlainText()),"defs": int(self.ui.defs_5.toPlainText()),"vit": vit5,"type1": self.ui.poketype1_5.toPlainText(),"type2": self.ui.poketype2_5.toPlainText(),"modifatt": self.ui.modifatt_5.value(),"modifdef": self.ui.modifdefen_5.value(), "modifatts": self.ui.modifatts_5.value(), "modifdefs": self.ui.modifdefs_5.value(),"modifvit": self.ui.modifvit_5.value(), "modifesquive": self.ui.modifesquive_5.value(), "modifprec": self.ui.modifprec_5.value(), "prio": int(self.ui.attaqueprio_5.toPlainText()),"ko": False, "fightID": "3","side": "listL", "truevit": self.ui.vit_5.toPlainText()}
 
@@ -3458,8 +3494,16 @@ class MainWindow(QMainWindow):
                 if self.ui.trainer_6.toPlainText()=="0000":
                     sprite="https://sunrise-db.yo.fr/Sprites/"+str(idpkmon6[0])+".png"
                 else:
-                    surnom=''.join(e for e in self.ui.pokename_6.toPlainText() if e.isalnum())
-                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_6.toPlainText()+"/"+surnom+".png"
+                    surnom=""
+                    for character in self.ui.pokename_6.toPlainText():
+                        if character.isalnum() and ord(character) < 128:
+                            surnom += character
+                    species=""
+                    for character in self.ui.poke_6.toPlainText():
+                        if character.isalnum() and ord(character) < 128:
+                            species += character
+
+                    sprite="https://sunrise-db.yo.fr/SISNetwork/sprites/"+self.ui.trainer_6.toPlainText()+"/"+surnom+species+".png"
 
                 pkmn6 = {"sprite": sprite, "id": idpkmon6[0], "trainer": self.ui.trainer_6.toPlainText(), "lvl": int(self.ui.pokelvl_6.toPlainText()),"name": self.ui.pokename_6.toPlainText() ,"realname": self.ui.poke_6.toPlainText(),"pvcurrent": int(self.ui.pvcurrent_6.toPlainText()) ,"pvtotal": int(self.ui.pvtotal_6.toPlainText()),"att": int(self.ui.att_6.toPlainText()),"def": int(self.ui.defen_6.toPlainText()),"atts": int(self.ui.atts_6.toPlainText()),"defs": int(self.ui.defs_6.toPlainText()),"vit": vit6,"type1": self.ui.poketype1_6.toPlainText(),"type2": self.ui.poketype2_6.toPlainText(),"modifatt": self.ui.modifatt_6.value(),"modifdef": self.ui.modifdefen_6.value(), "modifatts": self.ui.modifatts_6.value(), "modifdefs": self.ui.modifdefs_6.value(),"modifvit": self.ui.modifvit_6.value(), "modifesquive": self.ui.modifesquive_6.value(), "modifprec": self.ui.modifprec_6.value(),"prio": int(self.ui.attaqueprio_6.toPlainText()),"ko": False, "fightID": "C","side": "listR", "truevit": self.ui.vit_6.toPlainText()}
 
