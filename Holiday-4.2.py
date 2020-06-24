@@ -40,13 +40,13 @@ class MainWindow(QMainWindow):
         self.ui.applycustom_6.clicked.connect(self.SplitCustom6)
 
         # get pokemon or attacks
-        self.ui.pokedex.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:807])
-        self.ui.pokedex_2.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:807])
-        self.ui.pokedex_3.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:807])
-        self.ui.pokedex_4.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:807])
-        self.ui.pokedex_5.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:807])
-        self.ui.pokedex_6.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:807])
-        self.ui.pokecapture.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:807])
+        self.ui.pokedex.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:1042])
+        self.ui.pokedex_2.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:1042])
+        self.ui.pokedex_3.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:1042])
+        self.ui.pokedex_4.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:1042])
+        self.ui.pokedex_5.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:1042])
+        self.ui.pokedex_6.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:1042])
+        self.ui.pokecapture.addItems([nom[0] for nom in c.execute("SELECT nom FROM pokemons")][0:1042])
 
         self.ui.checkattaque.clicked.connect(self.generatePokemon) # fill attack box & fill pokemon stats
         self.ui.checkattaque_2.clicked.connect(self.generatePokemon2) # fill attack box & fill pokemon stats
