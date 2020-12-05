@@ -3925,7 +3925,7 @@ class MainWindow(QMainWindow):
                     if int(resortedpkmon[p]["modifdefs"])!=0:
                         statstxt=statstxt+" modif defense spé "+str(resortedpkmon[p]["modifdefs"])+","
                         if resortedpkmon[p]["modifdefs"]>0:
-                            statutcodetxt=statutcodetxt+"F0"+str(resortedpkmon[p]["modifdef"])
+                            statutcodetxt=statutcodetxt+"F0"+str(resortedpkmon[p]["modifdefs"])
                         elif resortedpkmon[p]["modifdefs"]==-1:
                             statutcodetxt=statutcodetxt+"F07"
                         elif resortedpkmon[p]["modifdefs"]==-2:
