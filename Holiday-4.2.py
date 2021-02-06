@@ -2909,7 +2909,7 @@ class MainWindow(QMainWindow):
             elif attackstat6[15]=="tous" or attackstat6[15]=="tous les alliés": # not doing anything, manual handle
                 self.ui.cible_6.addItem("/")
 
-    def fight(self,pkmon1,statut1,attck1,pkmon2,statut2,advnb,totaladvnb,block):
+    def fight(self,pkmon1,statut1,attck1,pkmon2,statut2,advnb,totaladvnb,block,nosplash):
         # pkmon1 is attacking pkmon2
         unfreeze=["Flamme Ultime", "Roue de Feu", "Boutefeu",  "Flamme Croix", "Feu Sacré", "Ébullition", "Jet de Vapeur"]
         sleepymove=["Blabla Dodo", "Ronflement"]
@@ -3028,6 +3028,11 @@ class MainWindow(QMainWindow):
                     dmg= (((((2*pkmon1["lvl"]/5)+2)*pkmon1Att*int(attck1["puiss"]))/(pkmon2Def*50))+2)*stab*typeModif
             else:
                 dmg='fail'
+                nosplash=True
+
+            if attck1["name"]=="Rebondifeu" and nosplash==False and advnb>1:
+                dmg=round(pkmon2["pvtotal"]/16)
+                texttype=''
 
             if statut1["freeze"]:
               statut1["freeze"]=False
@@ -3046,7 +3051,8 @@ class MainWindow(QMainWindow):
                 self.ui.outputrp.appendPlainText("[b]"+pkmon1["name"]+"[/b] utilise [u]"+attck1["name"]+"[/u] !")
             if dmg=='fail':
                 if totaladvnb > 1:
-                    self.ui.outputrp.appendPlainText(pkmon2["name"]+" esquive !")
+                    if (attck1["name"]=="Rebondifeu" and advnb==1) or attck1["name"]!="Rebondifeu":
+                        self.ui.outputrp.appendPlainText(pkmon2["name"]+" esquive !")
                 else:
                     self.ui.outputrp.appendPlainText("L'attaque a échoué !")
             elif attck1["classe"]=="no damage":
@@ -3102,7 +3108,7 @@ class MainWindow(QMainWindow):
             else:
                 if attck1["classe"]=="physique" and statut1["burn"]:
                     dmg=dmg/2
-                if totaladvnb > 1:
+                if totaladvnb > 1 and attck1["name"]!="Rebondifeu":
                     dmg=dmg*0.75
                 newpv2=pkmon2["pvcurrent"]-round(dmg)
                 if dmg==0:
@@ -3194,13 +3200,19 @@ class MainWindow(QMainWindow):
                             self.ui.outputrp.appendPlainText("[i]{"+txtstat[stat]+" de "+pkmon1["name"]+" ne peut plus baisser.}[/i]")
                         else:
                             self.ui.outputrp.appendPlainText("[i]{"+txtstat[stat]+" de "+pkmon1["name"]+" diminue !}[/i]")
-                            pkmon1[getstat[stat]]=pkmon1[getstat[stat]]+statmodif1[stat+2]
+                            if pkmon1[getstat[stat]]==-5:
+                                pkmon1[getstat[stat]]=-6
+                            else:
+                                pkmon1[getstat[stat]]=pkmon1[getstat[stat]]+statmodif1[stat+2]
                     elif statmodif1[stat+2]>0 and pkmon1["ko"]==False:
-                        if pkmon1[getstat[stat]]==+6:
+                        if pkmon1[getstat[stat]]==6:
                             self.ui.outputrp.appendPlainText("[i]{"+txtstat[stat]+" de "+pkmon1["name"]+" ne peut plus augmenter.}[/i]")
                         else:
                             self.ui.outputrp.appendPlainText("[i]{"+txtstat[stat]+" de "+pkmon1["name"]+" augmente !}[/i]")
-                            pkmon1[getstat[stat]]=pkmon1[getstat[stat]]+statmodif1[stat+2]
+                            if pkmon1[getstat[stat]]==5:
+                                pkmon1[getstat[stat]]=6
+                            else:
+                                pkmon1[getstat[stat]]=pkmon1[getstat[stat]]+statmodif1[stat+2]
 
             if statmodif2 !=None and dmg!='fail' and effetproc=='yes':
                 statmodif2=tuple(x if x else 0 for x in statmodif2)
@@ -3210,13 +3222,19 @@ class MainWindow(QMainWindow):
                             self.ui.outputrp.appendPlainText("[i]{"+txtstat[stat]+" de "+pkmon2["name"]+" ne peut plus baisser.}[/i]")
                         else:
                             self.ui.outputrp.appendPlainText("[i]{"+txtstat[stat]+" de "+pkmon2["name"]+" diminue !}[/i]")
-                            pkmon2[getstat[stat]]=pkmon2[getstat[stat]]+statmodif2[stat+2]
+                            if pkmon2[getstat[stat]]==-5:
+                                pkmon2[getstat[stat]]=-6
+                            else:
+                                pkmon2[getstat[stat]]=pkmon2[getstat[stat]]+statmodif2[stat+2]
                     elif statmodif2[stat+2]>0 and pkmon2["ko"]==False:
-                        if pkmon2[getstat[stat]]==+6:
+                        if pkmon2[getstat[stat]]==6:
                             self.ui.outputrp.appendPlainText("[i]{"+txtstat[stat]+" de "+pkmon2["name"]+" ne peut plus augmenter.}[/i]")
                         else:
                             self.ui.outputrp.appendPlainText("[i]{"+txtstat[stat]+" de "+pkmon2["name"]+" augmente !}[/i]")
-                            pkmon2[getstat[stat]]=pkmon2[getstat[stat]]+statmodif2[stat+2]
+                            if pkmon2[getstat[stat]]==5:
+                                pkmon2[getstat[stat]]=6
+                            else:
+                                pkmon2[getstat[stat]]=pkmon2[getstat[stat]]+statmodif2[stat+2]
 
             if attck1["statutchance"]!="" and dmg!="fail":
                 previousStatut=(statut2["burn"] or statut2["freeze"] or statut2["para"] or statut2["sleep"] or statut2["poison"])
@@ -3272,7 +3290,7 @@ class MainWindow(QMainWindow):
             if attck1["effet_txt"]!="" and advnb==1:
                 self.ui.outputattack.append(attck1["name"]+":\n"+attck1["effet_txt"])
 
-        toReturn = {"pkmon1": pkmon1, "statut1": statut1,"pkmon2": pkmon2,"statut2": statut2,"block": block}
+        toReturn = {"pkmon1": pkmon1, "statut1": statut1,"pkmon2": pkmon2,"statut2": statut2,"block": block, "nosplash": nosplash}
         return toReturn
 
     def fightInit(self):
@@ -3689,21 +3707,38 @@ class MainWindow(QMainWindow):
                                 self.ui.outputrp.appendPlainText("["+sortedpkmon[index]["side"]+"]<img src='"+str(sortedpkmon[index]["sprite"])+"' style='max-width: 96px;max-height: 96px'>")
                                 self.ui.outputrp.appendPlainText("[b]"+sortedpkmon[index]["name"]+"[/b] utilise [u]"+sortedattack[index]["name"]+"[/u] !")
                                 self.ui.outputrp.appendPlainText("Attaque avec des effets particuliers à gérer à la main")
+                            
+                            if sortedattack[index]["name"]=="Rebondifeu":
+                                if sortedpkmon[index]["fightID"] in ["1","2","3"]:
+                                    indexsplash = [indexedpkmon[x]["index"] for x in listidteamA]
+                                elif sortedpkmon[index]["fightID"] in ["A","B","C"]:
+                                    indexsplash = [indexedpkmon[x]["index"] for x in listidteam1]
+                                for i in indexsplash:
+                                    if sortedpkmon[i]["ko"]:
+                                        indexsplash.remove(i)
+                                indexsplash.remove(indexadv[0])
+                            else:
+                                indexsplash=[]
+                            if indexadv!=None:
+                                indexadv.extend(indexsplash)
+
                             if indexadv==[]:
                                 indexadv=None
                             if indexadv != None:
                                 i=0
                                 self.ui.outputrp.appendPlainText("["+sortedpkmon[index]["side"]+"]<img src='"+str(sortedpkmon[index]["sprite"])+"' style='max-width: 96px;max-height: 96px'>")
                                 block=False
+                                nosplash=False
                                 for adv in indexadv:
                                     if sortedpkmon[adv]["ko"]==False:
                                         i=i+1
-                                        turn1=self.fight(sortedpkmon[index],sortedstatut[index],sortedattack[index],sortedpkmon[adv],sortedstatut[adv],i,len(indexadv),block)
+                                        turn1=self.fight(sortedpkmon[index],sortedstatut[index],sortedattack[index],sortedpkmon[adv],sortedstatut[adv],i,len(indexadv),block,nosplash)
                                         sortedpkmon[index]=turn1["pkmon1"]
                                         sortedstatut[index]=turn1["statut1"]
                                         sortedpkmon[adv]=turn1["pkmon2"]
                                         sortedstatut[adv]=turn1["statut2"]
                                         block=turn1["block"]
+                                        nosplash=turn1["nosplash"]
                                         if turn1["pkmon2"]["ko"] and turn1["pkmon2"]["fightID"] in ["A","B","C"]:
                                                 for j in range(0,len(sortedpkmon)):
                                                     if sortedpkmon[j]["fightID"] in ["1","2","3"]:
@@ -4566,7 +4601,7 @@ class MainWindow(QMainWindow):
 
     def checkregion(self):
         self.ui.region.clear()
-        c2.execute('SELECT Region FROM SunnyData_zones WHERE Continent=?',(self.ui.continent.currentText(),))
+        c2.execute('SELECT Region FROM SunnyData_zones WHERE Continent=? ORDER BY Region',(self.ui.continent.currentText(),))
         reg = c2.fetchall()
         reg2=self.unique(reg)
         for r in reg2:

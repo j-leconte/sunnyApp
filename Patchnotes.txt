@@ -1,5 +1,11 @@
 https://github.com/Maeveen/sunnyApp
 https://drive.google.com/open?id=1HT_SIVm93yvJDs65nukCRozWbvVoS5cA
+
+06/02/2021
+- code de Rebondifeu
+- changement de l'ordre des zones de sunny à alphabetique
+- garder trace lorsqu'il y a plusieurs changements de stats durant un tour (grincement + mur de fer par exemple ne donnait pas le total dans la balise modo)
+
 25/09/2019
 - ajout d'un code de statut: code global à la fin de la balise modo qui récapitule l'ensemble des statuts de tout les pokemons et peut être copié en haut à gauche de l'interface en début de modo (en cliquant sur le bouton stats)
 - les pokemons sont maintenant dans l'ordre 1/2/3/A/B/C en balise modo et plus par vitesse
