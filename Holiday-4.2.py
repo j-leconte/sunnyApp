@@ -3084,6 +3084,12 @@ class MainWindow(QMainWindow):
                         else:
                             self.ui.outputrp.appendPlainText("[i]{L'attaque de "+pkmon1["name"]+" augmente !}[/i]")
                             pkmon1["modifatt"]=pkmon1["modifatt"]+1
+                        if pkmon1["modifvit"]==-6:
+                            self.ui.outputrp.appendPlainText("[i]{La vitesse de "+pkmon1["name"]+" ne peut plus baisser.}[/i]")
+                        else:
+                            self.ui.outputrp.appendPlainText("[i]{La vitesse de "+pkmon1["name"]+" dimine !}[/i]")
+                            pkmon1["modifvit"]=pkmon1["modifvit"]-1
+
                     else:
                         selfdmg=round(pkmon1["pvtotal"]/2)
                         newpv3=pkmon1['pvcurrent']-selfdmg
