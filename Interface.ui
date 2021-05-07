@@ -55,9 +55,9 @@
               <property name="geometry">
                <rect>
                 <x>0</x>
-                <y>0</y>
-                <width>622</width>
-                <height>1236</height>
+                <y>-762</y>
+                <width>626</width>
+                <height>1230</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout">
@@ -1529,6 +1529,39 @@
                    <bool>false</bool>
                   </property>
                  </widget>
+                 <widget class="QPushButton" name="clear_1">
+                  <property name="geometry">
+                   <rect>
+                    <x>570</x>
+                    <y>10</y>
+                    <width>21</width>
+                    <height>23</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>23</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>70</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>8</pointsize>
+                    <weight>75</weight>
+                    <italic>false</italic>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>X</string>
+                  </property>
+                 </widget>
                 </widget>
                </item>
                <item>
@@ -2978,6 +3011,39 @@
                   </property>
                   <property name="readOnly">
                    <bool>false</bool>
+                  </property>
+                 </widget>
+                 <widget class="QPushButton" name="clear_3">
+                  <property name="geometry">
+                   <rect>
+                    <x>570</x>
+                    <y>10</y>
+                    <width>21</width>
+                    <height>23</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>23</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>70</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>8</pointsize>
+                    <weight>75</weight>
+                    <italic>false</italic>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>X</string>
                   </property>
                  </widget>
                 </widget>
@@ -4431,6 +4497,39 @@
                    <bool>false</bool>
                   </property>
                  </widget>
+                 <widget class="QPushButton" name="clear_5">
+                  <property name="geometry">
+                   <rect>
+                    <x>570</x>
+                    <y>10</y>
+                    <width>21</width>
+                    <height>23</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>23</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>70</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>8</pointsize>
+                    <weight>75</weight>
+                    <italic>false</italic>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>X</string>
+                  </property>
+                 </widget>
                 </widget>
                </item>
               </layout>
@@ -4452,9 +4551,9 @@
               <property name="geometry">
                <rect>
                 <x>0</x>
-                <y>0</y>
-                <width>622</width>
-                <height>1236</height>
+                <y>-799</y>
+                <width>626</width>
+                <height>1230</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -5926,6 +6025,39 @@
                    <bool>false</bool>
                   </property>
                  </widget>
+                 <widget class="QPushButton" name="clear_2">
+                  <property name="geometry">
+                   <rect>
+                    <x>570</x>
+                    <y>10</y>
+                    <width>21</width>
+                    <height>23</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>23</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>70</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>8</pointsize>
+                    <weight>75</weight>
+                    <italic>false</italic>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>X</string>
+                  </property>
+                 </widget>
                 </widget>
                </item>
                <item>
@@ -7377,6 +7509,39 @@
                    <bool>false</bool>
                   </property>
                  </widget>
+                 <widget class="QPushButton" name="clear_4">
+                  <property name="geometry">
+                   <rect>
+                    <x>570</x>
+                    <y>10</y>
+                    <width>21</width>
+                    <height>23</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>23</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>70</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>8</pointsize>
+                    <weight>75</weight>
+                    <italic>false</italic>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>X</string>
+                  </property>
+                 </widget>
                 </widget>
                </item>
                <item>
@@ -8826,6 +8991,39 @@
                   </property>
                   <property name="readOnly">
                    <bool>false</bool>
+                  </property>
+                 </widget>
+                 <widget class="QPushButton" name="clear_6">
+                  <property name="geometry">
+                   <rect>
+                    <x>570</x>
+                    <y>10</y>
+                    <width>21</width>
+                    <height>23</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>23</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>70</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>8</pointsize>
+                    <weight>75</weight>
+                    <italic>false</italic>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>X</string>
                   </property>
                  </widget>
                 </widget>
